@@ -18,612 +18,143 @@
   --text: #d8eeff;
   --muted: rgba(150,200,255,0.4);
 }
-
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-
 html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: 'DM Mono', monospace; overflow-x: hidden; cursor: none; }
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'DM Mono', monospace;
-  overflow-x: hidden;
-  cursor: none;
-}
+.cursor { position:fixed; width:8px; height:8px; background:var(--blue); border-radius:50%; pointer-events:none; z-index:9999; mix-blend-mode:screen; }
+.cursor-ring { position:fixed; width:32px; height:32px; border:1px solid rgba(30,144,255,0.4); border-radius:50%; pointer-events:none; z-index:9998; transition:all 0.15s ease; }
 
-/* CURSOR */
-.cursor {
-  position: fixed;
-  width: 8px; height: 8px;
-  background: var(--blue);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  transition: transform 0.1s;
-  mix-blend-mode: screen;
-}
-.cursor-ring {
-  position: fixed;
-  width: 32px; height: 32px;
-  border: 1px solid rgba(30,144,255,0.4);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9998;
-  transition: all 0.15s ease;
-}
+.bg-fixed { position:fixed; inset:0; pointer-events:none; z-index:0; }
+.bg-glow { position:absolute; top:-30vh; left:50%; transform:translateX(-50%); width:80vw; height:80vh; background:radial-gradient(ellipse,rgba(30,144,255,0.07) 0%,transparent 65%); }
+.bg-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(30,144,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(30,144,255,0.025) 1px,transparent 1px); background-size:48px 48px; }
 
-/* BG EFFECTS */
-.bg-fixed {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-.bg-glow {
-  position: absolute;
-  top: -30vh; left: 50%;
-  transform: translateX(-50%);
-  width: 80vw; height: 80vh;
-  background: radial-gradient(ellipse, rgba(30,144,255,0.07) 0%, transparent 65%);
-}
-.bg-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(30,144,255,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(30,144,255,0.025) 1px, transparent 1px);
-  background-size: 48px 48px;
-}
-.bg-noise {
-  position: absolute;
-  inset: 0;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-}
+nav { position:fixed; top:0; left:0; right:0; z-index:100; padding:20px 48px; display:flex; align-items:center; gap:12px; border-bottom:1px solid rgba(30,144,255,0.06); background:rgba(1,4,8,0.85); backdrop-filter:blur(16px); }
+.nav-logo { width:28px; height:28px; object-fit:contain; filter:drop-shadow(0 0 8px rgba(30,144,255,0.6)); }
+.nav-name { font-family:'Syne',sans-serif; font-weight:800; font-size:15px; letter-spacing:0.25em; background:linear-gradient(135deg,var(--blue),var(--cyan)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.nav-lang { margin-left:auto; display:flex; gap:4px; }
+.lang-btn { background:none; border:1px solid rgba(30,144,255,0.15); color:var(--muted); padding:4px 10px; border-radius:6px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.1em; cursor:pointer; transition:all 0.2s; }
+.lang-btn.active, .lang-btn:hover { border-color:var(--blue-dim); color:var(--blue); }
+.nav-cta { margin-left:16px; background:linear-gradient(135deg,var(--blue),#005FCC); border:none; color:#fff; padding:8px 20px; border-radius:8px; font-family:'Syne',sans-serif; font-weight:700; font-size:11px; letter-spacing:0.15em; cursor:pointer; text-decoration:none; transition:all 0.2s; text-transform:uppercase; }
+.nav-cta:hover { transform:translateY(-1px); box-shadow:0 8px 24px rgba(30,144,255,0.3); }
 
-/* NAV */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  padding: 20px 48px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border-bottom: 1px solid rgba(30,144,255,0.06);
-  background: rgba(1,4,8,0.85);
-  backdrop-filter: blur(16px);
-}
-.nav-logo {
-  width: 28px; height: 28px;
-  object-fit: contain;
-  filter: drop-shadow(0 0 8px rgba(30,144,255,0.6));
-}
-.nav-name {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: 15px;
-  letter-spacing: 0.25em;
-  background: linear-gradient(135deg, var(--blue), var(--cyan));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.nav-lang {
-  margin-left: auto;
-  display: flex;
-  gap: 4px;
-}
-.lang-btn {
-  background: none;
-  border: 1px solid rgba(30,144,255,0.15);
-  color: var(--muted);
-  padding: 4px 10px;
-  border-radius: 6px;
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.lang-btn.active, .lang-btn:hover {
-  border-color: var(--blue-dim);
-  color: var(--blue);
-}
-.nav-cta {
-  margin-left: 16px;
-  background: linear-gradient(135deg, var(--blue), #005FCC);
-  border: none;
-  color: #fff;
-  padding: 8px 20px;
-  border-radius: 8px;
-  font-family: 'Syne', sans-serif;
-  font-weight: 700;
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  cursor: pointer;
-  text-decoration: none;
-  transition: all 0.2s;
-  text-transform: uppercase;
-}
-.nav-cta:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(30,144,255,0.3);
-}
-
-/* MAIN */
-main { position: relative; z-index: 1; }
+main { position:relative; z-index:1; }
 
 /* HERO */
-.hero {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 120px 24px 80px;
-}
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  border: 1px solid rgba(30,144,255,0.2);
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-size: 11px;
-  color: var(--blue-dim);
-  letter-spacing: 0.15em;
-  margin-bottom: 40px;
-  animation: fadeUp 0.6s ease both;
-}
-.hero-badge-dot {
-  width: 6px; height: 6px;
-  background: var(--blue);
-  border-radius: 50%;
-  animation: pulse 2s infinite;
-}
-@keyframes pulse {
-  0%,100% { opacity:1; transform:scale(1); }
-  50% { opacity:0.4; transform:scale(0.7); }
-}
-.hero-title {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: clamp(40px, 7vw, 88px);
-  line-height: 1.0;
-  letter-spacing: -0.02em;
-  margin-bottom: 28px;
-  animation: fadeUp 0.6s 0.1s ease both;
-}
-.hero-title .grad {
-  background: linear-gradient(135deg, #fff 30%, var(--cyan));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.hero-title .blue {
-  background: linear-gradient(135deg, var(--blue), var(--cyan));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.hero-sub {
-  font-size: clamp(14px, 2vw, 17px);
-  color: var(--muted);
-  max-width: 520px;
-  line-height: 1.7;
-  margin-bottom: 48px;
-  animation: fadeUp 0.6s 0.2s ease both;
-}
-.hero-actions {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  justify-content: center;
-  animation: fadeUp 0.6s 0.3s ease both;
-}
-.btn-primary {
-  background: linear-gradient(135deg, var(--blue), #005FCC);
-  border: none;
-  color: #fff;
-  padding: 16px 36px;
-  border-radius: 12px;
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: 13px;
-  letter-spacing: 0.18em;
-  cursor: pointer;
-  text-decoration: none;
-  text-transform: uppercase;
-  transition: all 0.25s;
-  display: inline-block;
-}
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(30,144,255,0.35);
-}
-.btn-ghost {
-  background: transparent;
-  border: 1px solid rgba(30,144,255,0.2);
-  color: var(--muted);
-  padding: 16px 36px;
-  border-radius: 12px;
-  font-family: 'Syne', sans-serif;
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 0.18em;
-  cursor: pointer;
-  text-decoration: none;
-  text-transform: uppercase;
-  transition: all 0.25s;
-  display: inline-block;
-}
-.btn-ghost:hover {
-  border-color: var(--blue-dim);
-  color: var(--blue);
-}
-.hero-stats {
-  display: flex;
-  gap: 48px;
-  margin-top: 72px;
-  animation: fadeUp 0.6s 0.4s ease both;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.stat {
-  text-align: center;
-}
-.stat-num {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: 28px;
-  background: linear-gradient(135deg, var(--blue), var(--cyan));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.stat-label {
-  font-size: 10px;
-  color: var(--muted);
-  letter-spacing: 0.15em;
-  margin-top: 4px;
-  text-transform: uppercase;
-}
+.hero { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:120px 24px 80px; }
+.hero-badge { display:inline-flex; align-items:center; gap:8px; border:1px solid rgba(30,144,255,0.2); padding:6px 16px; border-radius:20px; font-size:11px; color:var(--blue-dim); letter-spacing:0.15em; margin-bottom:40px; animation:fadeUp 0.6s ease both; }
+.hero-badge-dot { width:6px; height:6px; background:var(--blue); border-radius:50%; animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
+.hero-title { font-family:'Syne',sans-serif; font-weight:800; font-size:clamp(40px,7vw,88px); line-height:1.0; letter-spacing:-0.02em; margin-bottom:28px; animation:fadeUp 0.6s 0.1s ease both; }
+.hero-title .grad { background:linear-gradient(135deg,#fff 30%,var(--cyan)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.hero-title .blue { background:linear-gradient(135deg,var(--blue),var(--cyan)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.hero-sub { font-size:clamp(14px,2vw,17px); color:var(--muted); max-width:540px; line-height:1.7; margin-bottom:48px; animation:fadeUp 0.6s 0.2s ease both; }
+.hero-actions { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; animation:fadeUp 0.6s 0.3s ease both; }
+.btn-primary { background:linear-gradient(135deg,var(--blue),#005FCC); border:none; color:#fff; padding:16px 36px; border-radius:12px; font-family:'Syne',sans-serif; font-weight:800; font-size:13px; letter-spacing:0.18em; cursor:pointer; text-decoration:none; text-transform:uppercase; transition:all 0.25s; display:inline-block; }
+.btn-primary:hover { transform:translateY(-2px); box-shadow:0 12px 40px rgba(30,144,255,0.35); }
+.btn-ghost { background:transparent; border:1px solid rgba(30,144,255,0.2); color:var(--muted); padding:16px 36px; border-radius:12px; font-family:'Syne',sans-serif; font-weight:700; font-size:13px; letter-spacing:0.18em; cursor:pointer; text-decoration:none; text-transform:uppercase; transition:all 0.25s; display:inline-block; }
+.btn-ghost:hover { border-color:var(--blue-dim); color:var(--blue); }
+.hero-stats { display:flex; gap:48px; margin-top:72px; animation:fadeUp 0.6s 0.4s ease both; flex-wrap:wrap; justify-content:center; }
+.stat { text-align:center; }
+.stat-num { font-family:'Syne',sans-serif; font-weight:800; font-size:28px; background:linear-gradient(135deg,var(--blue),var(--cyan)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.stat-label { font-size:10px; color:var(--muted); letter-spacing:0.15em; margin-top:4px; text-transform:uppercase; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
-@keyframes fadeUp {
-  from { opacity:0; transform:translateY(20px); }
-  to { opacity:1; transform:translateY(0); }
-}
+.section-divider { height:1px; background:linear-gradient(90deg,transparent,rgba(30,144,255,0.15),transparent); margin:0 48px; }
 
-/* DIVIDER */
-.section-divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(30,144,255,0.15), transparent);
-  margin: 0 48px;
-}
+.section { padding:100px 24px; max-width:1100px; margin:0 auto; }
+.section-label { font-size:10px; color:var(--blue-dim); letter-spacing:0.3em; text-transform:uppercase; margin-bottom:16px; text-align:center; }
+.section-title { font-family:'Syne',sans-serif; font-weight:800; font-size:clamp(28px,4vw,44px); text-align:center; margin-bottom:16px; color:#fff; }
+.section-sub { text-align:center; color:var(--muted); font-size:14px; line-height:1.7; max-width:520px; margin:0 auto 64px; }
 
-/* HOW IT WORKS */
-.section {
-  padding: 100px 24px;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-.section-label {
-  font-size: 10px;
-  color: var(--blue-dim);
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-  text-align: center;
-}
-.section-title {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: clamp(28px, 4vw, 44px);
-  text-align: center;
-  margin-bottom: 16px;
-  color: #fff;
-}
-.section-sub {
-  text-align: center;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.7;
-  max-width: 480px;
-  margin: 0 auto 64px;
-}
+/* FLOW VISUAL */
+.flow-visual { background:var(--card); border:1px solid var(--border); border-radius:20px; padding:40px; margin-bottom:48px; overflow-x:auto; }
+.flow-title-box { font-family:'Syne',sans-serif; font-weight:700; font-size:11px; letter-spacing:0.2em; color:var(--muted); text-align:center; margin-bottom:32px; text-transform:uppercase; }
+.flow-chain { display:flex; align-items:center; justify-content:center; gap:8px; flex-wrap:wrap; }
+.flow-node { background:rgba(30,144,255,0.06); border:1px solid rgba(30,144,255,0.15); border-radius:10px; padding:10px 16px; text-align:center; min-width:80px; }
+.flow-node.origin { border-color:rgba(30,144,255,0.4); background:rgba(30,144,255,0.1); }
+.flow-node.dest { border-color:rgba(0,191,255,0.4); background:rgba(0,191,255,0.08); }
+.flow-node.ephemeral { border-color:rgba(30,144,255,0.2); }
+.flow-node.dummy { border-color:rgba(255,180,30,0.2); background:rgba(255,180,30,0.04); }
+.flow-node-label { font-size:9px; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:4px; }
+.flow-node-val { font-family:'Syne',sans-serif; font-weight:700; font-size:12px; color:#fff; }
+.flow-arrow { color:rgba(30,144,255,0.3); font-size:16px; }
+.flow-split { display:flex; flex-direction:column; gap:8px; align-items:center; }
+.flow-split-row { display:flex; align-items:center; gap:8px; }
+.flow-split-label { font-size:9px; color:rgba(30,144,255,0.3); letter-spacing:0.1em; width:60px; text-align:right; }
+.flow-delay-badge { font-size:9px; color:rgba(255,180,30,0.5); border:1px solid rgba(255,180,30,0.15); padding:2px 8px; border-radius:10px; margin:0 4px; }
 
-/* FLOW STEPS */
-.flow {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 2px;
-  background: rgba(30,144,255,0.06);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  overflow: hidden;
-}
-.flow-step {
-  padding: 36px 28px;
-  background: var(--card);
-  position: relative;
-  transition: background 0.2s;
-}
-.flow-step:hover { background: rgba(12,24,44,0.98); }
-.flow-num {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: 48px;
-  color: rgba(30,144,255,0.08);
-  line-height: 1;
-  margin-bottom: 16px;
-  letter-spacing: -0.04em;
-}
-.flow-icon {
-  font-size: 24px;
-  margin-bottom: 12px;
-  display: block;
-}
-.flow-title {
-  font-family: 'Syne', sans-serif;
-  font-weight: 700;
-  font-size: 14px;
-  color: #fff;
-  margin-bottom: 8px;
-  letter-spacing: 0.05em;
-}
-.flow-desc {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.6;
-}
+/* HOW IT WORKS STEPS */
+.flow-steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:2px; background:rgba(30,144,255,0.06); border:1px solid var(--border); border-radius:20px; overflow:hidden; }
+.flow-step { padding:36px 28px; background:var(--card); position:relative; transition:background 0.2s; }
+.flow-step:hover { background:rgba(12,24,44,0.98); }
+.flow-num { font-family:'Syne',sans-serif; font-weight:800; font-size:48px; color:rgba(30,144,255,0.08); line-height:1; margin-bottom:16px; letter-spacing:-0.04em; }
+.flow-icon { font-size:24px; margin-bottom:12px; display:block; }
+.flow-step-title { font-family:'Syne',sans-serif; font-weight:700; font-size:14px; color:#fff; margin-bottom:8px; letter-spacing:0.05em; }
+.flow-desc { font-size:12px; color:var(--muted); line-height:1.6; }
 
 /* FEATURES */
-.features {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px;
-  margin-top: 64px;
-}
-.feature-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 28px;
-  transition: all 0.25s;
-  position: relative;
-  overflow: hidden;
-}
-.feature-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(30,144,255,0.3), transparent);
-  opacity: 0;
-  transition: opacity 0.25s;
-}
-.feature-card:hover { border-color: rgba(30,144,255,0.25); transform: translateY(-2px); }
-.feature-card:hover::before { opacity: 1; }
-.feature-icon {
-  font-size: 28px;
-  margin-bottom: 16px;
-  display: block;
-}
-.feature-title {
-  font-family: 'Syne', sans-serif;
-  font-weight: 700;
-  font-size: 15px;
-  color: #fff;
-  margin-bottom: 8px;
-}
-.feature-desc {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.7;
-}
-
-/* COMPARE */
-.compare {
-  margin-top: 64px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  overflow: hidden;
-}
-.compare-header {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  padding: 20px 28px;
-  border-bottom: 1px solid var(--border);
-  background: rgba(30,144,255,0.04);
-}
-.compare-header span {
-  font-family: 'Syne', sans-serif;
-  font-weight: 700;
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  color: var(--muted);
-  text-transform: uppercase;
-  text-align: center;
-}
-.compare-header span:first-child { text-align: left; color: rgba(150,200,255,0.3); }
-.compare-header .highlight { color: var(--blue); }
-.compare-row {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  padding: 16px 28px;
-  border-bottom: 1px solid rgba(30,144,255,0.05);
-  align-items: center;
-  transition: background 0.15s;
-}
-.compare-row:hover { background: rgba(30,144,255,0.03); }
-.compare-row:last-child { border-bottom: none; }
-.compare-feature {
-  font-size: 13px;
-  color: rgba(200,230,255,0.7);
-}
-.compare-cell {
-  text-align: center;
-  font-size: 16px;
-}
-.yes { color: #1E90FF; }
-.no { color: rgba(255,80,80,0.5); }
-.partial { color: rgba(255,180,30,0.6); font-size: 12px; }
+.features { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-top:64px; }
+.feature-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:28px; transition:all 0.25s; position:relative; overflow:hidden; }
+.feature-card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,rgba(30,144,255,0.3),transparent); opacity:0; transition:opacity 0.25s; }
+.feature-card:hover { border-color:rgba(30,144,255,0.25); transform:translateY(-2px); }
+.feature-card:hover::before { opacity:1; }
+.feature-card.new { border-color:rgba(30,144,255,0.2); }
+.feature-card.new::after { content:'NEW'; position:absolute; top:12px; right:12px; font-size:8px; color:var(--blue); border:1px solid rgba(30,144,255,0.3); padding:2px 8px; border-radius:10px; letter-spacing:0.15em; }
+.feature-icon { font-size:28px; margin-bottom:16px; display:block; }
+.feature-title { font-family:'Syne',sans-serif; font-weight:700; font-size:15px; color:#fff; margin-bottom:8px; }
+.feature-desc { font-size:12px; color:var(--muted); line-height:1.7; }
 
 /* MODES */
-.modes {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-top: 64px;
-}
-.mode-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 32px;
-  position: relative;
-  overflow: hidden;
-}
-.mode-card.featured {
-  border-color: rgba(30,144,255,0.3);
-  background: rgba(12,24,44,0.97);
-}
-.mode-card.featured::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at top, rgba(30,144,255,0.06) 0%, transparent 60%);
-  pointer-events: none;
-}
-.mode-badge {
-  display: inline-block;
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  color: var(--blue);
-  border: 1px solid rgba(30,144,255,0.3);
-  padding: 3px 10px;
-  border-radius: 20px;
-  margin-bottom: 16px;
-  text-transform: uppercase;
-}
-.mode-title {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: 22px;
-  color: #fff;
-  margin-bottom: 8px;
-}
-.mode-desc {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.7;
-  margin-bottom: 20px;
-}
-.mode-detail {
-  font-size: 11px;
-  color: rgba(30,144,255,0.5);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 6px;
-}
-.mode-detail::before { content: '→'; }
+.modes { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:64px; }
+.mode-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:32px; position:relative; overflow:hidden; }
+.mode-card.featured { border-color:rgba(30,144,255,0.3); background:rgba(12,24,44,0.97); }
+.mode-card.featured::after { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at top,rgba(30,144,255,0.06) 0%,transparent 60%); pointer-events:none; }
+.mode-badge { display:inline-block; font-size:9px; letter-spacing:0.2em; color:var(--blue); border:1px solid rgba(30,144,255,0.3); padding:3px 10px; border-radius:20px; margin-bottom:16px; text-transform:uppercase; }
+.mode-title { font-family:'Syne',sans-serif; font-weight:800; font-size:22px; color:#fff; margin-bottom:8px; }
+.mode-desc { font-size:12px; color:var(--muted); line-height:1.7; margin-bottom:20px; }
+.mode-detail { font-size:11px; color:rgba(30,144,255,0.5); display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+.mode-detail::before { content:'→'; }
 
-/* CTA SECTION */
-.cta-section {
-  padding: 100px 24px;
-  text-align: center;
-  position: relative;
-}
-.cta-glow {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 600px; height: 400px;
-  background: radial-gradient(ellipse, rgba(30,144,255,0.06) 0%, transparent 70%);
-  pointer-events: none;
-}
-.cta-title {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: clamp(32px, 5vw, 56px);
-  color: #fff;
-  margin-bottom: 16px;
-  position: relative;
-}
-.cta-sub {
-  color: var(--muted);
-  font-size: 14px;
-  margin-bottom: 40px;
-  position: relative;
-}
-.cta-actions {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  flex-wrap: wrap;
-  position: relative;
-}
+/* COMPARE */
+.compare { margin-top:64px; background:var(--card); border:1px solid var(--border); border-radius:20px; overflow:hidden; }
+.compare-header { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; padding:20px 28px; border-bottom:1px solid var(--border); background:rgba(30,144,255,0.04); }
+.compare-header span { font-family:'Syne',sans-serif; font-weight:700; font-size:11px; letter-spacing:0.15em; color:var(--muted); text-transform:uppercase; text-align:center; }
+.compare-header span:first-child { text-align:left; color:rgba(150,200,255,0.3); }
+.compare-header .highlight { color:var(--blue); }
+.compare-row { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; padding:16px 28px; border-bottom:1px solid rgba(30,144,255,0.05); align-items:center; transition:background 0.15s; }
+.compare-row:hover { background:rgba(30,144,255,0.03); }
+.compare-row:last-child { border-bottom:none; }
+.compare-feature { font-size:13px; color:rgba(200,230,255,0.7); }
+.compare-cell { text-align:center; font-size:16px; }
+.yes { color:#1E90FF; }
+.no { color:rgba(255,80,80,0.5); }
+.partial { color:rgba(255,180,30,0.6); font-size:12px; }
 
-/* FOOTER */
-footer {
-  border-top: 1px solid rgba(30,144,255,0.06);
-  padding: 32px 48px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  position: relative;
-  z-index: 1;
-}
-.footer-name {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: 13px;
-  letter-spacing: 0.2em;
-  background: linear-gradient(135deg, var(--blue), var(--cyan));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.footer-copy {
-  margin-left: auto;
-  font-size: 11px;
-  color: rgba(100,150,200,0.3);
-  letter-spacing: 0.08em;
-}
-.footer-link {
-  font-size: 11px;
-  color: rgba(100,150,200,0.3);
-  text-decoration: none;
-  letter-spacing: 0.08em;
-  transition: color 0.2s;
-}
-.footer-link:hover { color: var(--blue); }
+/* CTA */
+.cta-section { padding:100px 24px; text-align:center; position:relative; }
+.cta-glow { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:600px; height:400px; background:radial-gradient(ellipse,rgba(30,144,255,0.06) 0%,transparent 70%); pointer-events:none; }
+.cta-title { font-family:'Syne',sans-serif; font-weight:800; font-size:clamp(32px,5vw,56px); color:#fff; margin-bottom:16px; position:relative; }
+.cta-sub { color:var(--muted); font-size:14px; margin-bottom:40px; position:relative; }
+.cta-actions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; position:relative; }
 
-/* RESPONSIVE */
-@media (max-width: 768px) {
-  nav { padding: 16px 20px; }
-  .nav-cta { display: none; }
-  .modes { grid-template-columns: 1fr; }
-  .compare-header, .compare-row { grid-template-columns: 2fr 1fr 1fr; }
-  .compare-header span:nth-child(4), .compare-row .compare-cell:nth-child(4) { display: none; }
-  footer { flex-direction: column; text-align: center; }
-  .footer-copy { margin-left: 0; }
-  .hero-stats { gap: 28px; }
-}
+footer { border-top:1px solid rgba(30,144,255,0.06); padding:32px 48px; display:flex; align-items:center; gap:12px; position:relative; z-index:1; flex-wrap:wrap; }
+.footer-name { font-family:'Syne',sans-serif; font-weight:800; font-size:13px; letter-spacing:0.2em; background:linear-gradient(135deg,var(--blue),var(--cyan)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.footer-copy { margin-left:auto; font-size:11px; color:rgba(100,150,200,0.3); letter-spacing:0.08em; }
 
-/* SCROLL REVEAL */
-.reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
+.reveal { opacity:0; transform:translateY(24px); transition:opacity 0.6s ease,transform 0.6s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+@media(max-width:768px){
+  nav{padding:16px 20px;}
+  .nav-cta{display:none;}
+  .modes{grid-template-columns:1fr;}
+  .compare-header,.compare-row{grid-template-columns:2fr 1fr 1fr;}
+  .compare-header span:nth-child(4),.compare-row .compare-cell:nth-child(4){display:none;}
+  footer{flex-direction:column;text-align:center;}
+  .footer-copy{margin-left:0;}
+  .hero-stats{gap:28px;}
+  .flow-chain{flex-direction:column;}
 }
 </style>
 </head>
@@ -635,7 +166,6 @@ footer {
 <div class="bg-fixed">
   <div class="bg-glow"></div>
   <div class="bg-grid"></div>
-  <div class="bg-noise"></div>
 </div>
 
 <nav>
@@ -653,14 +183,14 @@ footer {
   <section class="hero">
     <div class="hero-badge">
       <span class="hero-badge-dot"></span>
-      <span data-en="Live on Ethereum Testnet" data-pt="Disponível na Testnet Ethereum">Live on Ethereum Testnet</span>
+      <span data-en="Live on Ethereum Testnet — v2 with Split & Multi-Hop" data-pt="Disponível na Testnet Ethereum — v2 com Split & Multi-Hop">Live on Ethereum Testnet — v2 with Split & Multi-Hop</span>
     </div>
     <h1 class="hero-title">
       <span class="grad" data-en="Send Crypto." data-pt="Envie Cripto.">Send Crypto.</span><br>
       <span class="blue" data-en="Leave No Trace." data-pt="Sem Rastros.">Leave No Trace.</span>
     </h1>
-    <p class="hero-sub" data-en="SilentFlow is a privacy layer for Web3 transactions. Send ETH, USDC and USDT with ephemeral addresses and optional time delay — invisible fees, maximum privacy." data-pt="SilentFlow é uma camada de privacidade para transações Web3. Envie ETH, USDC e USDT com endereços efêmeros e delay opcional — taxas invisíveis, máxima privacidade.">
-      SilentFlow is a privacy layer for Web3 transactions. Send ETH, USDC and USDT with ephemeral addresses and optional time delay — invisible fees, maximum privacy.
+    <p class="hero-sub" data-en="SilentFlow is a Web3 privacy layer with automatic value splitting, multi-hop ephemeral addresses, random delays and dummy transactions — making on-chain analysis virtually impossible." data-pt="SilentFlow é uma camada de privacidade Web3 com divisão automática de valores, endereços efêmeros multi-hop, delays aleatórios e transações dummy — tornando análise on-chain virtualmente impossível.">
+      SilentFlow is a Web3 privacy layer with automatic value splitting, multi-hop ephemeral addresses, random delays and dummy transactions — making on-chain analysis virtually impossible.
     </p>
     <div class="hero-actions">
       <a href="https://silentflow.vercel.app" class="btn-primary" data-en="Launch App →" data-pt="Abrir App →">Launch App →</a>
@@ -668,20 +198,20 @@ footer {
     </div>
     <div class="hero-stats">
       <div class="stat">
-        <div class="stat-num">0.2%</div>
-        <div class="stat-label" data-en="Invisible fee" data-pt="Taxa invisível">Invisible fee</div>
+        <div class="stat-num">2–4x</div>
+        <div class="stat-label" data-en="Auto split" data-pt="Split automático">Auto split</div>
       </div>
       <div class="stat">
-        <div class="stat-num">3</div>
-        <div class="stat-label" data-en="Supported tokens" data-pt="Tokens suportados">Supported tokens</div>
+        <div class="stat-num">2–3</div>
+        <div class="stat-label" data-en="Hops per part" data-pt="Hops por parte">Hops per part</div>
       </div>
       <div class="stat">
         <div class="stat-num">1–6h</div>
-        <div class="stat-label" data-en="Silent mode delay" data-pt="Delay modo silencioso">Silent mode delay</div>
+        <div class="stat-label" data-en="Random delay" data-pt="Delay aleatório">Random delay</div>
       </div>
       <div class="stat">
-        <div class="stat-num">∞</div>
-        <div class="stat-label" data-en="Ephemeral addresses" data-pt="Endereços efêmeros">Ephemeral addresses</div>
+        <div class="stat-num">0.2%</div>
+        <div class="stat-label" data-en="Invisible fee" data-pt="Taxa invisível">Invisible fee</div>
       </div>
     </div>
   </section>
@@ -691,32 +221,85 @@ footer {
   <!-- HOW IT WORKS -->
   <section class="section" id="how">
     <p class="section-label" data-en="How it works" data-pt="Como funciona">How it works</p>
-    <h2 class="section-title" data-en="Simple. Private. Invisible." data-pt="Simples. Privado. Invisível.">Simple. Private. Invisible.</h2>
-    <p class="section-sub" data-en="Four steps to send your assets with maximum privacy — no technical knowledge required." data-pt="Quatro passos para enviar seus ativos com máxima privacidade — sem conhecimento técnico.">Four steps to send your assets with maximum privacy — no technical knowledge required.</p>
-    <div class="flow reveal">
+    <h2 class="section-title" data-en="Engineered Against Blockchain Analysis" data-pt="Projetado Contra Análise de Blockchain">Engineered Against Blockchain Analysis</h2>
+    <p class="section-sub" data-en="SilentFlow v2 breaks every known heuristic used by tools like Chainalysis and TRM Labs." data-pt="O SilentFlow v2 quebra todas as heurísticas conhecidas usadas por ferramentas como Chainalysis e TRM Labs.">SilentFlow v2 breaks every known heuristic used by tools like Chainalysis and TRM Labs.</p>
+
+    <!-- FLOW VISUAL -->
+    <div class="flow-visual reveal">
+      <div class="flow-title-box" data-en="Transaction flow — Silent Mode example" data-pt="Fluxo de transação — exemplo Modo Silencioso">Transaction flow — Silent Mode example</div>
+      <div class="flow-chain">
+        <div class="flow-node origin">
+          <div class="flow-node-label" data-en="You send" data-pt="Você envia">You send</div>
+          <div class="flow-node-val">1.000 ETH</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">
+          <div class="flow-node-label">Contract</div>
+          <div class="flow-node-val">SilentFlow</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start;">
+          <div class="flow-split-row">
+            <div class="flow-split-label" style="font-size:9px;color:rgba(30,144,255,0.3);width:50px;">part 1</div>
+            <div class="flow-node ephemeral"><div class="flow-node-label">E1a</div><div class="flow-node-val">0.38</div></div>
+            <div class="flow-delay-badge">+47min</div>
+            <div class="flow-node ephemeral"><div class="flow-node-label">E1b</div><div class="flow-node-val">0.38</div></div>
+            <div class="flow-delay-badge">+2.1h</div>
+          </div>
+          <div class="flow-split-row">
+            <div class="flow-split-label" style="font-size:9px;color:rgba(30,144,255,0.3);width:50px;">part 2</div>
+            <div class="flow-node ephemeral"><div class="flow-node-label">E2a</div><div class="flow-node-val">0.29</div></div>
+            <div class="flow-delay-badge">+1.3h</div>
+            <div class="flow-node ephemeral"><div class="flow-node-label">E2b</div><div class="flow-node-val">0.29</div></div>
+            <div class="flow-delay-badge">+3.4h</div>
+            <div class="flow-node ephemeral"><div class="flow-node-label">E2c</div><div class="flow-node-val">0.29</div></div>
+            <div class="flow-delay-badge">+1.8h</div>
+          </div>
+          <div class="flow-split-row">
+            <div class="flow-split-label" style="font-size:9px;color:rgba(30,144,255,0.3);width:50px;">part 3</div>
+            <div class="flow-node ephemeral"><div class="flow-node-label">E3a</div><div class="flow-node-val">0.33</div></div>
+            <div class="flow-delay-badge">+22min</div>
+            <div class="flow-node ephemeral"><div class="flow-node-label">E3b</div><div class="flow-node-val">0.33</div></div>
+            <div class="flow-delay-badge">+4.2h</div>
+          </div>
+          <div class="flow-split-row" style="opacity:0.5;">
+            <div class="flow-split-label" style="font-size:9px;color:rgba(255,180,30,0.4);width:50px;">dummy</div>
+            <div class="flow-node dummy"><div class="flow-node-label">noise</div><div class="flow-node-val">0.003</div></div>
+            <div class="flow-node dummy"><div class="flow-node-label">noise</div><div class="flow-node-val">0.001</div></div>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node dest">
+          <div class="flow-node-label" data-en="Recipient" data-pt="Destinatário">Recipient</div>
+          <div class="flow-node-val">0.998 ETH</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-steps reveal">
       <div class="flow-step">
         <div class="flow-num">01</div>
-        <span class="flow-icon">🔗</span>
-        <div class="flow-title" data-en="Connect Wallet" data-pt="Conecte a Carteira">Connect Wallet</div>
-        <div class="flow-desc" data-en="Connect MetaMask with one click. SilentFlow auto-detects the network." data-pt="Conecte MetaMask com um clique. SilentFlow detecta a rede automaticamente.">Connect MetaMask with one click. SilentFlow auto-detects the network.</div>
+        <span class="flow-icon">✂️</span>
+        <div class="flow-step-title" data-en="Auto Split" data-pt="Split Automático">Auto Split</div>
+        <div class="flow-desc" data-en="Value is automatically split into 2–4 random parts. Destroys amount fingerprinting used by Chainalysis." data-pt="O valor é dividido automaticamente em 2–4 partes aleatórias. Destrói a correlação por valor usada pelo Chainalysis.">Value is automatically split into 2–4 random parts. Destroys amount fingerprinting used by Chainalysis.</div>
       </div>
       <div class="flow-step">
         <div class="flow-num">02</div>
-        <span class="flow-icon">🎯</span>
-        <div class="flow-title" data-en="Choose Mode" data-pt="Escolha o Modo">Choose Mode</div>
-        <div class="flow-desc" data-en="Standard (instant) or Silent (1–6h random delay). Both use ephemeral addresses." data-pt="Padrão (instantâneo) ou Silencioso (delay aleatório de 1–6h). Ambos usam endereços efêmeros.">Standard (instant) or Silent (1–6h random delay). Both use ephemeral addresses.</div>
+        <span class="flow-icon">👻</span>
+        <div class="flow-step-title" data-en="Multi-Hop" data-pt="Multi-Hop">Multi-Hop</div>
+        <div class="flow-desc" data-en="Each part passes through 2–3 disposable ephemeral addresses before reaching the destination." data-pt="Cada parte passa por 2–3 endereços efêmeros descartáveis antes de chegar ao destino.">Each part passes through 2–3 disposable ephemeral addresses before reaching the destination.</div>
       </div>
       <div class="flow-step">
         <div class="flow-num">03</div>
-        <span class="flow-icon">⚡</span>
-        <div class="flow-title" data-en="Send & Sign" data-pt="Envie & Assine">Send & Sign</div>
-        <div class="flow-desc" data-en="One MetaMask confirmation. The smart contract handles routing and fee deduction automatically." data-pt="Uma confirmação na MetaMask. O smart contract gerencia o roteamento e desconta a taxa automaticamente.">One MetaMask confirmation. The smart contract handles everything automatically.</div>
+        <span class="flow-icon">⏱</span>
+        <div class="flow-step-title" data-en="Shuffled Delays" data-pt="Delays Embaralhados">Shuffled Delays</div>
+        <div class="flow-desc" data-en="Each hop has an independent random delay. Parts arrive out of order. Time-correlation attacks become impossible." data-pt="Cada hop tem delay aleatório independente. As partes chegam fora de ordem. Ataques de correlação por tempo tornam-se impossíveis.">Each hop has an independent random delay. Parts arrive out of order. Time-correlation attacks become impossible.</div>
       </div>
       <div class="flow-step">
         <div class="flow-num">04</div>
-        <span class="flow-icon">👻</span>
-        <div class="flow-title" data-en="Done. No trace." data-pt="Pronto. Sem rastro.">Done. No trace.</div>
-        <div class="flow-desc" data-en="Recipient receives funds. On-chain link is broken. Your privacy is protected." data-pt="Destinatário recebe os fundos. O link on-chain é quebrado. Sua privacidade está protegida.">Recipient receives funds. On-chain link is broken. Your privacy is protected.</div>
+        <span class="flow-icon">🎭</span>
+        <div class="flow-step-title" data-en="Dummy Transactions" data-pt="Transações Dummy">Dummy Transactions</div>
+        <div class="flow-desc" data-en="Fake noise transactions are injected alongside real ones. Blockchain analysts cannot distinguish signal from noise." data-pt="Transações falsas de ruído são injetadas junto com as reais. Analistas de blockchain não conseguem distinguir sinal de ruído.">Fake noise transactions are injected alongside real ones. Blockchain analysts cannot distinguish signal from noise.</div>
       </div>
     </div>
   </section>
@@ -727,12 +310,11 @@ footer {
   <section class="section">
     <p class="section-label" data-en="Privacy Modes" data-pt="Modos de Privacidade">Privacy Modes</p>
     <h2 class="section-title" data-en="Choose Your Level" data-pt="Escolha seu Nível">Choose Your Level</h2>
-    <p class="section-sub" data-en="SilentFlow offers two modes depending on how much privacy you need." data-pt="SilentFlow oferece dois modos dependendo de quanta privacidade você precisa.">SilentFlow offers two modes depending on how much privacy you need.</p>
     <div class="modes reveal">
       <div class="mode-card">
         <span class="mode-badge" data-en="Standard" data-pt="Padrão">Standard</span>
         <div class="mode-title" data-en="Standard Mode" data-pt="Modo Padrão">Standard Mode</div>
-        <div class="mode-desc" data-en="Sends immediately using ephemeral addresses. Reduces direct traceability without waiting." data-pt="Envia imediatamente usando endereços efêmeros. Reduz rastreabilidade direta sem esperar.">Sends immediately using ephemeral addresses. Reduces direct traceability without waiting.</div>
+        <div class="mode-desc" data-en="Sends instantly through the smart contract using ephemeral addresses. Fast and simple." data-pt="Envia instantaneamente pelo smart contract usando endereços efêmeros. Rápido e simples.">Sends instantly through the smart contract using ephemeral addresses. Fast and simple.</div>
         <div class="mode-detail" data-en="Ephemeral address per transaction" data-pt="Endereço efêmero por transação">Ephemeral address per transaction</div>
         <div class="mode-detail" data-en="0.2% invisible fee" data-pt="Taxa invisível de 0.2%">0.2% invisible fee</div>
         <div class="mode-detail" data-en="Instant confirmation" data-pt="Confirmação instantânea">Instant confirmation</div>
@@ -740,10 +322,11 @@ footer {
       <div class="mode-card featured">
         <span class="mode-badge" data-en="Maximum Privacy" data-pt="Máxima Privacidade">Maximum Privacy</span>
         <div class="mode-title" data-en="Silent Mode" data-pt="Modo Silencioso">Silent Mode</div>
-        <div class="mode-desc" data-en="Adds a random 1–6 hour delay processed by our backend. Makes time-correlation attacks impossible." data-pt="Adiciona delay aleatório de 1–6h processado pelo backend. Torna ataques de correlação por tempo impossíveis.">Adds a random 1–6 hour delay. Makes time-correlation attacks impossible.</div>
-        <div class="mode-detail" data-en="Ephemeral address + time delay" data-pt="Endereço efêmero + delay de tempo">Ephemeral address + time delay</div>
-        <div class="mode-detail" data-en="Random delay between 1–6 hours" data-pt="Delay aleatório entre 1–6 horas">Random delay between 1–6 hours</div>
-        <div class="mode-detail" data-en="Impossible to time-correlate" data-pt="Impossível correlacionar por tempo">Impossible to time-correlate</div>
+        <div class="mode-desc" data-en="Full v2 pipeline: automatic split + multi-hop + shuffled delays + dummy transactions. Designed to defeat Chainalysis." data-pt="Pipeline v2 completo: split automático + multi-hop + delays embaralhados + transações dummy. Projetado para derrotar o Chainalysis.">Full v2 pipeline: automatic split + multi-hop + shuffled delays + dummy transactions.</div>
+        <div class="mode-detail" data-en="2–4 automatic value splits" data-pt="2–4 divisões automáticas de valor">2–4 automatic value splits</div>
+        <div class="mode-detail" data-en="2–3 hops per part through ephemeral addresses" data-pt="2–3 hops por parte em endereços efêmeros">2–3 hops per part through ephemeral addresses</div>
+        <div class="mode-detail" data-en="Independent random delay per hop" data-pt="Delay aleatório independente por hop">Independent random delay per hop</div>
+        <div class="mode-detail" data-en="Dummy transactions as noise" data-pt="Transações dummy como ruído">Dummy transactions as noise</div>
       </div>
     </div>
   </section>
@@ -753,37 +336,37 @@ footer {
   <!-- FEATURES -->
   <section class="section">
     <p class="section-label" data-en="Features" data-pt="Funcionalidades">Features</p>
-    <h2 class="section-title" data-en="Built for Real Privacy" data-pt="Feito para Privacidade Real">Built for Real Privacy</h2>
+    <h2 class="section-title" data-en="Built to Defeat Blockchain Analysis" data-pt="Construído para Derrotar a Análise de Blockchain">Built to Defeat Blockchain Analysis</h2>
     <div class="features reveal">
+      <div class="feature-card new">
+        <span class="feature-icon">✂️</span>
+        <div class="feature-title" data-en="Automatic Value Split" data-pt="Split Automático de Valor">Automatic Value Split</div>
+        <div class="feature-desc" data-en="Breaks amount fingerprinting. No tool can correlate equal values when the split is random every time." data-pt="Quebra a correlação por valor. Nenhuma ferramenta consegue correlacionar valores iguais quando o split é aleatório a cada vez.">Breaks amount fingerprinting. No tool can correlate equal values when the split is random every time.</div>
+      </div>
+      <div class="feature-card new">
+        <span class="feature-icon">🔀</span>
+        <div class="feature-title" data-en="Multi-Hop Routing" data-pt="Roteamento Multi-Hop">Multi-Hop Routing</div>
+        <div class="feature-desc" data-en="Each transaction part hops through 2–3 fresh wallets. Each wallet used once and discarded forever." data-pt="Cada parte da transação passa por 2–3 carteiras novas. Cada carteira usada uma vez e descartada para sempre.">Each transaction part hops through 2–3 fresh wallets. Each wallet used once and discarded forever.</div>
+      </div>
+      <div class="feature-card new">
+        <span class="feature-icon">🎭</span>
+        <div class="feature-title" data-en="Dummy Transactions" data-pt="Transações Dummy">Dummy Transactions</div>
+        <div class="feature-desc" data-en="Noise transactions injected between real hops. Blockchain analysis tools cannot distinguish real from fake." data-pt="Transações de ruído injetadas entre os hops reais. Ferramentas de análise não conseguem distinguir real de falso.">Noise transactions injected between real hops. Blockchain analysis tools cannot distinguish real from fake.</div>
+      </div>
+      <div class="feature-card new">
+        <span class="feature-icon">⏱</span>
+        <div class="feature-title" data-en="Shuffled Delays" data-pt="Delays Embaralhados">Shuffled Delays</div>
+        <div class="feature-desc" data-en="Each hop has its own independent random delay. Parts arrive out of order. Time-correlation is impossible." data-pt="Cada hop tem seu próprio delay aleatório independente. As partes chegam fora de ordem. Correlação por tempo é impossível.">Each hop has its own independent random delay. Parts arrive out of order. Time-correlation is impossible.</div>
+      </div>
       <div class="feature-card">
         <span class="feature-icon">⟠</span>
-        <div class="feature-title" data-en="Multi-Token Support" data-pt="Multi-Token">Multi-Token Support</div>
-        <div class="feature-desc" data-en="Send ETH, USDC and USDT. More tokens coming with mainnet launch." data-pt="Envie ETH, USDC e USDT. Mais tokens chegando com o lançamento na mainnet.">Send ETH, USDC and USDT. More tokens coming with mainnet launch.</div>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">👻</span>
-        <div class="feature-title" data-en="Ephemeral Addresses" data-pt="Endereços Efêmeros">Ephemeral Addresses</div>
-        <div class="feature-desc" data-en="Each transaction uses a new disposable address with no link to your main wallet." data-pt="Cada transação usa um novo endereço descartável sem ligação com sua carteira principal.">Each transaction uses a new disposable address with no link to your main wallet.</div>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">⏱</span>
-        <div class="feature-title" data-en="Random Delay" data-pt="Delay Aleatório">Random Delay</div>
-        <div class="feature-desc" data-en="Silent mode adds unpredictable delay, making blockchain analysis by time impossible." data-pt="Modo silencioso adiciona delay imprevisível, tornando análise por tempo impossível.">Silent mode adds unpredictable delay, making blockchain analysis by time impossible.</div>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">💸</span>
-        <div class="feature-title" data-en="Invisible 0.2% Fee" data-pt="Taxa Invisível 0.2%">Invisible 0.2% Fee</div>
-        <div class="feature-desc" data-en="Automatically deducted on every transaction. No subscriptions. No upfront costs." data-pt="Descontada automaticamente em cada transação. Sem assinaturas. Sem custos antecipados.">Automatically deducted on every transaction. No subscriptions. No upfront costs.</div>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">📜</span>
-        <div class="feature-title" data-en="Transaction History" data-pt="Histórico de Transações">Transaction History</div>
-        <div class="feature-desc" data-en="Full local history of your private transactions with Etherscan links." data-pt="Histórico local completo das suas transações privadas com links para o Etherscan.">Full local history of your private transactions with Etherscan links.</div>
+        <div class="feature-title" data-en="Multi-Token" data-pt="Multi-Token">Multi-Token</div>
+        <div class="feature-desc" data-en="ETH, USDC and USDT supported. More tokens coming with mainnet launch." data-pt="ETH, USDC e USDT suportados. Mais tokens chegando com o lançamento na mainnet.">ETH, USDC and USDT supported. More tokens coming with mainnet launch.</div>
       </div>
       <div class="feature-card">
         <span class="feature-icon">🔗</span>
-        <div class="feature-title" data-en="Smart Contract" data-pt="Smart Contract">Smart Contract</div>
-        <div class="feature-desc" data-en="All routing handled by an auditable on-chain contract. No custody. Your keys, your funds." data-pt="Todo roteamento feito por contrato on-chain auditável. Sem custódia. Suas chaves, seus fundos.">All routing handled by an auditable on-chain contract. No custody. Your keys, your funds.</div>
+        <div class="feature-title" data-en="Non-Custodial" data-pt="Não-Custodial">Non-Custodial</div>
+        <div class="feature-desc" data-en="Smart contract on-chain. No pooling with other users. Your transaction, isolated end-to-end." data-pt="Smart contract on-chain. Sem mistura com outros usuários. Sua transação, isolada de ponta a ponta.">Smart contract on-chain. No pooling with other users. Your transaction, isolated end-to-end.</div>
       </div>
     </div>
   </section>
@@ -797,30 +380,36 @@ footer {
     <div class="compare reveal">
       <div class="compare-header">
         <span data-en="Feature" data-pt="Funcionalidade">Feature</span>
-        <span class="highlight">SilentFlow</span>
+        <span class="highlight">SilentFlow v2</span>
         <span data-en="Direct Transfer" data-pt="Transferência Direta">Direct Transfer</span>
         <span>Tornado Cash</span>
       </div>
       <div class="compare-row">
-        <span class="compare-feature" data-en="Ephemeral addresses" data-pt="Endereços efêmeros">Ephemeral addresses</span>
+        <span class="compare-feature" data-en="Automatic value split" data-pt="Split automático de valor">Automatic value split</span>
         <span class="compare-cell yes">✓</span>
         <span class="compare-cell no">✗</span>
         <span class="compare-cell no">✗</span>
       </div>
       <div class="compare-row">
-        <span class="compare-feature" data-en="Time delay option" data-pt="Opção de delay de tempo">Time delay option</span>
+        <span class="compare-feature" data-en="Multi-hop ephemeral addresses" data-pt="Multi-hop com endereços efêmeros">Multi-hop ephemeral addresses</span>
         <span class="compare-cell yes">✓</span>
         <span class="compare-cell no">✗</span>
         <span class="compare-cell no">✗</span>
       </div>
       <div class="compare-row">
-        <span class="compare-feature" data-en="Multi-token (ETH/USDC/USDT)" data-pt="Multi-token (ETH/USDC/USDT)">Multi-token (ETH/USDC/USDT)</span>
+        <span class="compare-feature" data-en="Dummy noise transactions" data-pt="Transações dummy de ruído">Dummy noise transactions</span>
         <span class="compare-cell yes">✓</span>
-        <span class="compare-cell yes">✓</span>
-        <span class="compare-cell partial">ETH only</span>
+        <span class="compare-cell no">✗</span>
+        <span class="compare-cell no">✗</span>
       </div>
       <div class="compare-row">
-        <span class="compare-feature" data-en="No fund mixing with strangers" data-pt="Sem mistura com terceiros">No fund mixing with strangers</span>
+        <span class="compare-feature" data-en="Shuffled independent delays" data-pt="Delays independentes embaralhados">Shuffled independent delays</span>
+        <span class="compare-cell yes">✓</span>
+        <span class="compare-cell no">✗</span>
+        <span class="compare-cell no">✗</span>
+      </div>
+      <div class="compare-row">
+        <span class="compare-feature" data-en="No fund mixing with strangers" data-pt="Sem mistura de fundos com terceiros">No fund mixing with strangers</span>
         <span class="compare-cell yes">✓</span>
         <span class="compare-cell yes">✓</span>
         <span class="compare-cell no">✗</span>
@@ -832,10 +421,10 @@ footer {
         <span class="compare-cell no">✗</span>
       </div>
       <div class="compare-row">
-        <span class="compare-feature" data-en="Simple UX (1 click)" data-pt="UX simples (1 clique)">Simple UX (1 click)</span>
+        <span class="compare-feature" data-en="Multi-token (ETH/USDC/USDT)" data-pt="Multi-token (ETH/USDC/USDT)">Multi-token (ETH/USDC/USDT)</span>
         <span class="compare-cell yes">✓</span>
         <span class="compare-cell yes">✓</span>
-        <span class="compare-cell no">✗</span>
+        <span class="compare-cell partial">ETH only</span>
       </div>
     </div>
   </section>
@@ -858,44 +447,36 @@ footer {
 </footer>
 
 <script>
-// CURSOR
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
-let mx = 0, my = 0, rx = 0, ry = 0;
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cursor.style.left = mx - 4 + 'px';
-  cursor.style.top = my - 4 + 'px';
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cursor.style.left=mx-4+'px';cursor.style.top=my-4+'px';
 });
-function animateRing() {
-  rx += (mx - rx - 16) * 0.12;
-  ry += (my - ry - 16) * 0.12;
-  ring.style.left = rx + 'px';
-  ring.style.top = ry + 'px';
+function animateRing(){
+  rx+=(mx-rx-16)*0.12;ry+=(my-ry-16)*0.12;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
   requestAnimationFrame(animateRing);
 }
 animateRing();
-document.querySelectorAll('a,button').forEach(el => {
-  el.addEventListener('mouseenter', () => { ring.style.transform = 'scale(1.8)'; ring.style.borderColor = 'rgba(30,144,255,0.6)'; });
-  el.addEventListener('mouseleave', () => { ring.style.transform = 'scale(1)'; ring.style.borderColor = 'rgba(30,144,255,0.4)'; });
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.transform='scale(1.8)';ring.style.borderColor='rgba(30,144,255,0.6)';});
+  el.addEventListener('mouseleave',()=>{ring.style.transform='scale(1)';ring.style.borderColor='rgba(30,144,255,0.4)';});
 });
 
-// LANGUAGE
-let lang = 'en';
-function setLang(l) {
-  lang = l;
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector('.lang-btn:' + (l==='en'?'first':'last') + '-child').classList.add('active');
-  document.querySelectorAll('[data-en]').forEach(el => {
-    el.textContent = el.getAttribute('data-' + l);
-  });
+let lang='en';
+function setLang(l){
+  lang=l;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.lang-btn:'+(l==='en'?'first':'last')+'-child').classList.add('active');
+  document.querySelectorAll('[data-en]').forEach(el=>{el.textContent=el.getAttribute('data-'+l);});
 }
 
-// SCROLL REVEAL
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 </script>
 </body>
 </html>

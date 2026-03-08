@@ -7,22 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #080b12;
-  --surface: #0d1117;
-  --surface2: #111820;
-  --border: rgba(255,255,255,.06);
-  --border2: rgba(255,255,255,.1);
-  --blue: #3b82f6;
-  --blue-dim: rgba(59,130,246,.12);
-  --blue-glow: rgba(59,130,246,.25);
-  --green: #22c55e;
-  --green-dim: rgba(34,197,94,.1);
-  --text: #e2e8f0;
-  --text2: rgba(226,232,240,.5);
-  --text3: rgba(226,232,240,.25);
-  --r: 14px;
-}
+:root{--bg:#080b12;--surface:#0d1117;--surface2:#111820;--border:rgba(255,255,255,.06);--border2:rgba(255,255,255,.1);--blue:#3b82f6;--blue-dim:rgba(59,130,246,.12);--blue-glow:rgba(59,130,246,.25);--green:#22c55e;--green-dim:rgba(34,197,94,.1);--text:#e2e8f0;--text2:rgba(226,232,240,.5);--text3:rgba(226,232,240,.25);--r:14px}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
@@ -51,7 +36,7 @@ main{position:relative;z-index:1}
 .hero-title{font-weight:700;font-size:clamp(40px,7vw,82px);line-height:1.05;letter-spacing:-.03em;margin-bottom:24px}
 .hero-title .white{color:var(--text)}
 .hero-title .blue{color:var(--blue)}
-.hero-sub{font-size:clamp(14px,2vw,17px);color:var(--text2);max-width:520px;line-height:1.75;margin-bottom:44px;font-weight:400}
+.hero-sub{font-size:clamp(14px,2vw,17px);color:var(--text2);max-width:540px;line-height:1.75;margin-bottom:44px;font-weight:400}
 .hero-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:72px}
 .btn-primary{background:var(--blue);border:none;color:#fff;padding:14px 32px;border-radius:10px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;cursor:pointer;text-decoration:none;transition:all .25s;display:inline-block;box-shadow:0 2px 16px rgba(59,130,246,.2)}
 .btn-primary:hover{background:#2563eb;transform:translateY(-2px);box-shadow:0 6px 32px rgba(59,130,246,.35)}
@@ -67,19 +52,31 @@ main{position:relative;z-index:1}
 .section-title{font-weight:700;font-size:clamp(26px,4vw,42px);text-align:center;margin-bottom:14px;letter-spacing:-.02em}
 .section-sub{text-align:center;color:var(--text2);font-size:14px;line-height:1.75;max-width:500px;margin:0 auto 56px;font-weight:400}
 
+/* PAYMENT LINK DEMO */
+.pix-demo{background:var(--surface);border:1px solid rgba(59,130,246,.2);border-radius:20px;padding:36px;max-width:640px;margin:0 auto 56px;text-align:left}
+.pix-demo-label{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.pix-url{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--blue);background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;word-break:break-all;line-height:1.7;margin-bottom:14px}
+.pix-arrow{text-align:center;color:var(--text3);font-size:20px;margin:10px 0}
+.pix-result{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--green-dim);border:1px solid rgba(34,197,94,.2);border-radius:8px}
+.pix-result-icon{font-size:20px}
+.pix-result-text{font-size:13px;color:var(--green);font-weight:500}
+
+/* FLOW */
 .flow-visual{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:36px;margin-bottom:40px;overflow-x:auto}
 .flow-title{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:.2em;text-transform:uppercase;text-align:center;margin-bottom:28px}
 .flow-chain{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
 .flow-node{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 16px;text-align:center;min-width:72px}
 .flow-node.sender{border-color:rgba(59,130,246,.4);background:var(--blue-dim)}
+.flow-node.entry{border-color:rgba(245,158,11,.35);background:rgba(245,158,11,.06)}
 .flow-node.contract{border-color:rgba(59,130,246,.25);background:rgba(59,130,246,.06)}
 .flow-node.stealth{border-color:rgba(34,197,94,.3);background:var(--green-dim)}
-.flow-node.dummy{border-color:rgba(245,158,11,.2);background:rgba(245,158,11,.04)}
 .flow-node-label{font-size:9px;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;font-weight:600}
 .flow-node-val{font-family:'JetBrains Mono',monospace;font-weight:500;font-size:12px;color:var(--text)}
 .flow-arrow{color:var(--text3);font-size:14px}
 .flow-badge{font-size:9px;color:rgba(245,158,11,.6);border:1px solid rgba(245,158,11,.15);padding:2px 8px;border-radius:10px;font-family:'JetBrains Mono',monospace;white-space:nowrap}
+.flow-new{font-size:9px;color:var(--green);border:1px solid rgba(34,197,94,.2);padding:2px 8px;border-radius:10px;font-weight:600;letter-spacing:.05em}
 
+/* STEPS */
 .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2px;background:var(--border);border:1px solid var(--border);border-radius:16px;overflow:hidden}
 .step{padding:32px 24px;background:var(--surface);transition:background .2s}
 .step:hover{background:var(--surface2)}
@@ -88,6 +85,7 @@ main{position:relative;z-index:1}
 .step-title{font-weight:700;font-size:14px;color:var(--text);margin-bottom:8px}
 .step-desc{font-size:12px;color:var(--text2);line-height:1.7;font-weight:400}
 
+/* FEATURES */
 .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
 .feat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:24px;transition:all .2s;position:relative;overflow:hidden}
 .feat::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(59,130,246,.25),transparent);opacity:0;transition:opacity .2s}
@@ -96,16 +94,9 @@ main{position:relative;z-index:1}
 .feat-icon{font-size:24px;margin-bottom:14px;display:block}
 .feat-title{font-weight:700;font-size:14px;color:var(--text);margin-bottom:8px}
 .feat-desc{font-size:12px;color:var(--text2);line-height:1.7;font-weight:400}
+.feat-new{display:inline-block;font-size:9px;font-weight:700;color:var(--green);border:1px solid rgba(34,197,94,.2);padding:1px 7px;border-radius:10px;margin-left:6px;letter-spacing:.05em;vertical-align:middle}
 
-.pipeline-card{background:var(--surface);border:1px solid rgba(59,130,246,.15);border-radius:20px;padding:40px 48px;max-width:680px;margin:0 auto;position:relative;overflow:hidden}
-.pipeline-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top,rgba(59,130,246,.05) 0%,transparent 60%);pointer-events:none}
-.pipe-badge{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.2em;color:var(--blue);border:1px solid rgba(59,130,246,.25);padding:3px 12px;border-radius:20px;margin-bottom:18px;text-transform:uppercase}
-.pipe-title{font-weight:700;font-size:26px;letter-spacing:-.02em;margin-bottom:10px}
-.pipe-desc{font-size:13px;color:var(--text2);line-height:1.75;margin-bottom:24px;font-weight:400}
-.pipe-items{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.pipe-item{font-size:12px;color:var(--text2);display:flex;align-items:center;gap:8px;font-weight:400}
-.pipe-item::before{content:'→';color:var(--blue);font-size:11px;flex-shrink:0}
-
+/* COMPARE */
 .compare{background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;margin-top:40px}
 .compare-head{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;padding:18px 28px;border-bottom:1px solid var(--border);background:rgba(59,130,246,.03)}
 .compare-head span{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;text-align:center}
@@ -120,6 +111,7 @@ main{position:relative;z-index:1}
 .no{color:rgba(239,68,68,.4)}
 .partial{color:rgba(245,158,11,.6);font-size:11px;font-family:'JetBrains Mono',monospace}
 
+/* CTA */
 .cta{padding:96px 24px;text-align:center;position:relative}
 .cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(59,130,246,.05) 0%,transparent 65%);pointer-events:none}
 .cta-title{font-weight:700;font-size:clamp(28px,5vw,52px);margin-bottom:14px;letter-spacing:-.02em;position:relative}
@@ -140,8 +132,8 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
 @media(max-width:768px){
   nav{padding:0 20px}
   .nav-cta{display:none}
-  .pipeline-card{padding:28px 24px}
-  .pipe-items{grid-template-columns:1fr}
+  .pix-demo{padding:24px 20px}
+  .flow-visual{padding:24px 16px}
   .compare-head,.compare-row{grid-template-columns:2fr 1fr 1fr}
   .compare-head span:nth-child(4),.compare-row .c-cell:nth-child(4){display:none}
   footer{flex-direction:column;text-align:center;padding:24px}
@@ -175,31 +167,27 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
   <section class="hero">
     <div class="hero-badge">
       <span class="badge-dot"></span>
-      <span data-en="Live on Sepolia Testnet · Non-Custodial · Stealth Addresses" data-pt="Disponível na Sepolia Testnet · Não-Custodial · Stealth Addresses">Live on Sepolia Testnet · Non-Custodial · Stealth Addresses</span>
+      <span data-en="Live on Sepolia Testnet · Non-Custodial · No Registration" data-pt="Disponivel na Sepolia Testnet · Nao-Custodial · Sem Cadastro">Live on Sepolia Testnet · Non-Custodial · No Registration</span>
     </div>
-
     <h1 class="hero-title">
       <span class="white" data-en="Send Crypto." data-pt="Envie Cripto.">Send Crypto.</span><br>
       <span class="blue" data-en="Leave No Trace." data-pt="Sem Rastros.">Leave No Trace.</span>
     </h1>
-
-    <p class="hero-sub" data-en="SilentFlow uses stealth addresses and multi-hop routing to make on-chain tracing virtually impossible — without custodians, pools, or compromises." data-pt="SilentFlow usa stealth addresses e roteamento multi-hop para tornar o rastreamento on-chain virtualmente impossível — sem custódia, pools ou compromissos.">
-      SilentFlow uses stealth addresses and multi-hop routing to make on-chain tracing virtually impossible — without custodians, pools, or compromises.
+    <p class="hero-sub" data-en="Share a payment link. Receive funds privately. No one can trace who sent what to whom — not even blockchain analysts." data-pt="Compartilhe um link de pagamento. Receba fundos com privacidade. Ninguem consegue rastrear quem enviou o que para quem.">
+      Share a payment link. Receive funds privately. No one can trace who sent what to whom — not even blockchain analysts.
     </p>
-
     <div class="hero-actions">
       <a href="https://silentflow.vercel.app" class="btn-primary" data-en="Launch App →" data-pt="Abrir App →">Launch App →</a>
       <a href="#how" class="btn-ghost" data-en="How it works" data-pt="Como funciona">How it works</a>
     </div>
-
     <div class="hero-stats">
       <div>
-        <div class="stat-num">2–4x</div>
-        <div class="stat-label" data-en="Value split" data-pt="Split de valor">Value split</div>
+        <div class="stat-num">8/10</div>
+        <div class="stat-label" data-en="Privacy score" data-pt="Nivel de privacidade">Privacy score</div>
       </div>
       <div>
-        <div class="stat-num">2–3</div>
-        <div class="stat-label" data-en="Hops per part" data-pt="Hops por parte">Hops per part</div>
+        <div class="stat-num">~8 min</div>
+        <div class="stat-label" data-en="Per transaction" data-pt="Por transacao">Per transaction</div>
       </div>
       <div>
         <div class="stat-num">0.2%</div>
@@ -214,200 +202,186 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
 
   <div class="divider"></div>
 
-  <!-- HOW IT WORKS -->
+  <!-- AS SIMPLE AS A PIX LINK -->
   <section class="section" id="how">
-    <p class="section-tag" data-en="How it works" data-pt="Como funciona">How it works</p>
-    <h2 class="section-title reveal" data-en="Engineered Against Blockchain Analysis" data-pt="Projetado Contra Análise de Blockchain">Engineered Against Blockchain Analysis</h2>
-    <p class="section-sub reveal" data-en="Every transaction runs through a full privacy pipeline — automatically, on every send." data-pt="Toda transação passa por um pipeline completo de privacidade — automaticamente, em cada envio.">Every transaction runs through a full privacy pipeline — automatically, on every send.</p>
+    <p class="section-tag" data-en="Designed for everyone" data-pt="Feito para todos">Designed for everyone</p>
+    <h2 class="section-title reveal" data-en="As Easy as Sharing a Link" data-pt="Simples Como Compartilhar um Link">As Easy as Sharing a Link</h2>
+    <p class="section-sub reveal" data-en="Generate your payment link once. Share it anywhere. The sender pastes it, picks an amount, and confirms. Privacy happens automatically." data-pt="Gere seu link uma vez. Compartilhe em qualquer lugar. O remetente cola, digita o valor, confirma. A privacidade acontece automaticamente.">
+      Generate your payment link once. Share it anywhere. The sender pastes it, picks an amount, and confirms. Privacy happens automatically.
+    </p>
+
+    <div class="pix-demo reveal">
+      <div class="pix-demo-label" data-en="Your payment link" data-pt="Seu link de pagamento">Your payment link</div>
+      <div class="pix-url">silentflow.vercel.app/p/st:02a4f8...c391:03b7d2...e84f</div>
+      <div class="pix-arrow">↓</div>
+      <div class="pix-result">
+        <span class="pix-result-icon">✓</span>
+        <span class="pix-result-text" data-en="Sender opens the link → pastes amount → confirms. Done. Your real address never appears on-chain." data-pt="Remetente abre o link → digita o valor → confirma. Pronto. Seu endereco real nunca aparece on-chain.">Sender opens the link → pastes amount → confirms. Done. Your real address never appears on-chain.</span>
+      </div>
+    </div>
+
+    <!-- STEPS -->
+    <div class="steps reveal">
+      <div class="step">
+        <div class="step-num">01</div>
+        <span class="step-icon">🔑</span>
+        <div class="step-title" data-en="Generate your link" data-pt="Gere seu link">Generate your link</div>
+        <div class="step-desc" data-en="One click creates your private payment link. Keys stay only in your browser — encrypted backup available." data-pt="Um clique cria seu link de pagamento privado. Chaves ficam so no seu navegador — backup criptografado disponivel.">One click creates your private payment link. Keys stay only in your browser — encrypted backup available.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <span class="step-icon">🔗</span>
+        <div class="step-title" data-en="Share it" data-pt="Compartilhe">Share it</div>
+        <div class="step-desc" data-en="Send your link via Telegram, email, or anywhere. The sender doesn't need to install anything." data-pt="Envie via Telegram, e-mail ou qualquer lugar. O remetente nao precisa instalar nada.">Send your link via Telegram, email, or anywhere. The sender doesn't need to install anything.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <span class="step-icon">⚡</span>
+        <div class="step-title" data-en="Sender confirms" data-pt="Remetente confirma">Sender confirms</div>
+        <div class="step-desc" data-en="They open the link, type the amount, confirm in MetaMask. The privacy pipeline runs automatically in the background." data-pt="Abre o link, digita o valor, confirma na MetaMask. O pipeline de privacidade roda automaticamente em segundo plano.">They open the link, type the amount, confirm in MetaMask. The privacy pipeline runs automatically in the background.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <span class="step-icon">💰</span>
+        <div class="step-title" data-en="Withdraw anytime" data-pt="Saque quando quiser">Withdraw anytime</div>
+        <div class="step-desc" data-en="Open the app, scan the blockchain, and withdraw to your wallet. Gasless — no ETH needed on the stealth address." data-pt="Abra o app, escaneie a blockchain e saque para sua carteira. Sem gas — sem necessidade de ETH no endereco stealth.">Open the app, scan the blockchain, and withdraw to your wallet. Gasless — no ETH needed on the stealth address.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PRIVACY PIPELINE -->
+  <section class="section" id="privacy">
+    <p class="section-tag" data-en="Under the hood" data-pt="Por dentro">Under the hood</p>
+    <h2 class="section-title reveal" data-en="Engineered Against Blockchain Analysis" data-pt="Projetado Contra Analise de Blockchain">Engineered Against Blockchain Analysis</h2>
+    <p class="section-sub reveal" data-en="Every transaction runs through a full privacy pipeline — automatically, on every send." data-pt="Toda transacao passa por um pipeline completo de privacidade — automaticamente, em cada envio.">Every transaction runs through a full privacy pipeline — automatically, on every send.</p>
 
     <div class="flow-visual reveal">
-      <div class="flow-title" data-en="Transaction flow — example 1 ETH send" data-pt="Fluxo de transação — exemplo de envio de 1 ETH">Transaction flow — example 1 ETH send</div>
+      <div class="flow-title" data-en="Transaction flow — example 0.01 ETH send" data-pt="Fluxo de transacao — exemplo de envio de 0.01 ETH">Transaction flow — example 0.01 ETH send</div>
       <div class="flow-chain">
         <div class="flow-node sender">
-          <div class="flow-node-label" data-en="You" data-pt="Você">You</div>
-          <div class="flow-node-val">1.000 ETH</div>
+          <div class="flow-node-label" data-en="You" data-pt="Voce">You</div>
+          <div class="flow-node-val">0.01 ETH</div>
         </div>
         <span class="flow-arrow">→</span>
-        <div class="flow-node contract">
-          <div class="flow-node-label">Contract</div>
-          <div class="flow-node-val">SilentFlow</div>
+        <div class="flow-node entry">
+          <div class="flow-node-label">Entry</div>
+          <div class="flow-node-val">🎲 new</div>
         </div>
         <span class="flow-arrow">→</span>
         <div style="display:flex;flex-direction:column;gap:8px">
           <div style="display:flex;align-items:center;gap:6px">
             <span style="font-size:9px;color:var(--text3);font-weight:600;width:44px">part 1</span>
-            <div class="flow-node"><div class="flow-node-label">E1a</div><div class="flow-node-val">0.38</div></div>
-            <span class="flow-badge">+47s</span>
-            <div class="flow-node"><div class="flow-node-label">E1b</div><div class="flow-node-val">0.38</div></div>
-            <span class="flow-badge">+2min</span>
+            <div class="flow-node"><div class="flow-node-label">E1a</div><div class="flow-node-val">0.0048</div></div>
+            <span class="flow-badge">+76s</span>
+            <div class="flow-node"><div class="flow-node-label">E1b</div><div class="flow-node-val">0.0048</div></div>
+            <span class="flow-badge">+65s</span>
           </div>
           <div style="display:flex;align-items:center;gap:6px">
             <span style="font-size:9px;color:var(--text3);font-weight:600;width:44px">part 2</span>
-            <div class="flow-node"><div class="flow-node-label">E2a</div><div class="flow-node-val">0.29</div></div>
-            <span class="flow-badge">+1.3min</span>
-            <div class="flow-node"><div class="flow-node-label">E2b</div><div class="flow-node-val">0.29</div></div>
-            <span class="flow-badge">+3min</span>
+            <div class="flow-node"><div class="flow-node-label">E2a</div><div class="flow-node-val">0.0026</div></div>
+            <span class="flow-badge">+69s</span>
+            <div class="flow-node"><div class="flow-node-label">E2b</div><div class="flow-node-val">0.0026</div></div>
+            <span class="flow-badge">+109s</span>
           </div>
-          <div style="display:flex;align-items:center;gap:6px;opacity:.4">
-            <span style="font-size:9px;color:rgba(245,158,11,.5);font-weight:600;width:44px">dummy</span>
-            <div class="flow-node dummy"><div class="flow-node-label">noise</div><div class="flow-node-val">0.003</div></div>
-            <div class="flow-node dummy"><div class="flow-node-label">noise</div><div class="flow-node-val">0.001</div></div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <span style="font-size:9px;color:var(--text3);font-weight:600;width:44px">part 3</span>
+            <div class="flow-node"><div class="flow-node-label">E3a</div><div class="flow-node-val">0.0024</div></div>
+            <span class="flow-badge">+100s</span>
+            <div class="flow-node"><div class="flow-node-label">E3b</div><div class="flow-node-val">0.0024</div></div>
+            <span class="flow-badge">+104s</span>
           </div>
         </div>
         <span class="flow-arrow">→</span>
         <div class="flow-node stealth">
-          <div class="flow-node-label" data-en="Stealth addr" data-pt="Stealth addr">Stealth addr</div>
-          <div class="flow-node-val">0.998 ETH</div>
+          <div class="flow-node-label">Stealth</div>
+          <div class="flow-node-val">private</div>
         </div>
       </div>
     </div>
 
-    <div class="steps reveal">
-      <div class="step">
-        <div class="step-num">01</div>
-        <span class="step-icon">🔑</span>
-        <div class="step-title" data-en="Stealth Address" data-pt="Stealth Address">Stealth Address</div>
-        <div class="step-desc" data-en="Recipient generates private keys and shares a meta-address. A unique one-time address is derived per transaction — their real wallet never appears on-chain." data-pt="O destinatário gera chaves privadas e compartilha um meta-address. Um endereço único é derivado por transação — a carteira real nunca aparece on-chain.">Recipient generates private keys and shares a meta-address. A unique one-time address is derived per transaction — their real wallet never appears on-chain.</div>
-      </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <span class="step-icon">✂️</span>
-        <div class="step-title" data-en="Auto Split" data-pt="Split Automático">Auto Split</div>
-        <div class="step-desc" data-en="Value is automatically split into 2–4 random parts. Destroys amount fingerprinting used by Chainalysis and similar tools." data-pt="O valor é dividido automaticamente em 2–4 partes aleatórias. Destrói a correlação de valores usada pelo Chainalysis.">Value is automatically split into 2–4 random parts. Destroys amount fingerprinting used by Chainalysis and similar tools.</div>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <span class="step-icon">🔀</span>
-        <div class="step-title" data-en="Multi-Hop Routing" data-pt="Roteamento Multi-Hop">Multi-Hop Routing</div>
-        <div class="step-desc" data-en="Each part hops through 2–3 disposable ephemeral wallets with random delays. Parts arrive out of order — time-correlation becomes impossible." data-pt="Cada parte passa por 2–3 carteiras efêmeras com delays aleatórios. As partes chegam fora de ordem — correlação por tempo torna-se impossível.">Each part hops through 2–3 disposable ephemeral wallets with random delays. Parts arrive out of order — time-correlation becomes impossible.</div>
-      </div>
-      <div class="step">
-        <div class="step-num">04</div>
-        <span class="step-icon">🎭</span>
-        <div class="step-title" data-en="Dummy Noise" data-pt="Ruído Dummy">Dummy Noise</div>
-        <div class="step-desc" data-en="Fake noise transactions are injected alongside real ones. Blockchain analysts cannot distinguish signal from noise." data-pt="Transações falsas de ruído são injetadas junto com as reais. Analistas de blockchain não conseguem distinguir sinal de ruído.">Fake noise transactions are injected alongside real ones. Blockchain analysts cannot distinguish signal from noise.</div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- PIPELINE -->
-  <section class="section">
-    <p class="section-tag" data-en="Privacy Pipeline" data-pt="Pipeline de Privacidade">Privacy Pipeline</p>
-    <h2 class="section-title reveal" data-en="Maximum Privacy. Every Transaction." data-pt="Máxima Privacidade. Toda Transação.">Maximum Privacy. Every Transaction.</h2>
-    <p class="section-sub reveal" data-en="Every send on SilentFlow automatically runs the full privacy pipeline. No settings needed — maximum protection by default." data-pt="Todo envio no SilentFlow roda automaticamente o pipeline completo. Sem configurações — máxima proteção por padrão.">Every send on SilentFlow automatically runs the full privacy pipeline. No settings needed — maximum protection by default.</p>
-
-    <div class="pipeline-card reveal">
-      <span class="pipe-badge" data-en="Always Active" data-pt="Sempre Ativo">Always Active</span>
-      <div class="pipe-title" data-en="Full Privacy Pipeline" data-pt="Pipeline Completo de Privacidade">Full Privacy Pipeline</div>
-      <div class="pipe-desc" data-en="Sender derives a unique stealth address from the recipient's meta-address. Funds are split, routed through ephemeral wallets with random delays, and accompanied by dummy noise transactions — all automatically. The recipient scans the blockchain with their private keys to detect deposits and withdraw gaslessly to their real wallet." data-pt="O remetente deriva um endereço stealth único a partir do meta-address do destinatário. Os fundos são divididos, roteados por carteiras efêmeras com delays aleatórios e acompanhados por transações de ruído — tudo automaticamente. O destinatário escaneia a blockchain com suas chaves privadas para detectar depósitos e sacar sem gas para sua carteira real.">Sender derives a unique stealth address from the recipient's meta-address. Funds are split, routed through ephemeral wallets with random delays, and accompanied by dummy noise transactions — all automatically. The recipient scans the blockchain with their private keys to detect deposits and withdraw gaslessly to their real wallet.</div>
-      <div class="pipe-items">
-        <div class="pipe-item" data-en="Stealth address per transaction" data-pt="Stealth address por transação">Stealth address per transaction</div>
-        <div class="pipe-item" data-en="2–4 automatic value splits" data-pt="2–4 divisões automáticas de valor">2–4 automatic value splits</div>
-        <div class="pipe-item" data-en="2–3 hops per part" data-pt="2–3 hops por parte">2–3 hops per part</div>
-        <div class="pipe-item" data-en="Random delay per hop" data-pt="Delay aleatório por hop">Random delay per hop</div>
-        <div class="pipe-item" data-en="Dummy noise transactions" data-pt="Transações dummy de ruído">Dummy noise transactions</div>
-        <div class="pipe-item" data-en="Gasless withdraw · Non-custodial" data-pt="Saque sem gas · Não-custodial">Gasless withdraw · Non-custodial</div>
-        <div class="pipe-item" data-en="0.2% fee · ETH / USDC / USDT" data-pt="Taxa 0.2% · ETH / USDC / USDT">0.2% fee · ETH / USDC / USDT</div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- FEATURES -->
-  <section class="section">
-    <p class="section-tag" data-en="Features" data-pt="Funcionalidades">Features</p>
-    <h2 class="section-title reveal" data-en="Built to Defeat Blockchain Analysis" data-pt="Construído para Derrotar a Análise de Blockchain">Built to Defeat Blockchain Analysis</h2>
-    <div class="features reveal" style="margin-top:16px">
+    <!-- FEATURES -->
+    <div class="features reveal">
       <div class="feat">
-        <span class="feat-icon">🔑</span>
+        <span class="feat-icon">🎲</span>
+        <div class="feat-title" data-en="Disposable Entry Address" data-pt="Endereco de Entrada Descartavel">Disposable Entry Address <span class="feat-new">NEW</span></div>
+        <div class="feat-desc" data-en="Every transaction gets a fresh, never-before-seen address as its entry point. No link to SilentFlow visible on-chain." data-pt="Cada transacao recebe um endereco de entrada completamente novo. Sem vinculo visivel com o SilentFlow on-chain.">Every transaction gets a fresh, never-before-seen address as its entry point. No link to SilentFlow visible on-chain.</div>
+      </div>
+      <div class="feat">
+        <span class="feat-icon">👁</span>
         <div class="feat-title" data-en="Stealth Addresses" data-pt="Stealth Addresses">Stealth Addresses</div>
-        <div class="feat-desc" data-en="Each transaction uses a fresh one-time address derived from the recipient's meta-address. Their real wallet is never exposed on-chain." data-pt="Cada transação usa um endereço descartável derivado do meta-address do destinatário. A carteira real nunca aparece on-chain.">Each transaction uses a fresh one-time address derived from the recipient's meta-address. Their real wallet is never exposed on-chain.</div>
+        <div class="feat-desc" data-en="Recipients are cryptographically hidden. Only they can discover and claim their funds by scanning the blockchain with their private keys." data-pt="Destinatarios sao ocultados criptograficamente. Somente eles conseguem encontrar e sacar fundos usando suas chaves privadas.">Recipients are cryptographically hidden. Only they can discover and claim their funds by scanning the blockchain with their private keys.</div>
       </div>
       <div class="feat">
         <span class="feat-icon">✂️</span>
-        <div class="feat-title" data-en="Automatic Value Split" data-pt="Split Automático de Valor">Automatic Value Split</div>
-        <div class="feat-desc" data-en="Breaks amount fingerprinting. No tool can correlate equal values when the split is random every time." data-pt="Quebra a correlação por valor. Nenhuma ferramenta consegue correlacionar valores quando o split é aleatório a cada vez.">Breaks amount fingerprinting. No tool can correlate equal values when the split is random every time.</div>
+        <div class="feat-title" data-en="Automatic Split" data-pt="Split Automatico">Automatic Split</div>
+        <div class="feat-desc" data-en="Funds are split into 2–3 random parts before routing. Amount correlation becomes virtually impossible for chain analysts." data-pt="Os fundos sao divididos em 2-3 partes aleatorias antes do roteamento. Correlacao por valor torna-se virtualmente impossivel.">Funds are split into 2–3 random parts before routing. Amount correlation becomes virtually impossible for chain analysts.</div>
       </div>
       <div class="feat">
         <span class="feat-icon">🔀</span>
-        <div class="feat-title" data-en="Multi-Hop Routing" data-pt="Roteamento Multi-Hop">Multi-Hop Routing</div>
-        <div class="feat-desc" data-en="Each transaction part hops through 2–3 fresh disposable wallets. Each wallet is used once and discarded forever." data-pt="Cada parte passa por 2–3 carteiras descartáveis novas. Cada carteira é usada uma vez e descartada para sempre.">Each transaction part hops through 2–3 fresh disposable wallets. Each wallet is used once and discarded forever.</div>
-      </div>
-      <div class="feat">
-        <span class="feat-icon">🎭</span>
-        <div class="feat-title" data-en="Dummy Transactions" data-pt="Transações Dummy">Dummy Transactions</div>
-        <div class="feat-desc" data-en="Noise transactions injected between real hops. Blockchain analysis tools cannot distinguish real from fake." data-pt="Transações de ruído injetadas entre os hops reais. Ferramentas de análise não conseguem distinguir real de falso.">Noise transactions injected between real hops. Blockchain analysis tools cannot distinguish real from fake.</div>
+        <div class="feat-title" data-en="Real Multi-Hop Routing" data-pt="Roteamento Multi-Hop Real">Real Multi-Hop Routing</div>
+        <div class="feat-desc" data-en="Each part passes through 2 real ephemeral wallets with random 30s–2min delays. No simulation — real on-chain transactions." data-pt="Cada parte passa por 2 carteiras efemeras reais com delays aleatorios de 30s-2min. Transacoes reais on-chain.">Each part passes through 2 real ephemeral wallets with random 30s–2min delays. No simulation — real on-chain transactions.</div>
       </div>
       <div class="feat">
         <span class="feat-icon">⛽</span>
-        <div class="feat-title" data-en="Gasless Withdraw" data-pt="Saque Sem Gas">Gasless Withdraw</div>
-        <div class="feat-desc" data-en="Recipients withdraw to their real wallet without needing ETH in the stealth address. The connected wallet pays gas via EIP-191 signature relay." data-pt="Destinatários sacam para sua carteira real sem precisar de ETH no endereço stealth. A carteira conectada paga o gas via relay de assinatura EIP-191.">Recipients withdraw to their real wallet without needing ETH in the stealth address. The connected wallet pays gas via EIP-191 signature relay.</div>
+        <div class="feat-title" data-en="Gasless Withdrawal" data-pt="Saque Sem Gas">Gasless Withdrawal</div>
+        <div class="feat-desc" data-en="Recipients never need ETH in their stealth address. Your connected wallet pays gas via a signed off-chain message." data-pt="Destinatarios nunca precisam de ETH no endereco stealth. Sua carteira conectada paga o gas via assinatura off-chain.">Recipients never need ETH in their stealth address. Your connected wallet pays gas via a signed off-chain message.</div>
       </div>
       <div class="feat">
-        <span class="feat-icon">🔗</span>
-        <div class="feat-title" data-en="Non-Custodial" data-pt="Não-Custodial">Non-Custodial</div>
-        <div class="feat-desc" data-en="Smart contract on-chain. No pooling with other users. Your funds, your keys — isolated end-to-end." data-pt="Smart contract on-chain. Sem mistura com outros usuários. Seus fundos, suas chaves — isolados de ponta a ponta.">Smart contract on-chain. No pooling with other users. Your funds, your keys — isolated end-to-end.</div>
+        <span class="feat-icon">🔐</span>
+        <div class="feat-title" data-en="Encrypted Key Backup" data-pt="Backup Criptografado">Encrypted Key Backup <span class="feat-new">NEW</span></div>
+        <div class="feat-desc" data-en="Export your keys as an AES-256 encrypted file protected by your password. Restore on any device — no cloud, no server." data-pt="Exporte suas chaves como arquivo AES-256 protegido por senha. Restaure em qualquer dispositivo — sem cloud, sem servidor.">Export your keys as an AES-256 encrypted file protected by your password. Restore on any device — no cloud, no server.</div>
       </div>
     </div>
-  </section>
 
-  <div class="divider"></div>
-
-  <!-- COMPARE -->
-  <section class="section">
-    <p class="section-tag" data-en="Comparison" data-pt="Comparação">Comparison</p>
-    <h2 class="section-title reveal" data-en="SilentFlow vs Others" data-pt="SilentFlow vs Outros">SilentFlow vs Others</h2>
+    <!-- COMPARE -->
     <div class="compare reveal">
       <div class="compare-head">
-        <span data-en="Feature" data-pt="Funcionalidade">Feature</span>
+        <span data-en="Feature" data-pt="Recurso">Feature</span>
         <span class="hl">SilentFlow</span>
-        <span data-en="Direct Transfer" data-pt="Transferência Direta">Direct Transfer</span>
-        <span>Tornado Cash</span>
+        <span data-en="Tornado Cash" data-pt="Tornado Cash">Tornado Cash</span>
+        <span data-en="Regular Transfer" data-pt="Transferencia">Regular Transfer</span>
       </div>
       <div class="compare-row">
         <span class="c-feat" data-en="Stealth addresses" data-pt="Stealth addresses">Stealth addresses</span>
         <span class="c-cell yes">✓</span><span class="c-cell no">✗</span><span class="c-cell no">✗</span>
       </div>
       <div class="compare-row">
-        <span class="c-feat" data-en="Automatic value split" data-pt="Split automático de valor">Automatic value split</span>
+        <span class="c-feat" data-en="Disposable entry" data-pt="Entrada descartavel">Disposable entry</span>
         <span class="c-cell yes">✓</span><span class="c-cell no">✗</span><span class="c-cell no">✗</span>
       </div>
       <div class="compare-row">
-        <span class="c-feat" data-en="Multi-hop ephemeral addresses" data-pt="Multi-hop com endereços efêmeros">Multi-hop ephemeral addresses</span>
+        <span class="c-feat" data-en="Arbitrary amounts" data-pt="Valores livres">Arbitrary amounts</span>
+        <span class="c-cell yes">✓</span><span class="c-cell partial">fixed only</span><span class="c-cell yes">✓</span>
+      </div>
+      <div class="compare-row">
+        <span class="c-feat" data-en="Real on-chain hops" data-pt="Hops reais on-chain">Real on-chain hops</span>
         <span class="c-cell yes">✓</span><span class="c-cell no">✗</span><span class="c-cell no">✗</span>
       </div>
       <div class="compare-row">
-        <span class="c-feat" data-en="Dummy noise transactions" data-pt="Transações dummy de ruído">Dummy noise transactions</span>
+        <span class="c-feat" data-en="Gasless withdrawal" data-pt="Saque sem gas">Gasless withdrawal</span>
         <span class="c-cell yes">✓</span><span class="c-cell no">✗</span><span class="c-cell no">✗</span>
       </div>
       <div class="compare-row">
-        <span class="c-feat" data-en="Gasless withdraw" data-pt="Saque sem gas">Gasless withdraw</span>
+        <span class="c-feat" data-en="Payment link" data-pt="Link de pagamento">Payment link</span>
         <span class="c-cell yes">✓</span><span class="c-cell no">✗</span><span class="c-cell no">✗</span>
       </div>
       <div class="compare-row">
-        <span class="c-feat" data-en="No fund mixing with strangers" data-pt="Sem mistura com terceiros">No fund mixing with strangers</span>
-        <span class="c-cell yes">✓</span><span class="c-cell yes">✓</span><span class="c-cell no">✗</span>
-      </div>
-      <div class="compare-row">
-        <span class="c-feat" data-en="Multi-token (ETH / USDC / USDT)" data-pt="Multi-token (ETH / USDC / USDT)">Multi-token (ETH / USDC / USDT)</span>
-        <span class="c-cell yes">✓</span><span class="c-cell yes">✓</span><span class="c-cell partial">ETH only</span>
-      </div>
-      <div class="compare-row">
-        <span class="c-feat" data-en="Low regulatory risk" data-pt="Baixo risco regulatório">Low regulatory risk</span>
-        <span class="c-cell yes">✓</span><span class="c-cell yes">✓</span><span class="c-cell no">✗</span>
+        <span class="c-feat" data-en="Non-custodial" data-pt="Nao-custodial">Non-custodial</span>
+        <span class="c-cell yes">✓</span><span class="c-cell yes">✓</span><span class="c-cell yes">✓</span>
       </div>
     </div>
   </section>
 
+  <div class="divider"></div>
+
   <!-- CTA -->
   <section class="cta">
     <div class="cta-glow"></div>
-    <h2 class="cta-title" data-en="Ready to transact privately?" data-pt="Pronto para transacionar com privacidade?">Ready to transact privately?</h2>
-    <p class="cta-sub" data-en="Try SilentFlow on Sepolia testnet for free. No real funds required." data-pt="Experimente o SilentFlow na Sepolia testnet gratuitamente. Sem fundos reais necessários.">Try SilentFlow on Sepolia testnet for free. No real funds required.</p>
-    <div class="cta-actions">
+    <h2 class="cta-title reveal" data-en="Your Wallet. Your Privacy." data-pt="Sua Carteira. Sua Privacidade.">Your Wallet. Your Privacy.</h2>
+    <p class="cta-sub reveal" data-en="Generate your payment link in seconds. No sign-up, no KYC, no custodians." data-pt="Gere seu link de pagamento em segundos. Sem cadastro, sem KYC, sem custodians.">Generate your payment link in seconds. No sign-up, no KYC, no custodians.</p>
+    <div class="cta-actions reveal">
       <a href="https://silentflow.vercel.app" class="btn-primary" data-en="Launch App →" data-pt="Abrir App →">Launch App →</a>
     </div>
   </section>
@@ -415,28 +389,36 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
 </main>
 
 <footer>
-  <img src="logo.png" alt="SilentFlow" class="footer-logo" onerror="this.style.display='none'">
+  <img src="logo.png" alt="" class="footer-logo" onerror="this.style.display='none'">
   <span class="footer-name">SILENTFLOW</span>
   <div class="footer-right">
-    <a href="https://silentflow.vercel.app" class="footer-link">App</a>
-    <a href="https://sepolia.etherscan.io/address/0xAdcBABf7CB3cE55559b2A3ca81f75bbBC147565b" target="_blank" class="footer-link" data-en="Contract ↗" data-pt="Contrato ↗">Contract ↗</a>
-    <span class="footer-copy">© 2025 SilentFlow</span>
+    <a class="footer-link" href="https://silentflow.vercel.app" data-en="App" data-pt="App">App</a>
+    <a class="footer-link" href="https://sepolia.etherscan.io/address/0xAdcBABf7CB3cE55559b2A3ca81f75bbBC147565b" target="_blank" data-en="Contract" data-pt="Contrato">Contract</a>
+    <span class="footer-copy">v4 · Sepolia Testnet</span>
   </div>
 </footer>
 
 <script>
-let lang = 'en';
+// Lang
+const LANG_STORE = 'sf_lang';
+let currentLang = localStorage.getItem(LANG_STORE) || 'en';
 function setLang(l) {
-  lang = l;
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector(`.lang-btn:${l === 'en' ? 'first' : 'last'}-child`).classList.add('active');
-  document.querySelectorAll('[data-en]').forEach(el => { el.textContent = el.getAttribute('data-' + l); });
+  currentLang = l;
+  localStorage.setItem(LANG_STORE, l);
+  document.querySelectorAll('[data-en]').forEach(el => {
+    el.textContent = l === 'pt' ? el.dataset.pt : el.dataset.en;
+  });
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent.toLowerCase() === l);
+  });
 }
+setLang(currentLang);
 
-const obs = new IntersectionObserver(entries => {
+// Reveal on scroll
+const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.08 });
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 </body>
 </html>

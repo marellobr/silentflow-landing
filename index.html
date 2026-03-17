@@ -4,141 +4,366 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SilentFlow — Privacy Layer for Web3</title>
+<meta name="description" content="Send crypto privately. Stealth addresses, disposable entries, multi-hop routing. Non-custodial. No registration.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#080b12;--surface:#0d1117;--surface2:#111820;--border:rgba(255,255,255,.06);--border2:rgba(255,255,255,.1);--blue:#3b82f6;--blue-dim:rgba(59,130,246,.12);--blue-glow:rgba(59,130,246,.25);--green:#22c55e;--green-dim:rgba(34,197,94,.1);--text:#e2e8f0;--text2:rgba(226,232,240,.5);--text3:rgba(226,232,240,.25);--r:14px}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+:root {
+  --bg: #09090b;
+  --surface: #0f0f14;
+  --surface2: #16161e;
+  --border: rgba(255,255,255,.06);
+  --border2: rgba(255,255,255,.10);
+  --accent: #22b8e6;
+  --accent2: #38d0ff;
+  --accent-dim: rgba(34,184,230,.10);
+  --accent-glow: rgba(34,184,230,.20);
+  --accent-border: rgba(34,184,230,.25);
+  --green: #34d399;
+  --green-dim: rgba(52,211,153,.08);
+  --green-border: rgba(52,211,153,.18);
+  --amber: #fbbf24;
+  --red: rgba(239,68,68,.4);
+  --text: #ededf0;
+  --text2: rgba(237,237,240,.55);
+  --text3: rgba(237,237,240,.28);
+  --sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+  --r: 14px;
+}
 
-.bg-fixed{position:fixed;inset:0;pointer-events:none;z-index:0}
-.bg-glow{position:absolute;top:-20vh;left:50%;transform:translateX(-50%);width:70vw;height:80vh;background:radial-gradient(ellipse,rgba(59,130,246,.06) 0%,transparent 65%)}
-.bg-glow2{position:absolute;bottom:-10vh;right:-10vw;width:50vw;height:60vh;background:radial-gradient(ellipse,rgba(59,130,246,.03) 0%,transparent 65%)}
-.bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(59,130,246,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,.02) 1px,transparent 1px);background-size:52px 52px}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box }
+html { scroll-behavior: smooth }
+body {
+  background: var(--bg); color: var(--text); font-family: var(--sans);
+  overflow-x: hidden; -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);background:rgba(8,11,18,.88);backdrop-filter:blur(20px)}
-.nav-logo{height:32px;width:auto;object-fit:contain;filter:drop-shadow(0 0 10px var(--blue-glow))}
-.nav-name{font-weight:700;font-size:15px;letter-spacing:.15em;color:var(--text)}
-.nav-spacer{flex:1}
-.lang-wrap{display:flex;gap:4px}
-.lang-btn{background:none;border:1px solid var(--border);color:var(--text3);padding:4px 10px;border-radius:6px;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;cursor:pointer;transition:all .2s}
-.lang-btn.active,.lang-btn:hover{border-color:rgba(59,130,246,.3);color:var(--blue)}
-.nav-cta{background:var(--blue);border:none;color:#fff;padding:9px 22px;border-radius:8px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13px;cursor:pointer;text-decoration:none;transition:all .2s;margin-left:12px}
-.nav-cta:hover{background:#2563eb;box-shadow:0 4px 20px var(--blue-glow);transform:translateY(-1px)}
+/* ---- AMBIENT BG ---- */
+.bg-fixed { position: fixed; inset: 0; pointer-events: none; z-index: 0 }
+.bg-glow {
+  position: absolute; top: -20vh; left: 50%; transform: translateX(-50%);
+  width: 70vw; height: 80vh;
+  background: radial-gradient(ellipse, rgba(34,184,230,.05) 0%, transparent 65%);
+}
+.bg-glow2 {
+  position: absolute; bottom: -10vh; right: -10vw; width: 50vw; height: 60vh;
+  background: radial-gradient(ellipse, rgba(34,184,230,.025) 0%, transparent 65%);
+}
+.bg-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(34,184,230,.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34,184,230,.015) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
 
-main{position:relative;z-index:1}
+/* ---- NAV ---- */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 0 48px; height: 68px; display: flex; align-items: center; gap: 14px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(9,9,11,.85); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+}
+.nav-logo {
+  height: 34px; width: auto; object-fit: contain;
+  filter: drop-shadow(0 0 12px var(--accent-glow));
+}
+.nav-name {
+  font-weight: 700; font-size: 14px; letter-spacing: .2em; color: var(--accent);
+}
+.nav-spacer { flex: 1 }
+.lang-wrap { display: flex; gap: 4px }
+.lang-btn {
+  background: none; border: 1px solid var(--border); color: var(--text3);
+  padding: 5px 11px; border-radius: 6px; font-family: var(--sans);
+  font-size: 11px; font-weight: 600; letter-spacing: .08em;
+  cursor: pointer; transition: all .25s;
+}
+.lang-btn.active, .lang-btn:hover {
+  border-color: var(--accent-border); color: var(--accent);
+}
+.nav-cta {
+  background: var(--accent); border: none; color: #fff;
+  padding: 9px 24px; border-radius: 8px; font-family: var(--sans);
+  font-weight: 600; font-size: 13px; cursor: pointer; text-decoration: none;
+  transition: all .25s; margin-left: 12px;
+  box-shadow: 0 2px 12px rgba(34,184,230,.2);
+}
+.nav-cta:hover {
+  background: #1a9ec2; box-shadow: 0 4px 24px rgba(34,184,230,.35);
+  transform: translateY(-1px);
+}
 
-.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(34,197,94,.2);padding:6px 16px;border-radius:20px;font-size:12px;color:var(--green);letter-spacing:.05em;margin-bottom:40px;font-weight:500;background:var(--green-dim)}
-.badge-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:blink 2s ease-in-out infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.hero-title{font-weight:700;font-size:clamp(40px,7vw,82px);line-height:1.05;letter-spacing:-.03em;margin-bottom:24px}
-.hero-title .white{color:var(--text)}
-.hero-title .blue{color:var(--blue)}
-.hero-sub{font-size:clamp(14px,2vw,17px);color:var(--text2);max-width:540px;line-height:1.75;margin-bottom:44px;font-weight:400}
-.hero-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:72px}
-.btn-primary{background:var(--blue);border:none;color:#fff;padding:14px 32px;border-radius:10px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;cursor:pointer;text-decoration:none;transition:all .25s;display:inline-block;box-shadow:0 2px 16px rgba(59,130,246,.2)}
-.btn-primary:hover{background:#2563eb;transform:translateY(-2px);box-shadow:0 6px 32px rgba(59,130,246,.35)}
-.btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--text2);padding:14px 32px;border-radius:10px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;cursor:pointer;text-decoration:none;transition:all .25s;display:inline-block}
-.btn-ghost:hover{border-color:var(--blue);color:var(--text)}
-.hero-stats{display:flex;gap:52px;flex-wrap:wrap;justify-content:center;padding-top:48px;border-top:1px solid var(--border)}
-.stat-num{font-weight:700;font-size:28px;color:var(--blue);margin-bottom:4px}
-.stat-label{font-size:11px;color:var(--text3);font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+main { position: relative; z-index: 1 }
 
-.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(59,130,246,.12),transparent)}
-.section{padding:96px 24px;max-width:1080px;margin:0 auto}
-.section-tag{font-size:11px;font-weight:600;color:var(--blue);letter-spacing:.25em;text-transform:uppercase;margin-bottom:14px;text-align:center;opacity:.7}
-.section-title{font-weight:700;font-size:clamp(26px,4vw,42px);text-align:center;margin-bottom:14px;letter-spacing:-.02em}
-.section-sub{text-align:center;color:var(--text2);font-size:14px;line-height:1.75;max-width:500px;margin:0 auto 56px;font-weight:400}
+/* ---- HERO ---- */
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+  padding: 120px 24px 80px;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 1px solid var(--green-border); padding: 7px 18px;
+  border-radius: 24px; font-size: 12px; color: var(--green);
+  letter-spacing: .04em; margin-bottom: 44px; font-weight: 500;
+  background: var(--green-dim);
+}
+.badge-dot {
+  width: 6px; height: 6px; background: var(--green); border-radius: 50%;
+  box-shadow: 0 0 8px var(--green);
+  animation: pulse-dot 2.5s ease-in-out infinite;
+}
+@keyframes pulse-dot { 0%,100%{ opacity: 1 } 50%{ opacity: .3 } }
 
-/* PAYMENT LINK DEMO */
-.pix-demo{background:var(--surface);border:1px solid rgba(59,130,246,.2);border-radius:20px;padding:36px;max-width:640px;margin:0 auto 56px;text-align:left}
-.pix-demo-label{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
-.pix-url{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--blue);background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 14px;word-break:break-all;line-height:1.7;margin-bottom:14px}
-.pix-arrow{text-align:center;color:var(--text3);font-size:20px;margin:10px 0}
-.pix-result{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--green-dim);border:1px solid rgba(34,197,94,.2);border-radius:8px}
-.pix-result-icon{font-size:20px}
-.pix-result-text{font-size:13px;color:var(--green);font-weight:500}
+.hero-title {
+  font-weight: 700; font-size: clamp(42px, 7vw, 84px);
+  line-height: 1.05; letter-spacing: -.04em; margin-bottom: 28px;
+}
+.hero-title .white { color: var(--text) }
+.hero-title .blue { color: var(--accent) }
 
-/* FLOW */
-.flow-visual{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:36px;margin-bottom:40px;overflow-x:auto}
-.flow-title{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:.2em;text-transform:uppercase;text-align:center;margin-bottom:28px}
-.flow-chain{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
-.flow-node{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 16px;text-align:center;min-width:72px}
-.flow-node.sender{border-color:rgba(59,130,246,.4);background:var(--blue-dim)}
-.flow-node.entry{border-color:rgba(245,158,11,.35);background:rgba(245,158,11,.06)}
-.flow-node.contract{border-color:rgba(59,130,246,.25);background:rgba(59,130,246,.06)}
-.flow-node.stealth{border-color:rgba(34,197,94,.3);background:var(--green-dim)}
-.flow-node-label{font-size:9px;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;font-weight:600}
-.flow-node-val{font-family:'JetBrains Mono',monospace;font-weight:500;font-size:12px;color:var(--text)}
-.flow-arrow{color:var(--text3);font-size:14px}
-.flow-badge{font-size:9px;color:rgba(245,158,11,.6);border:1px solid rgba(245,158,11,.15);padding:2px 8px;border-radius:10px;font-family:'JetBrains Mono',monospace;white-space:nowrap}
-.flow-new{font-size:9px;color:var(--green);border:1px solid rgba(34,197,94,.2);padding:2px 8px;border-radius:10px;font-weight:600;letter-spacing:.05em}
+.hero-sub {
+  font-size: clamp(15px, 2vw, 18px); color: var(--text2);
+  max-width: 560px; line-height: 1.75; margin-bottom: 48px; font-weight: 400;
+}
 
-/* STEPS */
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2px;background:var(--border);border:1px solid var(--border);border-radius:16px;overflow:hidden}
-.step{padding:32px 24px;background:var(--surface);transition:background .2s}
-.step:hover{background:var(--surface2)}
-.step-num{font-weight:700;font-size:44px;color:rgba(59,130,246,.07);line-height:1;margin-bottom:14px;letter-spacing:-.04em}
-.step-icon{font-size:22px;margin-bottom:10px;display:block}
-.step-title{font-weight:700;font-size:14px;color:var(--text);margin-bottom:8px}
-.step-desc{font-size:12px;color:var(--text2);line-height:1.7;font-weight:400}
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-bottom: 80px }
 
-/* FEATURES */
-.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-.feat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:24px;transition:all .2s;position:relative;overflow:hidden}
-.feat::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(59,130,246,.25),transparent);opacity:0;transition:opacity .2s}
-.feat:hover{border-color:rgba(59,130,246,.2);transform:translateY(-2px)}
-.feat:hover::after{opacity:1}
-.feat-icon{font-size:24px;margin-bottom:14px;display:block}
-.feat-title{font-weight:700;font-size:14px;color:var(--text);margin-bottom:8px}
-.feat-desc{font-size:12px;color:var(--text2);line-height:1.7;font-weight:400}
-.feat-new{display:inline-block;font-size:9px;font-weight:700;color:var(--green);border:1px solid rgba(34,197,94,.2);padding:1px 7px;border-radius:10px;margin-left:6px;letter-spacing:.05em;vertical-align:middle}
+.btn-primary {
+  background: var(--accent); border: none; color: #fff;
+  padding: 15px 36px; border-radius: 10px; font-family: var(--sans);
+  font-weight: 600; font-size: 15px; cursor: pointer; text-decoration: none;
+  transition: all .25s; display: inline-block;
+  box-shadow: 0 2px 20px rgba(34,184,230,.2);
+}
+.btn-primary:hover {
+  background: #1a9ec2; transform: translateY(-2px);
+  box-shadow: 0 6px 36px rgba(34,184,230,.35);
+}
+.btn-ghost {
+  background: transparent; border: 1px solid var(--border2); color: var(--text2);
+  padding: 15px 36px; border-radius: 10px; font-family: var(--sans);
+  font-weight: 600; font-size: 15px; cursor: pointer; text-decoration: none;
+  transition: all .25s; display: inline-block;
+}
+.btn-ghost:hover { border-color: var(--accent); color: var(--text) }
 
-/* COMPARE */
-.compare{background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;margin-top:40px}
-.compare-head{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;padding:18px 28px;border-bottom:1px solid var(--border);background:rgba(59,130,246,.03)}
-.compare-head span{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;text-align:center}
-.compare-head span:first-child{text-align:left;color:rgba(226,232,240,.15)}
-.compare-head .hl{color:var(--blue)}
-.compare-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;padding:14px 28px;border-bottom:1px solid rgba(255,255,255,.03);align-items:center;transition:background .15s}
-.compare-row:hover{background:rgba(59,130,246,.03)}
-.compare-row:last-child{border-bottom:none}
-.c-feat{font-size:13px;color:var(--text2)}
-.c-cell{text-align:center;font-size:15px}
-.yes{color:var(--blue)}
-.no{color:rgba(239,68,68,.4)}
-.partial{color:rgba(245,158,11,.6);font-size:11px;font-family:'JetBrains Mono',monospace}
+.hero-stats {
+  display: flex; gap: 56px; flex-wrap: wrap; justify-content: center;
+  padding-top: 52px; border-top: 1px solid var(--border);
+}
+.stat-num { font-weight: 700; font-size: 30px; color: var(--accent); margin-bottom: 6px }
+.stat-label {
+  font-size: 11px; color: var(--text3); font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+}
 
-/* CTA */
-.cta{padding:96px 24px;text-align:center;position:relative}
-.cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(59,130,246,.05) 0%,transparent 65%);pointer-events:none}
-.cta-title{font-weight:700;font-size:clamp(28px,5vw,52px);margin-bottom:14px;letter-spacing:-.02em;position:relative}
-.cta-sub{color:var(--text2);font-size:14px;margin-bottom:36px;position:relative;font-weight:400}
-.cta-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;position:relative}
+/* ---- DIVIDER ---- */
+.divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(34,184,230,.1), transparent) }
 
-footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-items:center;gap:10px;position:relative;z-index:1;flex-wrap:wrap}
-.footer-logo{height:22px;width:auto;object-fit:contain;opacity:.5}
-.footer-name{font-weight:700;font-size:13px;letter-spacing:.15em;color:var(--blue)}
-.footer-right{margin-left:auto;display:flex;gap:20px;align-items:center}
-.footer-link{font-size:12px;color:var(--text3);text-decoration:none;font-weight:500;transition:color .2s}
-.footer-link:hover{color:var(--text2)}
-.footer-copy{font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace}
+/* ---- SECTIONS ---- */
+.section { padding: 100px 24px; max-width: 1080px; margin: 0 auto }
+.section-tag {
+  font-size: 11px; font-weight: 600; color: var(--accent);
+  letter-spacing: .25em; text-transform: uppercase;
+  margin-bottom: 16px; text-align: center; opacity: .7;
+}
+.section-title {
+  font-weight: 700; font-size: clamp(28px, 4vw, 44px);
+  text-align: center; margin-bottom: 16px; letter-spacing: -.03em;
+}
+.section-sub {
+  text-align: center; color: var(--text2); font-size: 15px;
+  line-height: 1.75; max-width: 520px; margin: 0 auto 60px; font-weight: 400;
+}
 
-.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
-.reveal.visible{opacity:1;transform:translateY(0)}
+/* ---- PAYMENT LINK DEMO ---- */
+.pix-demo {
+  background: var(--surface); border: 1px solid var(--accent-border);
+  border-radius: 20px; padding: 36px; max-width: 640px; margin: 0 auto 60px;
+  text-align: left; transition: border-color .2s;
+}
+.pix-demo:hover { border-color: rgba(34,184,230,.4) }
+.pix-demo-label {
+  font-size: 10px; font-weight: 600; color: var(--text3);
+  letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px;
+}
+.pix-url {
+  font-family: var(--mono); font-size: 12px; color: var(--accent2);
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; padding: 14px 16px; word-break: break-all;
+  line-height: 1.7; margin-bottom: 16px;
+}
+.pix-arrow { text-align: center; color: var(--text3); font-size: 20px; margin: 12px 0 }
+.pix-result {
+  display: flex; align-items: center; gap: 12px; padding: 14px 16px;
+  background: var(--green-dim); border: 1px solid var(--green-border); border-radius: 10px;
+}
+.pix-result-icon { font-size: 20px }
+.pix-result-text { font-size: 13px; color: var(--green); font-weight: 500; line-height: 1.6 }
 
-@media(max-width:768px){
-  nav{padding:0 20px}
-  .nav-cta{display:none}
-  .pix-demo{padding:24px 20px}
-  .flow-visual{padding:24px 16px}
-  .compare-head,.compare-row{grid-template-columns:2fr 1fr 1fr}
-  .compare-head span:nth-child(4),.compare-row .c-cell:nth-child(4){display:none}
-  footer{flex-direction:column;text-align:center;padding:24px}
-  .footer-right{margin-left:0;flex-wrap:wrap;justify-content:center}
-  .hero-stats{gap:28px}
+/* ---- STEPS ---- */
+.steps {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2px; background: var(--border); border: 1px solid var(--border);
+  border-radius: 18px; overflow: hidden;
+}
+.step {
+  padding: 36px 28px; background: var(--surface); transition: background .25s;
+}
+.step:hover { background: var(--surface2) }
+.step-num {
+  font-weight: 700; font-size: 48px; color: rgba(34,184,230,.06);
+  line-height: 1; margin-bottom: 16px; letter-spacing: -.04em;
+}
+.step-icon { font-size: 24px; margin-bottom: 12px; display: block }
+.step-title { font-weight: 700; font-size: 14px; color: var(--text); margin-bottom: 10px }
+.step-desc { font-size: 13px; color: var(--text2); line-height: 1.75; font-weight: 400 }
+
+/* ---- FLOW VISUAL ---- */
+.flow-visual {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; padding: 40px; margin-bottom: 44px; overflow-x: auto;
+}
+.flow-title {
+  font-size: 11px; font-weight: 600; color: var(--text3);
+  letter-spacing: .2em; text-transform: uppercase; text-align: center;
+  margin-bottom: 32px;
+}
+.flow-chain { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap }
+.flow-node {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 10px 18px; text-align: center; min-width: 76px;
+  transition: border-color .2s;
+}
+.flow-node:hover { border-color: var(--border2) }
+.flow-node.sender { border-color: var(--accent-border); background: var(--accent-dim) }
+.flow-node.entry { border-color: rgba(251,191,36,.3); background: rgba(251,191,36,.06) }
+.flow-node.contract { border-color: var(--accent-border); background: var(--accent-dim) }
+.flow-node.stealth { border-color: var(--green-border); background: var(--green-dim) }
+.flow-node-label {
+  font-size: 9px; color: var(--text3); letter-spacing: .1em;
+  text-transform: uppercase; margin-bottom: 4px; font-weight: 600;
+}
+.flow-node-val { font-family: var(--mono); font-weight: 500; font-size: 12px; color: var(--text) }
+.flow-arrow { color: var(--text3); font-size: 14px }
+.flow-badge {
+  font-size: 9px; color: rgba(251,191,36,.6); border: 1px solid rgba(251,191,36,.15);
+  padding: 3px 9px; border-radius: 10px; font-family: var(--mono); white-space: nowrap;
+}
+.flow-new {
+  font-size: 9px; color: var(--green); border: 1px solid var(--green-border);
+  padding: 3px 9px; border-radius: 10px; font-weight: 600; letter-spacing: .05em;
+}
+
+/* ---- FEATURES ---- */
+.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 16px }
+.feat {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r);
+  padding: 28px; transition: all .25s; position: relative; overflow: hidden;
+}
+.feat::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(34,184,230,.25), transparent);
+  opacity: 0; transition: opacity .25s;
+}
+.feat:hover { border-color: var(--accent-border); transform: translateY(-2px) }
+.feat:hover::after { opacity: 1 }
+.feat-icon { font-size: 26px; margin-bottom: 16px; display: block }
+.feat-title { font-weight: 700; font-size: 14px; color: var(--text); margin-bottom: 10px }
+.feat-desc { font-size: 13px; color: var(--text2); line-height: 1.75; font-weight: 400 }
+.feat-new {
+  display: inline-block; font-size: 9px; font-weight: 700; color: var(--green);
+  border: 1px solid var(--green-border); padding: 2px 8px; border-radius: 10px;
+  margin-left: 6px; letter-spacing: .05em; vertical-align: middle;
+}
+
+/* ---- COMPARE TABLE ---- */
+.compare {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; overflow: hidden; margin-top: 44px;
+}
+.compare-head {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  padding: 20px 28px; border-bottom: 1px solid var(--border);
+  background: rgba(34,184,230,.02);
+}
+.compare-head span {
+  font-size: 11px; font-weight: 700; color: var(--text3);
+  letter-spacing: .1em; text-transform: uppercase; text-align: center;
+}
+.compare-head span:first-child { text-align: left; color: rgba(237,237,240,.15) }
+.compare-head .hl { color: var(--accent) }
+.compare-row {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  padding: 15px 28px; border-bottom: 1px solid rgba(255,255,255,.03);
+  align-items: center; transition: background .2s;
+}
+.compare-row:hover { background: rgba(34,184,230,.02) }
+.compare-row:last-child { border-bottom: none }
+.c-feat { font-size: 13px; color: var(--text2) }
+.c-cell { text-align: center; font-size: 15px }
+.yes { color: var(--accent) }
+.no { color: var(--red) }
+.partial { color: rgba(251,191,36,.6); font-size: 11px; font-family: var(--mono) }
+
+/* ---- CTA ---- */
+.cta { padding: 100px 24px; text-align: center; position: relative }
+.cta-glow {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 600px; height: 400px;
+  background: radial-gradient(ellipse, rgba(34,184,230,.04) 0%, transparent 65%);
+  pointer-events: none;
+}
+.cta-title {
+  font-weight: 700; font-size: clamp(30px, 5vw, 54px);
+  margin-bottom: 16px; letter-spacing: -.03em; position: relative;
+}
+.cta-sub {
+  color: var(--text2); font-size: 15px; margin-bottom: 40px;
+  position: relative; font-weight: 400; line-height: 1.7;
+}
+.cta-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; position: relative }
+
+/* ---- FOOTER ---- */
+footer {
+  border-top: 1px solid var(--border); padding: 28px 48px;
+  display: flex; align-items: center; gap: 12px;
+  position: relative; z-index: 1; flex-wrap: wrap;
+}
+.footer-logo { height: 24px; width: auto; object-fit: contain; opacity: .5 }
+.footer-name { font-weight: 700; font-size: 13px; letter-spacing: .2em; color: var(--accent) }
+.footer-right { margin-left: auto; display: flex; gap: 24px; align-items: center }
+.footer-link {
+  font-size: 12px; color: var(--text3); text-decoration: none;
+  font-weight: 500; transition: color .2s;
+}
+.footer-link:hover { color: var(--text2) }
+.footer-copy { font-size: 11px; color: var(--text3); font-family: var(--mono) }
+
+/* ---- REVEAL ANIMATION ---- */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease }
+.reveal.visible { opacity: 1; transform: translateY(0) }
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 768px) {
+  nav { padding: 0 20px; height: 60px }
+  .nav-cta { display: none }
+  .nav-name { font-size: 12px }
+  .hero { padding: 100px 20px 60px }
+  .hero-stats { gap: 32px }
+  .pix-demo { padding: 24px 20px }
+  .flow-visual { padding: 24px 16px }
+  .compare-head, .compare-row { grid-template-columns: 2fr 1fr 1fr }
+  .compare-head span:nth-child(4), .compare-row .c-cell:nth-child(4) { display: none }
+  footer { flex-direction: column; text-align: center; padding: 24px 20px }
+  .footer-right { margin-left: 0; flex-wrap: wrap; justify-content: center }
+  .section { padding: 72px 20px }
+  .step { padding: 28px 20px }
+  .feat { padding: 22px }
 }
 </style>
 </head>
@@ -177,7 +402,7 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
       Share a payment link. Receive funds privately. No one can trace who sent what to whom — not even blockchain analysts.
     </p>
     <div class="hero-actions">
-      <a href="https://silentflow.vercel.app" class="btn-primary" data-en="Launch App →" data-pt="Abrir App →">Launch App →</a>
+      <a href="https://silentflow.vercel.app" class="btn-primary" data-en="Launch App" data-pt="Abrir App">Launch App</a>
       <a href="#how" class="btn-ghost" data-en="How it works" data-pt="Como funciona">How it works</a>
     </div>
     <div class="hero-stats">
@@ -194,7 +419,7 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
         <div class="stat-label" data-en="Privacy fee" data-pt="Taxa de privacidade">Privacy fee</div>
       </div>
       <div>
-        <div class="stat-num" style="font-size:20px;line-height:1.4">Non-Custodial</div>
+        <div class="stat-num" style="font-size:22px;line-height:1.4">Non-Custodial</div>
         <div class="stat-label" data-en="Always" data-pt="Sempre">Always</div>
       </div>
     </div>
@@ -213,10 +438,10 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
     <div class="pix-demo reveal">
       <div class="pix-demo-label" data-en="Your payment link" data-pt="Seu link de pagamento">Your payment link</div>
       <div class="pix-url">silentflow.vercel.app/p/st:02a4f8...c391:03b7d2...e84f</div>
-      <div class="pix-arrow">↓</div>
+      <div class="pix-arrow">&#8595;</div>
       <div class="pix-result">
-        <span class="pix-result-icon">✓</span>
-        <span class="pix-result-text" data-en="Sender opens the link → pastes amount → confirms. Done. Your real address never appears on-chain." data-pt="Remetente abre o link → digita o valor → confirma. Pronto. Seu endereco real nunca aparece on-chain.">Sender opens the link → pastes amount → confirms. Done. Your real address never appears on-chain.</span>
+        <span class="pix-result-icon">&#10003;</span>
+        <span class="pix-result-text" data-en="Sender opens the link, pastes amount, confirms. Done. Your real address never appears on-chain." data-pt="Remetente abre o link, digita o valor, confirma. Pronto. Seu endereco real nunca aparece on-chain.">Sender opens the link, pastes amount, confirms. Done. Your real address never appears on-chain.</span>
       </div>
     </div>
 
@@ -224,25 +449,25 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
     <div class="steps reveal">
       <div class="step">
         <div class="step-num">01</div>
-        <span class="step-icon">🔑</span>
+        <span class="step-icon">&#128273;</span>
         <div class="step-title" data-en="Generate your link" data-pt="Gere seu link">Generate your link</div>
         <div class="step-desc" data-en="One click creates your private payment link. Keys stay only in your browser — encrypted backup available." data-pt="Um clique cria seu link de pagamento privado. Chaves ficam so no seu navegador — backup criptografado disponivel.">One click creates your private payment link. Keys stay only in your browser — encrypted backup available.</div>
       </div>
       <div class="step">
         <div class="step-num">02</div>
-        <span class="step-icon">🔗</span>
+        <span class="step-icon">&#128279;</span>
         <div class="step-title" data-en="Share it" data-pt="Compartilhe">Share it</div>
         <div class="step-desc" data-en="Send your link via Telegram, email, or anywhere. The sender doesn't need to install anything." data-pt="Envie via Telegram, e-mail ou qualquer lugar. O remetente nao precisa instalar nada.">Send your link via Telegram, email, or anywhere. The sender doesn't need to install anything.</div>
       </div>
       <div class="step">
         <div class="step-num">03</div>
-        <span class="step-icon">⚡</span>
+        <span class="step-icon">&#9889;</span>
         <div class="step-title" data-en="Sender confirms" data-pt="Remetente confirma">Sender confirms</div>
         <div class="step-desc" data-en="They open the link, type the amount, confirm in MetaMask. The privacy pipeline runs automatically in the background." data-pt="Abre o link, digita o valor, confirma na MetaMask. O pipeline de privacidade roda automaticamente em segundo plano.">They open the link, type the amount, confirm in MetaMask. The privacy pipeline runs automatically in the background.</div>
       </div>
       <div class="step">
         <div class="step-num">04</div>
-        <span class="step-icon">💰</span>
+        <span class="step-icon">&#128176;</span>
         <div class="step-title" data-en="Withdraw anytime" data-pt="Saque quando quiser">Withdraw anytime</div>
         <div class="step-desc" data-en="Open the app, scan the blockchain, and withdraw to your wallet. Gasless — no ETH needed on the stealth address." data-pt="Abra o app, escaneie a blockchain e saque para sua carteira. Sem gas — sem necessidade de ETH no endereco stealth.">Open the app, scan the blockchain, and withdraw to your wallet. Gasless — no ETH needed on the stealth address.</div>
       </div>
@@ -264,12 +489,12 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
           <div class="flow-node-label" data-en="You" data-pt="Voce">You</div>
           <div class="flow-node-val">0.01 ETH</div>
         </div>
-        <span class="flow-arrow">→</span>
+        <span class="flow-arrow">&rarr;</span>
         <div class="flow-node entry">
           <div class="flow-node-label">Entry</div>
-          <div class="flow-node-val">🎲 new</div>
+          <div class="flow-node-val">&#127922; new</div>
         </div>
-        <span class="flow-arrow">→</span>
+        <span class="flow-arrow">&rarr;</span>
         <div style="display:flex;flex-direction:column;gap:8px">
           <div style="display:flex;align-items:center;gap:6px">
             <span style="font-size:9px;color:var(--text3);font-weight:600;width:44px">part 1</span>
@@ -293,7 +518,7 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
             <span class="flow-badge">+104s</span>
           </div>
         </div>
-        <span class="flow-arrow">→</span>
+        <span class="flow-arrow">&rarr;</span>
         <div class="flow-node stealth">
           <div class="flow-node-label">Stealth</div>
           <div class="flow-node-val">private</div>
@@ -304,32 +529,32 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
     <!-- FEATURES -->
     <div class="features reveal">
       <div class="feat">
-        <span class="feat-icon">🎲</span>
+        <span class="feat-icon">&#127922;</span>
         <div class="feat-title" data-en="Disposable Entry Address" data-pt="Endereco de Entrada Descartavel">Disposable Entry Address <span class="feat-new">NEW</span></div>
         <div class="feat-desc" data-en="Every transaction gets a fresh, never-before-seen address as its entry point. No link to SilentFlow visible on-chain." data-pt="Cada transacao recebe um endereco de entrada completamente novo. Sem vinculo visivel com o SilentFlow on-chain.">Every transaction gets a fresh, never-before-seen address as its entry point. No link to SilentFlow visible on-chain.</div>
       </div>
       <div class="feat">
-        <span class="feat-icon">👁</span>
+        <span class="feat-icon">&#128065;</span>
         <div class="feat-title" data-en="Stealth Addresses" data-pt="Stealth Addresses">Stealth Addresses</div>
         <div class="feat-desc" data-en="Recipients are cryptographically hidden. Only they can discover and claim their funds by scanning the blockchain with their private keys." data-pt="Destinatarios sao ocultados criptograficamente. Somente eles conseguem encontrar e sacar fundos usando suas chaves privadas.">Recipients are cryptographically hidden. Only they can discover and claim their funds by scanning the blockchain with their private keys.</div>
       </div>
       <div class="feat">
-        <span class="feat-icon">✂️</span>
+        <span class="feat-icon">&#9986;&#65039;</span>
         <div class="feat-title" data-en="Automatic Split" data-pt="Split Automatico">Automatic Split</div>
-        <div class="feat-desc" data-en="Funds are split into 2–3 random parts before routing. Amount correlation becomes virtually impossible for chain analysts." data-pt="Os fundos sao divididos em 2-3 partes aleatorias antes do roteamento. Correlacao por valor torna-se virtualmente impossivel.">Funds are split into 2–3 random parts before routing. Amount correlation becomes virtually impossible for chain analysts.</div>
+        <div class="feat-desc" data-en="Funds are split into 2-3 random parts before routing. Amount correlation becomes virtually impossible for chain analysts." data-pt="Os fundos sao divididos em 2-3 partes aleatorias antes do roteamento. Correlacao por valor torna-se virtualmente impossivel.">Funds are split into 2-3 random parts before routing. Amount correlation becomes virtually impossible for chain analysts.</div>
       </div>
       <div class="feat">
-        <span class="feat-icon">🔀</span>
+        <span class="feat-icon">&#128256;</span>
         <div class="feat-title" data-en="Real Multi-Hop Routing" data-pt="Roteamento Multi-Hop Real">Real Multi-Hop Routing</div>
-        <div class="feat-desc" data-en="Each part passes through 2 real ephemeral wallets with random 30s–2min delays. No simulation — real on-chain transactions." data-pt="Cada parte passa por 2 carteiras efemeras reais com delays aleatorios de 30s-2min. Transacoes reais on-chain.">Each part passes through 2 real ephemeral wallets with random 30s–2min delays. No simulation — real on-chain transactions.</div>
+        <div class="feat-desc" data-en="Each part passes through 2 real ephemeral wallets with random 30s-2min delays. No simulation — real on-chain transactions." data-pt="Cada parte passa por 2 carteiras efemeras reais com delays aleatorios de 30s-2min. Transacoes reais on-chain.">Each part passes through 2 real ephemeral wallets with random 30s-2min delays. No simulation — real on-chain transactions.</div>
       </div>
       <div class="feat">
-        <span class="feat-icon">⛽</span>
+        <span class="feat-icon">&#9981;</span>
         <div class="feat-title" data-en="Gasless Withdrawal" data-pt="Saque Sem Gas">Gasless Withdrawal</div>
         <div class="feat-desc" data-en="Recipients never need ETH in their stealth address. Your connected wallet pays gas via a signed off-chain message." data-pt="Destinatarios nunca precisam de ETH no endereco stealth. Sua carteira conectada paga o gas via assinatura off-chain.">Recipients never need ETH in their stealth address. Your connected wallet pays gas via a signed off-chain message.</div>
       </div>
       <div class="feat">
-        <span class="feat-icon">🔐</span>
+        <span class="feat-icon">&#128274;</span>
         <div class="feat-title" data-en="Encrypted Key Backup" data-pt="Backup Criptografado">Encrypted Key Backup <span class="feat-new">NEW</span></div>
         <div class="feat-desc" data-en="Export your keys as an AES-256 encrypted file protected by your password. Restore on any device — no cloud, no server." data-pt="Exporte suas chaves como arquivo AES-256 protegido por senha. Restaure em qualquer dispositivo — sem cloud, sem servidor.">Export your keys as an AES-256 encrypted file protected by your password. Restore on any device — no cloud, no server.</div>
       </div>
@@ -345,31 +570,31 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
       </div>
       <div class="compare-row">
         <span class="c-feat" data-en="Stealth addresses" data-pt="Stealth addresses">Stealth addresses</span>
-        <span class="c-cell yes">✓</span><span class="c-cell no">✗</span><span class="c-cell no">✗</span>
+        <span class="c-cell yes">&#10003;</span><span class="c-cell no">&#10007;</span><span class="c-cell no">&#10007;</span>
       </div>
       <div class="compare-row">
         <span class="c-feat" data-en="Disposable entry" data-pt="Entrada descartavel">Disposable entry</span>
-        <span class="c-cell yes">✓</span><span class="c-cell no">✗</span><span class="c-cell no">✗</span>
+        <span class="c-cell yes">&#10003;</span><span class="c-cell no">&#10007;</span><span class="c-cell no">&#10007;</span>
       </div>
       <div class="compare-row">
         <span class="c-feat" data-en="Arbitrary amounts" data-pt="Valores livres">Arbitrary amounts</span>
-        <span class="c-cell yes">✓</span><span class="c-cell partial">fixed only</span><span class="c-cell yes">✓</span>
+        <span class="c-cell yes">&#10003;</span><span class="c-cell partial">fixed only</span><span class="c-cell yes">&#10003;</span>
       </div>
       <div class="compare-row">
         <span class="c-feat" data-en="Real on-chain hops" data-pt="Hops reais on-chain">Real on-chain hops</span>
-        <span class="c-cell yes">✓</span><span class="c-cell no">✗</span><span class="c-cell no">✗</span>
+        <span class="c-cell yes">&#10003;</span><span class="c-cell no">&#10007;</span><span class="c-cell no">&#10007;</span>
       </div>
       <div class="compare-row">
         <span class="c-feat" data-en="Gasless withdrawal" data-pt="Saque sem gas">Gasless withdrawal</span>
-        <span class="c-cell yes">✓</span><span class="c-cell no">✗</span><span class="c-cell no">✗</span>
+        <span class="c-cell yes">&#10003;</span><span class="c-cell no">&#10007;</span><span class="c-cell no">&#10007;</span>
       </div>
       <div class="compare-row">
         <span class="c-feat" data-en="Payment link" data-pt="Link de pagamento">Payment link</span>
-        <span class="c-cell yes">✓</span><span class="c-cell no">✗</span><span class="c-cell no">✗</span>
+        <span class="c-cell yes">&#10003;</span><span class="c-cell no">&#10007;</span><span class="c-cell no">&#10007;</span>
       </div>
       <div class="compare-row">
         <span class="c-feat" data-en="Non-custodial" data-pt="Nao-custodial">Non-custodial</span>
-        <span class="c-cell yes">✓</span><span class="c-cell yes">✓</span><span class="c-cell yes">✓</span>
+        <span class="c-cell yes">&#10003;</span><span class="c-cell yes">&#10003;</span><span class="c-cell yes">&#10003;</span>
       </div>
     </div>
   </section>
@@ -382,7 +607,7 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
     <h2 class="cta-title reveal" data-en="Your Wallet. Your Privacy." data-pt="Sua Carteira. Sua Privacidade.">Your Wallet. Your Privacy.</h2>
     <p class="cta-sub reveal" data-en="Generate your payment link in seconds. No sign-up, no KYC, no custodians." data-pt="Gere seu link de pagamento em segundos. Sem cadastro, sem KYC, sem custodians.">Generate your payment link in seconds. No sign-up, no KYC, no custodians.</p>
     <div class="cta-actions reveal">
-      <a href="https://silentflow.vercel.app" class="btn-primary" data-en="Launch App →" data-pt="Abrir App →">Launch App →</a>
+      <a href="https://silentflow.vercel.app" class="btn-primary" data-en="Launch App" data-pt="Abrir App">Launch App</a>
     </div>
   </section>
 
@@ -399,26 +624,24 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
 </footer>
 
 <script>
-// Lang
-const LANG_STORE = 'sf_lang';
-let currentLang = localStorage.getItem(LANG_STORE) || 'en';
+var LANG_STORE = 'sf_lang';
+var currentLang = localStorage.getItem(LANG_STORE) || 'en';
 function setLang(l) {
   currentLang = l;
   localStorage.setItem(LANG_STORE, l);
-  document.querySelectorAll('[data-en]').forEach(el => {
+  document.querySelectorAll('[data-en]').forEach(function(el) {
     el.textContent = l === 'pt' ? el.dataset.pt : el.dataset.en;
   });
-  document.querySelectorAll('.lang-btn').forEach(b => {
+  document.querySelectorAll('.lang-btn').forEach(function(b) {
     b.classList.toggle('active', b.textContent.toLowerCase() === l);
   });
 }
 setLang(currentLang);
 
-// Reveal on scroll
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
 </script>
 </body>
 </html>

@@ -407,16 +407,16 @@ footer {
     </div>
     <div class="hero-stats">
       <div>
-        <div class="stat-num">8/10</div>
+        <div class="stat-num">9.5/10</div>
         <div class="stat-label" data-en="Privacy score" data-pt="Nivel de privacidade">Privacy score</div>
       </div>
       <div>
-        <div class="stat-num">~8 min</div>
+        <div class="stat-num">~10 min</div>
         <div class="stat-label" data-en="Per transaction" data-pt="Por transacao">Per transaction</div>
       </div>
       <div>
-        <div class="stat-num">0.2%</div>
-        <div class="stat-label" data-en="Privacy fee" data-pt="Taxa de privacidade">Privacy fee</div>
+        <div class="stat-num">0.10-0.20%</div>
+        <div class="stat-label" data-en="Tiered fee" data-pt="Taxa por volume">Tiered fee</div>
       </div>
       <div>
         <div class="stat-num" style="font-size:22px;line-height:1.4">Non-Custodial</div>
@@ -483,11 +483,11 @@ footer {
     <p class="section-sub reveal" data-en="Every transaction runs through a full privacy pipeline — automatically, on every send." data-pt="Toda transacao passa por um pipeline completo de privacidade — automaticamente, em cada envio.">Every transaction runs through a full privacy pipeline — automatically, on every send.</p>
 
     <div class="flow-visual reveal">
-      <div class="flow-title" data-en="Transaction flow — example 0.01 ETH send" data-pt="Fluxo de transacao — exemplo de envio de 0.01 ETH">Transaction flow — example 0.01 ETH send</div>
+      <div class="flow-title" data-en="Transaction flow — example 0.15 ETH send (fixed denominations)" data-pt="Fluxo de transacao — exemplo de envio de 0.15 ETH (denominacoes fixas)">Transaction flow — example 0.15 ETH send (fixed denominations)</div>
       <div class="flow-chain">
         <div class="flow-node sender">
           <div class="flow-node-label" data-en="You" data-pt="Voce">You</div>
-          <div class="flow-node-val">0.01 ETH</div>
+          <div class="flow-node-val">0.15 ETH</div>
         </div>
         <span class="flow-arrow">&rarr;</span>
         <div class="flow-node entry">
@@ -497,25 +497,18 @@ footer {
         <span class="flow-arrow">&rarr;</span>
         <div style="display:flex;flex-direction:column;gap:8px">
           <div style="display:flex;align-items:center;gap:6px">
-            <span style="font-size:9px;color:var(--text3);font-weight:600;width:44px">part 1</span>
-            <div class="flow-node"><div class="flow-node-label">E1a</div><div class="flow-node-val">0.0048</div></div>
-            <span class="flow-badge">+76s</span>
-            <div class="flow-node"><div class="flow-node-label">E1b</div><div class="flow-node-val">0.0048</div></div>
-            <span class="flow-badge">+65s</span>
+            <span style="font-size:9px;color:var(--text3);font-weight:600;width:44px">split 1</span>
+            <div class="flow-node"><div class="flow-node-label">E1a</div><div class="flow-node-val">0.1</div></div>
+            <span class="flow-badge">+92s</span>
+            <div class="flow-node"><div class="flow-node-label">E1b</div><div class="flow-node-val">0.1</div></div>
+            <span class="flow-badge">+145s</span>
           </div>
           <div style="display:flex;align-items:center;gap:6px">
-            <span style="font-size:9px;color:var(--text3);font-weight:600;width:44px">part 2</span>
-            <div class="flow-node"><div class="flow-node-label">E2a</div><div class="flow-node-val">0.0026</div></div>
-            <span class="flow-badge">+69s</span>
-            <div class="flow-node"><div class="flow-node-label">E2b</div><div class="flow-node-val">0.0026</div></div>
-            <span class="flow-badge">+109s</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:6px">
-            <span style="font-size:9px;color:var(--text3);font-weight:600;width:44px">part 3</span>
-            <div class="flow-node"><div class="flow-node-label">E3a</div><div class="flow-node-val">0.0024</div></div>
-            <span class="flow-badge">+100s</span>
-            <div class="flow-node"><div class="flow-node-label">E3b</div><div class="flow-node-val">0.0024</div></div>
-            <span class="flow-badge">+104s</span>
+            <span style="font-size:9px;color:var(--text3);font-weight:600;width:44px">split 2</span>
+            <div class="flow-node"><div class="flow-node-label">E2a</div><div class="flow-node-val">0.05</div></div>
+            <span class="flow-badge">+58s</span>
+            <div class="flow-node"><div class="flow-node-label">E2b</div><div class="flow-node-val">0.05</div></div>
+            <span class="flow-badge">+177s</span>
           </div>
         </div>
         <span class="flow-arrow">&rarr;</span>
@@ -530,8 +523,18 @@ footer {
     <div class="features reveal">
       <div class="feat">
         <span class="feat-icon">&#127922;</span>
-        <div class="feat-title" data-en="Disposable Entry Address" data-pt="Endereco de Entrada Descartavel">Disposable Entry Address <span class="feat-new">NEW</span></div>
+        <div class="feat-title" data-en="Disposable Entry Address" data-pt="Endereco de Entrada Descartavel">Disposable Entry Address</div>
         <div class="feat-desc" data-en="Every transaction gets a fresh, never-before-seen address as its entry point. No link to SilentFlow visible on-chain." data-pt="Cada transacao recebe um endereco de entrada completamente novo. Sem vinculo visivel com o SilentFlow on-chain.">Every transaction gets a fresh, never-before-seen address as its entry point. No link to SilentFlow visible on-chain.</div>
+      </div>
+      <div class="feat">
+        <span class="feat-icon">&#128178;</span>
+        <div class="feat-title" data-en="Fixed Denominations" data-pt="Denominacoes Fixas">Fixed Denominations <span class="feat-new">V7</span></div>
+        <div class="feat-desc" data-en="Deposits use standard amounts (0.01, 0.05, 0.1, 0.5, 1, 5 ETH). When everyone deposits the same value, no one can tell which withdrawal belongs to which deposit." data-pt="Depositos usam valores padrao (0.01, 0.05, 0.1, 0.5, 1, 5 ETH). Quando todos depositam o mesmo valor, ninguem sabe qual saque pertence a qual deposito.">Deposits use standard amounts (0.01, 0.05, 0.1, 0.5, 1, 5 ETH). When everyone deposits the same value, no one can tell which withdrawal belongs to which deposit.</div>
+      </div>
+      <div class="feat">
+        <span class="feat-icon">&#128274;</span>
+        <div class="feat-title" data-en="Optional Time-Lock" data-pt="Time-Lock Opcional">Optional Time-Lock <span class="feat-new">V7</span></div>
+        <div class="feat-desc" data-en="Lock funds until the next 6-hour withdrawal window. All withdrawals happen together — making temporal correlation impossible. Choose instant or timelocked per transaction." data-pt="Trave fundos ate a proxima janela de saque de 6 horas. Todos os saques acontecem juntos — tornando correlacao temporal impossivel. Escolha instantaneo ou timelocked por transacao.">Lock funds until the next 6-hour withdrawal window. All withdrawals happen together — making temporal correlation impossible. Choose instant or timelocked per transaction.</div>
       </div>
       <div class="feat">
         <span class="feat-icon">&#128065;</span>
@@ -539,14 +542,9 @@ footer {
         <div class="feat-desc" data-en="Recipients are cryptographically hidden. Only they can discover and claim their funds by scanning the blockchain with their private keys." data-pt="Destinatarios sao ocultados criptograficamente. Somente eles conseguem encontrar e sacar fundos usando suas chaves privadas.">Recipients are cryptographically hidden. Only they can discover and claim their funds by scanning the blockchain with their private keys.</div>
       </div>
       <div class="feat">
-        <span class="feat-icon">&#9986;&#65039;</span>
-        <div class="feat-title" data-en="Automatic Split" data-pt="Split Automatico">Automatic Split</div>
-        <div class="feat-desc" data-en="Funds are split into 2-3 random parts before routing. Amount correlation becomes virtually impossible for chain analysts." data-pt="Os fundos sao divididos em 2-3 partes aleatorias antes do roteamento. Correlacao por valor torna-se virtualmente impossivel.">Funds are split into 2-3 random parts before routing. Amount correlation becomes virtually impossible for chain analysts.</div>
-      </div>
-      <div class="feat">
         <span class="feat-icon">&#128256;</span>
-        <div class="feat-title" data-en="Real Multi-Hop Routing" data-pt="Roteamento Multi-Hop Real">Real Multi-Hop Routing</div>
-        <div class="feat-desc" data-en="Each part passes through 2 real ephemeral wallets with random 30s-2min delays. No simulation — real on-chain transactions." data-pt="Cada parte passa por 2 carteiras efemeras reais com delays aleatorios de 30s-2min. Transacoes reais on-chain.">Each part passes through 2 real ephemeral wallets with random 30s-2min delays. No simulation — real on-chain transactions.</div>
+        <div class="feat-title" data-en="Intelligent Multi-Hop Routing" data-pt="Roteamento Multi-Hop Inteligente">Intelligent Multi-Hop Routing <span class="feat-new">V7</span></div>
+        <div class="feat-desc" data-en="Each split passes through 2 ephemeral wallets with 5 different delay profiles (20s-200s). Dummy transactions before, during and after hops create constant noise." data-pt="Cada split passa por 2 carteiras efemeras com 5 perfis de delay diferentes (20s-200s). Transacoes dummy antes, durante e depois dos hops criam ruido constante.">Each split passes through 2 ephemeral wallets with 5 different delay profiles (20s-200s). Dummy transactions before, during and after hops create constant noise.</div>
       </div>
       <div class="feat">
         <span class="feat-icon">&#9981;</span>
@@ -554,9 +552,19 @@ footer {
         <div class="feat-desc" data-en="Recipients never need ETH in their stealth address. Your connected wallet pays gas via a signed off-chain message." data-pt="Destinatarios nunca precisam de ETH no endereco stealth. Sua carteira conectada paga o gas via assinatura off-chain.">Recipients never need ETH in their stealth address. Your connected wallet pays gas via a signed off-chain message.</div>
       </div>
       <div class="feat">
+        <span class="feat-icon">&#128200;</span>
+        <div class="feat-title" data-en="Tiered Fees" data-pt="Taxas por Volume">Tiered Fees <span class="feat-new">V7</span></div>
+        <div class="feat-desc" data-en="Pay less as you send more. Standard: 0.20% (up to ~$500). Volume: 0.15% ($500-$5K). Premium: 0.10% ($5K+). Fee tier shown in real-time before confirming." data-pt="Pague menos ao enviar mais. Standard: 0.20% (ate ~$500). Volume: 0.15% ($500-$5K). Premium: 0.10% ($5K+). Tier exibido em tempo real antes de confirmar.">Pay less as you send more. Standard: 0.20% (up to ~$500). Volume: 0.15% ($500-$5K). Premium: 0.10% ($5K+). Fee tier shown in real-time before confirming.</div>
+      </div>
+      <div class="feat">
         <span class="feat-icon">&#128274;</span>
-        <div class="feat-title" data-en="Encrypted Key Backup" data-pt="Backup Criptografado">Encrypted Key Backup <span class="feat-new">NEW</span></div>
+        <div class="feat-title" data-en="Encrypted Key Backup" data-pt="Backup Criptografado">Encrypted Key Backup</div>
         <div class="feat-desc" data-en="Export your keys as an AES-256 encrypted file protected by your password. Restore on any device — no cloud, no server." data-pt="Exporte suas chaves como arquivo AES-256 protegido por senha. Restaure em qualquer dispositivo — sem cloud, sem servidor.">Export your keys as an AES-256 encrypted file protected by your password. Restore on any device — no cloud, no server.</div>
+      </div>
+      <div class="feat">
+        <span class="feat-icon">&#128276;</span>
+        <div class="feat-title" data-en="Browser Notifications" data-pt="Notificacoes no Navegador">Browser Notifications <span class="feat-new">V7</span></div>
+        <div class="feat-desc" data-en="Get notified when your private transaction completes — even if you're on another tab. Real-time pipeline timeline shows every step visually." data-pt="Receba notificacao quando sua transacao privada concluir — mesmo em outra aba. Timeline em tempo real mostra cada etapa visualmente.">Get notified when your private transaction completes — even if you're on another tab. Real-time pipeline timeline shows every step visually.</div>
       </div>
     </div>
 
@@ -564,7 +572,7 @@ footer {
     <div class="compare reveal">
       <div class="compare-head">
         <span data-en="Feature" data-pt="Recurso">Feature</span>
-        <span class="hl">SilentFlow</span>
+        <span class="hl">SilentFlow V7</span>
         <span data-en="Tornado Cash" data-pt="Tornado Cash">Tornado Cash</span>
         <span data-en="Regular Transfer" data-pt="Transferencia">Regular Transfer</span>
       </div>
@@ -577,11 +585,23 @@ footer {
         <span class="c-cell yes">&#10003;</span><span class="c-cell no">&#10007;</span><span class="c-cell no">&#10007;</span>
       </div>
       <div class="compare-row">
+        <span class="c-feat" data-en="Fixed denominations" data-pt="Denominacoes fixas">Fixed denominations</span>
+        <span class="c-cell yes">&#10003;</span><span class="c-cell yes">&#10003;</span><span class="c-cell no">&#10007;</span>
+      </div>
+      <div class="compare-row">
         <span class="c-feat" data-en="Arbitrary amounts" data-pt="Valores livres">Arbitrary amounts</span>
-        <span class="c-cell yes">&#10003;</span><span class="c-cell partial">fixed only</span><span class="c-cell yes">&#10003;</span>
+        <span class="c-cell yes">&#10003;</span><span class="c-cell no">&#10007;</span><span class="c-cell yes">&#10003;</span>
+      </div>
+      <div class="compare-row">
+        <span class="c-feat" data-en="Time-lock windows" data-pt="Janelas time-lock">Time-lock windows</span>
+        <span class="c-cell yes">&#10003;</span><span class="c-cell no">&#10007;</span><span class="c-cell no">&#10007;</span>
       </div>
       <div class="compare-row">
         <span class="c-feat" data-en="Real on-chain hops" data-pt="Hops reais on-chain">Real on-chain hops</span>
+        <span class="c-cell yes">&#10003;</span><span class="c-cell no">&#10007;</span><span class="c-cell no">&#10007;</span>
+      </div>
+      <div class="compare-row">
+        <span class="c-feat" data-en="Intelligent delays" data-pt="Delays inteligentes">Intelligent delays</span>
         <span class="c-cell yes">&#10003;</span><span class="c-cell no">&#10007;</span><span class="c-cell no">&#10007;</span>
       </div>
       <div class="compare-row">
@@ -590,6 +610,10 @@ footer {
       </div>
       <div class="compare-row">
         <span class="c-feat" data-en="Payment link" data-pt="Link de pagamento">Payment link</span>
+        <span class="c-cell yes">&#10003;</span><span class="c-cell no">&#10007;</span><span class="c-cell no">&#10007;</span>
+      </div>
+      <div class="compare-row">
+        <span class="c-feat" data-en="Tiered fees" data-pt="Taxas por volume">Tiered fees</span>
         <span class="c-cell yes">&#10003;</span><span class="c-cell no">&#10007;</span><span class="c-cell no">&#10007;</span>
       </div>
       <div class="compare-row">
@@ -618,8 +642,8 @@ footer {
   <span class="footer-name">SILENTFLOW</span>
   <div class="footer-right">
     <a class="footer-link" href="https://silentflow.vercel.app" data-en="App" data-pt="App">App</a>
-    <a class="footer-link" href="https://sepolia.etherscan.io/address/0xAdcBABf7CB3cE55559b2A3ca81f75bbBC147565b" target="_blank" data-en="Contract" data-pt="Contrato">Contract</a>
-    <span class="footer-copy">v4 · Sepolia Testnet</span>
+    <a class="footer-link" href="https://sepolia.etherscan.io/address/0x9ce1b8a2344BB1891A6Ed9b2aBb782fb1B8C18E9" target="_blank" data-en="Contract" data-pt="Contrato">Contract</a>
+    <span class="footer-copy">v7 · Sepolia Testnet</span>
   </div>
 </footer>
 

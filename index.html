@@ -1,671 +1,1379 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SilentFlow — Privacy Layer for Web3</title>
-<meta name="description" content="Send crypto privately. Stealth addresses, disposable entries, multi-hop routing. Non-custodial. No registration.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #09090b;
-  --surface: #0f0f14;
-  --surface2: #16161e;
-  --border: rgba(255,255,255,.06);
-  --border2: rgba(255,255,255,.10);
-  --accent: #22b8e6;
-  --accent2: #38d0ff;
-  --accent-dim: rgba(34,184,230,.10);
-  --accent-glow: rgba(34,184,230,.20);
-  --accent-border: rgba(34,184,230,.25);
-  --green: #34d399;
-  --green-dim: rgba(52,211,153,.08);
-  --green-border: rgba(52,211,153,.18);
-  --amber: #fbbf24;
-  --red: rgba(239,68,68,.4);
-  --text: #ededf0;
-  --text2: rgba(237,237,240,.55);
-  --text3: rgba(237,237,240,.28);
-  --sans: 'DM Sans', system-ui, -apple-system, sans-serif;
-  --mono: 'JetBrains Mono', monospace;
-  --r: 14px;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SilentFlow — Privacidade para seus pagamentos on-chain</title>
+  <meta name="description" content="SilentFlow é uma infraestrutura não-custodial que reduz a exposição das suas transações na blockchain. Mais controle. Menos exposição." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@300;400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
 
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box }
-html { scroll-behavior: smooth }
-body {
-  background: var(--bg); color: var(--text); font-family: var(--sans);
-  overflow-x: hidden; -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ---- AMBIENT BG ---- */
-.bg-fixed { position: fixed; inset: 0; pointer-events: none; z-index: 0 }
-.bg-glow {
-  position: absolute; top: -20vh; left: 50%; transform: translateX(-50%);
-  width: 70vw; height: 80vh;
-  background: radial-gradient(ellipse, rgba(34,184,230,.05) 0%, transparent 65%);
-}
-.bg-glow2 {
-  position: absolute; bottom: -10vh; right: -10vw; width: 50vw; height: 60vh;
-  background: radial-gradient(ellipse, rgba(34,184,230,.025) 0%, transparent 65%);
-}
-.bg-grid {
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(34,184,230,.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(34,184,230,.015) 1px, transparent 1px);
-  background-size: 56px 56px;
-}
+    :root {
+      --bg:        #07080c;
+      --bg2:       #0c0e15;
+      --surface:   #111420;
+      --border:    rgba(255,255,255,0.06);
+      --accent:    #22d3ee;
+      --accent2:   #67e8f9;
+      --accent-dim: rgba(34,211,238,0.12);
+      --green:     #34d399;
+      --amber:     #fbbf24;
+      --red:       #f87171;
+      --text:      #e2e8f0;
+      --muted:     #64748b;
+      --sans:      'DM Sans', sans-serif;
+      --mono:      'DM Mono', monospace;
+      --display:   'Syne', sans-serif;
+    }
 
-/* ---- NAV ---- */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  padding: 0 48px; height: 68px; display: flex; align-items: center; gap: 14px;
-  border-bottom: 1px solid var(--border);
-  background: rgba(9,9,11,.85); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-}
-.nav-logo {
-  height: 34px; width: auto; object-fit: contain;
-  filter: drop-shadow(0 0 12px var(--accent-glow));
-}
-.nav-name {
-  font-weight: 700; font-size: 14px; letter-spacing: .2em; color: var(--accent);
-}
-.nav-spacer { flex: 1 }
-.lang-wrap { display: flex; gap: 4px }
-.lang-btn {
-  background: none; border: 1px solid var(--border); color: var(--text3);
-  padding: 5px 11px; border-radius: 6px; font-family: var(--sans);
-  font-size: 11px; font-weight: 600; letter-spacing: .08em;
-  cursor: pointer; transition: all .25s;
-}
-.lang-btn.active, .lang-btn:hover {
-  border-color: var(--accent-border); color: var(--accent);
-}
-.nav-cta {
-  background: var(--accent); border: none; color: #fff;
-  padding: 9px 24px; border-radius: 8px; font-family: var(--sans);
-  font-weight: 600; font-size: 13px; cursor: pointer; text-decoration: none;
-  transition: all .25s; margin-left: 12px;
-  box-shadow: 0 2px 12px rgba(34,184,230,.2);
-}
-.nav-cta:hover {
-  background: #1a9ec2; box-shadow: 0 4px 24px rgba(34,184,230,.35);
-  transform: translateY(-1px);
-}
+    html { scroll-behavior: smooth; }
 
-main { position: relative; z-index: 1 }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
 
-/* ---- HERO ---- */
-.hero {
-  min-height: 100vh; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; text-align: center;
-  padding: 120px 24px 80px;
-}
-.hero-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  border: 1px solid var(--green-border); padding: 7px 18px;
-  border-radius: 24px; font-size: 12px; color: var(--green);
-  letter-spacing: .04em; margin-bottom: 44px; font-weight: 500;
-  background: var(--green-dim);
-}
-.badge-dot {
-  width: 6px; height: 6px; background: var(--green); border-radius: 50%;
-  box-shadow: 0 0 8px var(--green);
-  animation: pulse-dot 2.5s ease-in-out infinite;
-}
-@keyframes pulse-dot { 0%,100%{ opacity: 1 } 50%{ opacity: .3 } }
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
 
-.hero-title {
-  font-weight: 700; font-size: clamp(42px, 7vw, 84px);
-  line-height: 1.05; letter-spacing: -.04em; margin-bottom: 28px;
-}
-.hero-title .white { color: var(--text) }
-.hero-title .blue { color: var(--accent) }
+    /* ── GRID BACKGROUND ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(34,211,238,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34,211,238,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-.hero-sub {
-  font-size: clamp(15px, 2vw, 18px); color: var(--text2);
-  max-width: 560px; line-height: 1.75; margin-bottom: 48px; font-weight: 400;
-}
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 48px;
+      background: rgba(7,8,12,0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
 
-.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-bottom: 80px }
+    .nav-logo {
+      font-family: var(--display);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-decoration: none;
+    }
 
-.btn-primary {
-  background: var(--accent); border: none; color: #fff;
-  padding: 15px 36px; border-radius: 10px; font-family: var(--sans);
-  font-weight: 600; font-size: 15px; cursor: pointer; text-decoration: none;
-  transition: all .25s; display: inline-block;
-  box-shadow: 0 2px 20px rgba(34,184,230,.2);
-}
-.btn-primary:hover {
-  background: #1a9ec2; transform: translateY(-2px);
-  box-shadow: 0 6px 36px rgba(34,184,230,.35);
-}
-.btn-ghost {
-  background: transparent; border: 1px solid var(--border2); color: var(--text2);
-  padding: 15px 36px; border-radius: 10px; font-family: var(--sans);
-  font-weight: 600; font-size: 15px; cursor: pointer; text-decoration: none;
-  transition: all .25s; display: inline-block;
-}
-.btn-ghost:hover { border-color: var(--accent); color: var(--text) }
+    .nav-badge {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--green);
+      background: rgba(52,211,153,0.1);
+      border: 1px solid rgba(52,211,153,0.25);
+      padding: 4px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.05em;
+    }
 
-.hero-stats {
-  display: flex; gap: 56px; flex-wrap: wrap; justify-content: center;
-  padding-top: 52px; border-top: 1px solid var(--border);
-}
-.stat-num { font-weight: 700; font-size: 30px; color: var(--accent); margin-bottom: 6px }
-.stat-label {
-  font-size: 11px; color: var(--text3); font-weight: 600;
-  letter-spacing: .1em; text-transform: uppercase;
-}
+    .nav-cta {
+      background: var(--accent);
+      color: var(--bg);
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 14px;
+      padding: 10px 22px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.85; transform: translateY(-1px); }
 
-/* ---- DIVIDER ---- */
-.divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(34,184,230,.1), transparent) }
+    /* ── SECTIONS ── */
+    section { position: relative; z-index: 1; }
 
-/* ---- SECTIONS ---- */
-.section { padding: 100px 24px; max-width: 1080px; margin: 0 auto }
-.section-tag {
-  font-size: 11px; font-weight: 600; color: var(--accent);
-  letter-spacing: .25em; text-transform: uppercase;
-  margin-bottom: 16px; text-align: center; opacity: .7;
-}
-.section-title {
-  font-weight: 700; font-size: clamp(28px, 4vw, 44px);
-  text-align: center; margin-bottom: 16px; letter-spacing: -.03em;
-}
-.section-sub {
-  text-align: center; color: var(--text2); font-size: 15px;
-  line-height: 1.75; max-width: 520px; margin: 0 auto 60px; font-weight: 400;
-}
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
 
-/* ---- PAYMENT LINK DEMO ---- */
-.pix-demo {
-  background: var(--surface); border: 1px solid var(--accent-border);
-  border-radius: 20px; padding: 36px; max-width: 640px; margin: 0 auto 60px;
-  text-align: left; transition: border-color .2s;
-}
-.pix-demo:hover { border-color: rgba(34,184,230,.4) }
-.pix-demo-label {
-  font-size: 10px; font-weight: 600; color: var(--text3);
-  letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px;
-}
-.pix-url {
-  font-family: var(--mono); font-size: 12px; color: var(--accent2);
-  background: var(--bg); border: 1px solid var(--border);
-  border-radius: 8px; padding: 14px 16px; word-break: break-all;
-  line-height: 1.7; margin-bottom: 16px;
-}
-.pix-arrow { text-align: center; color: var(--text3); font-size: 20px; margin: 12px 0 }
-.pix-result {
-  display: flex; align-items: center; gap: 12px; padding: 14px 16px;
-  background: var(--green-dim); border: 1px solid var(--green-border); border-radius: 10px;
-}
-.pix-result-icon { font-size: 20px }
-.pix-result-text { font-size: 13px; color: var(--green); font-weight: 500; line-height: 1.6 }
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 100px;
+      overflow: hidden;
+    }
 
-/* ---- STEPS ---- */
-.steps {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 2px; background: var(--border); border: 1px solid var(--border);
-  border-radius: 18px; overflow: hidden;
-}
-.step {
-  padding: 36px 28px; background: var(--surface); transition: background .25s;
-}
-.step:hover { background: var(--surface2) }
-.step-num {
-  font-weight: 700; font-size: 48px; color: rgba(34,184,230,.06);
-  line-height: 1; margin-bottom: 16px; letter-spacing: -.04em;
-}
-.step-icon { font-size: 24px; margin-bottom: 12px; display: block }
-.step-title { font-weight: 700; font-size: 14px; color: var(--text); margin-bottom: 10px }
-.step-desc { font-size: 13px; color: var(--text2); line-height: 1.75; font-weight: 400 }
+    .hero-glow {
+      position: absolute;
+      width: 700px;
+      height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(34,211,238,0.08) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -55%);
+      pointer-events: none;
+    }
 
-/* ---- FLOW VISUAL ---- */
-.flow-visual {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 20px; padding: 40px; margin-bottom: 44px; overflow-x: auto;
-}
-.flow-title {
-  font-size: 11px; font-weight: 600; color: var(--text3);
-  letter-spacing: .2em; text-transform: uppercase; text-align: center;
-  margin-bottom: 32px;
-}
-.flow-chain { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap }
-.flow-node {
-  background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 10px; padding: 10px 18px; text-align: center; min-width: 76px;
-  transition: border-color .2s;
-}
-.flow-node:hover { border-color: var(--border2) }
-.flow-node.sender { border-color: var(--accent-border); background: var(--accent-dim) }
-.flow-node.entry { border-color: rgba(251,191,36,.3); background: rgba(251,191,36,.06) }
-.flow-node.contract { border-color: var(--accent-border); background: var(--accent-dim) }
-.flow-node.stealth { border-color: var(--green-border); background: var(--green-dim) }
-.flow-node-label {
-  font-size: 9px; color: var(--text3); letter-spacing: .1em;
-  text-transform: uppercase; margin-bottom: 4px; font-weight: 600;
-}
-.flow-node-val { font-family: var(--mono); font-weight: 500; font-size: 12px; color: var(--text) }
-.flow-arrow { color: var(--text3); font-size: 14px }
-.flow-badge {
-  font-size: 9px; color: rgba(251,191,36,.6); border: 1px solid rgba(251,191,36,.15);
-  padding: 3px 9px; border-radius: 10px; font-family: var(--mono); white-space: nowrap;
-}
-.flow-new {
-  font-size: 9px; color: var(--green); border: 1px solid var(--green-border);
-  padding: 3px 9px; border-radius: 10px; font-weight: 600; letter-spacing: .05em;
-}
+    .hero-inner {
+      max-width: 760px;
+    }
 
-/* ---- FEATURES ---- */
-.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 16px }
-.feat {
-  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r);
-  padding: 28px; transition: all .25s; position: relative; overflow: hidden;
-}
-.feat::after {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(34,184,230,.25), transparent);
-  opacity: 0; transition: opacity .25s;
-}
-.feat:hover { border-color: var(--accent-border); transform: translateY(-2px) }
-.feat:hover::after { opacity: 1 }
-.feat-icon { font-size: 26px; margin-bottom: 16px; display: block }
-.feat-title { font-weight: 700; font-size: 14px; color: var(--text); margin-bottom: 10px }
-.feat-desc { font-size: 13px; color: var(--text2); line-height: 1.75; font-weight: 400 }
-.feat-new {
-  display: inline-block; font-size: 9px; font-weight: 700; color: var(--green);
-  border: 1px solid var(--green-border); padding: 2px 8px; border-radius: 10px;
-  margin-left: 6px; letter-spacing: .05em; vertical-align: middle;
-}
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent);
+      background: var(--accent-dim);
+      border: 1px solid rgba(34,211,238,0.2);
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 32px;
+      letter-spacing: 0.04em;
+      animation: fadeUp 0.6s ease both;
+    }
 
-/* ---- COMPARE TABLE ---- */
-.compare {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 20px; overflow: hidden; margin-top: 44px;
-}
-.compare-head {
-  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
-  padding: 20px 28px; border-bottom: 1px solid var(--border);
-  background: rgba(34,184,230,.02);
-}
-.compare-head span {
-  font-size: 11px; font-weight: 700; color: var(--text3);
-  letter-spacing: .1em; text-transform: uppercase; text-align: center;
-}
-.compare-head span:first-child { text-align: left; color: rgba(237,237,240,.15) }
-.compare-head .hl { color: var(--accent) }
-.compare-row {
-  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
-  padding: 15px 28px; border-bottom: 1px solid rgba(255,255,255,.03);
-  align-items: center; transition: background .2s;
-}
-.compare-row:hover { background: rgba(34,184,230,.02) }
-.compare-row:last-child { border-bottom: none }
-.c-feat { font-size: 13px; color: var(--text2) }
-.c-cell { text-align: center; font-size: 15px }
-.yes { color: var(--accent) }
-.no { color: var(--red) }
-.partial { color: rgba(251,191,36,.6); font-size: 11px; font-family: var(--mono) }
+    .hero-tag::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s infinite;
+    }
 
-/* ---- CTA ---- */
-.cta { padding: 100px 24px; text-align: center; position: relative }
-.cta-glow {
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
-  width: 600px; height: 400px;
-  background: radial-gradient(ellipse, rgba(34,184,230,.04) 0%, transparent 65%);
-  pointer-events: none;
-}
-.cta-title {
-  font-weight: 700; font-size: clamp(30px, 5vw, 54px);
-  margin-bottom: 16px; letter-spacing: -.03em; position: relative;
-}
-.cta-sub {
-  color: var(--text2); font-size: 15px; margin-bottom: 40px;
-  position: relative; font-weight: 400; line-height: 1.7;
-}
-.cta-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; position: relative }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
 
-/* ---- FOOTER ---- */
-footer {
-  border-top: 1px solid var(--border); padding: 28px 48px;
-  display: flex; align-items: center; gap: 12px;
-  position: relative; z-index: 1; flex-wrap: wrap;
-}
-.footer-logo { height: 24px; width: auto; object-fit: contain; opacity: .5 }
-.footer-name { font-weight: 700; font-size: 13px; letter-spacing: .2em; color: var(--accent) }
-.footer-right { margin-left: auto; display: flex; gap: 24px; align-items: center }
-.footer-link {
-  font-size: 12px; color: var(--text3); text-decoration: none;
-  font-weight: 500; transition: color .2s;
-}
-.footer-link:hover { color: var(--text2) }
-.footer-copy { font-size: 11px; color: var(--text3); font-family: var(--mono) }
+    h1 {
+      font-family: var(--display);
+      font-size: clamp(42px, 6vw, 76px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: 24px;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
 
-/* ---- REVEAL ANIMATION ---- */
-.reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease }
-.reveal.visible { opacity: 1; transform: translateY(0) }
+    h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
 
-/* ---- RESPONSIVE ---- */
-@media (max-width: 768px) {
-  nav { padding: 0 20px; height: 60px }
-  .nav-cta { display: none }
-  .nav-name { font-size: 12px }
-  .hero { padding: 100px 20px 60px }
-  .hero-stats { gap: 32px }
-  .pix-demo { padding: 24px 20px }
-  .flow-visual { padding: 24px 16px }
-  .compare-head, .compare-row { grid-template-columns: 2fr 1fr 1fr }
-  .compare-head span:nth-child(4), .compare-row .c-cell:nth-child(4) { display: none }
-  footer { flex-direction: column; text-align: center; padding: 24px 20px }
-  .footer-right { margin-left: 0; flex-wrap: wrap; justify-content: center }
-  .section { padding: 72px 20px }
-  .step { padding: 28px 20px }
-  .feat { padding: 22px }
-}
-</style>
+    .hero-sub {
+      font-size: 18px;
+      color: var(--muted);
+      font-weight: 300;
+      max-width: 560px;
+      margin-bottom: 16px;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-tagline {
+      font-size: 15px;
+      color: var(--accent2);
+      font-weight: 500;
+      margin-bottom: 40px;
+      animation: fadeUp 0.6s 0.25s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      animation: fadeUp 0.6s 0.3s ease both;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: var(--bg);
+      font-weight: 600;
+      font-size: 15px;
+      padding: 14px 28px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.2s;
+      box-shadow: 0 0 30px rgba(34,211,238,0.25);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 40px rgba(34,211,238,0.4);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 14px;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .btn-secondary:hover { color: var(--text); }
+
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      margin-top: 64px;
+      padding-top: 48px;
+      border-top: 1px solid var(--border);
+      animation: fadeUp 0.6s 0.4s ease both;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {}
+    .stat-value {
+      font-family: var(--mono);
+      font-size: 28px;
+      font-weight: 500;
+      color: var(--accent);
+      display: block;
+    }
+    .stat-label {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* ── PROBLEM ── */
+    #problem {
+      padding: 120px 0;
+      background: linear-gradient(180deg, transparent, var(--bg2) 30%, var(--bg2) 70%, transparent);
+    }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      font-family: var(--display);
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      margin-top: 64px;
+    }
+
+    .problem-text p {
+      font-size: 17px;
+      color: var(--muted);
+      margin-bottom: 32px;
+      font-weight: 300;
+    }
+
+    .problem-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .problem-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      font-size: 15px;
+      color: var(--text);
+    }
+
+    .problem-list li::before {
+      content: '';
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      background: rgba(248,113,113,0.15);
+      border: 1px solid rgba(248,113,113,0.3);
+      flex-shrink: 0;
+      margin-top: 2px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23f87171'%3E%3Cpath d='M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm7.25-3.25a.75.75 0 011.5 0v3.5a.75.75 0 01-1.5 0v-3.5zm.75 6a.75.75 0 110-1.5.75.75 0 010 1.5z'/%3E%3C/svg%3E");
+      background-size: 10px;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .problem-visual {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      font-family: var(--mono);
+      font-size: 13px;
+    }
+
+    .chain-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .chain-row:last-child { border-bottom: none; }
+
+    .chain-addr {
+      color: var(--red);
+      font-size: 12px;
+    }
+    .chain-arrow { color: var(--muted); font-size: 18px; }
+    .chain-exposed {
+      margin-left: auto;
+      color: var(--red);
+      font-size: 11px;
+      background: rgba(248,113,113,0.1);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .problem-callout {
+      margin-top: 32px;
+      padding: 20px 24px;
+      background: rgba(251,191,36,0.06);
+      border: 1px solid rgba(251,191,36,0.2);
+      border-radius: 10px;
+      font-size: 15px;
+      color: var(--amber);
+      font-weight: 500;
+    }
+
+    /* ── SOLUTION ── */
+    #solution {
+      padding: 120px 0;
+    }
+
+    .solution-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      margin-top: 64px;
+    }
+
+    .solution-visual {
+      background: var(--surface);
+      border: 1px solid rgba(34,211,238,0.15);
+      border-radius: 16px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .solution-visual::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(34,211,238,0.08), transparent 70%);
+    }
+
+    .flow-step {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+    .flow-step:last-child { border-bottom: none; }
+
+    .flow-num {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--accent-dim);
+      border: 1px solid rgba(34,211,238,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .flow-text {
+      font-size: 14px;
+      color: var(--text);
+    }
+    .flow-text span {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+      font-family: var(--mono);
+    }
+
+    .solution-text p {
+      font-size: 17px;
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 24px;
+    }
+
+    /* ── HOW IT WORKS ── */
+    #how {
+      padding: 120px 0;
+      background: linear-gradient(180deg, transparent, var(--bg2) 30%, var(--bg2) 70%, transparent);
+    }
+
+    .how-header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 72px;
+    }
+
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .how-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 32px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .how-card:hover {
+      border-color: rgba(34,211,238,0.2);
+      transform: translateY(-3px);
+    }
+
+    .how-icon {
+      width: 44px; height: 44px;
+      background: var(--accent-dim);
+      border: 1px solid rgba(34,211,238,0.2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .how-card h3 {
+      font-family: var(--display);
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .how-card p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .how-result {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, rgba(34,211,238,0.06), rgba(34,211,238,0.02));
+      border: 1px solid rgba(34,211,238,0.2);
+      border-radius: 14px;
+      padding: 28px 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .how-result-icon { font-size: 28px; }
+    .how-result-text {
+      font-size: 16px;
+      color: var(--accent2);
+      font-weight: 500;
+    }
+    .how-result-text span {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 400;
+      margin-top: 4px;
+    }
+
+    /* ── POSITIONING ── */
+    #positioning {
+      padding: 120px 0;
+    }
+
+    .pos-inner {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 64px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pos-inner::before {
+      content: '';
+      position: absolute;
+      bottom: -80px; right: -80px;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(34,211,238,0.05), transparent 70%);
+    }
+
+    .pos-inner blockquote {
+      font-family: var(--display);
+      font-size: clamp(24px, 3vw, 38px);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 48px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pos-inner blockquote em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .pos-pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pos-pillar {
+      padding: 24px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .pos-pillar-icon {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .pos-pillar h4 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .pos-pillar p {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ── COMPLIANCE ── */
+    #compliance {
+      padding: 120px 0;
+      background: linear-gradient(180deg, transparent, var(--bg2) 30%, var(--bg2) 70%, transparent);
+    }
+
+    .compliance-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      margin-top: 64px;
+    }
+
+    .compliance-text p {
+      font-size: 17px;
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 32px;
+    }
+
+    .compliance-features {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .compliance-feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 18px 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: border-color 0.3s;
+    }
+    .compliance-feature:hover { border-color: rgba(52,211,153,0.3); }
+
+    .cf-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      background: rgba(52,211,153,0.1);
+      border: 1px solid rgba(52,211,153,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .cf-text h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .cf-text p {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .compliance-callout {
+      background: linear-gradient(135deg, rgba(52,211,153,0.08), rgba(34,211,238,0.04));
+      border: 1px solid rgba(52,211,153,0.2);
+      border-radius: 16px;
+      padding: 40px;
+    }
+
+    .compliance-callout h3 {
+      font-family: var(--display);
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+
+    .compliance-callout p {
+      font-size: 15px;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    .compliance-callout .highlight {
+      font-size: 16px;
+      color: var(--green);
+      font-weight: 500;
+    }
+
+    /* ── ARCHITECTURE ── */
+    #architecture {
+      padding: 120px 0;
+    }
+
+    .arch-header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 72px;
+    }
+
+    .arch-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .arch-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 24px;
+      text-align: center;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .arch-card:hover {
+      border-color: rgba(34,211,238,0.2);
+      transform: translateY(-4px);
+    }
+
+    .arch-icon { font-size: 32px; margin-bottom: 16px; }
+    .arch-card h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .arch-card p { font-size: 12px; color: var(--muted); }
+
+    /* ── TRANSPARENCY ── */
+    #transparency {
+      padding: 80px 0;
+      background: linear-gradient(180deg, transparent, var(--bg2));
+    }
+
+    .transparency-inner {
+      background: rgba(251,191,36,0.04);
+      border: 1px solid rgba(251,191,36,0.15);
+      border-radius: 16px;
+      padding: 48px;
+    }
+
+    .transparency-inner h2 {
+      font-size: 28px;
+      margin-bottom: 16px;
+    }
+
+    .transparency-inner p {
+      font-size: 16px;
+      color: var(--muted);
+      margin-bottom: 32px;
+      max-width: 600px;
+    }
+
+    .transparency-checks {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .t-check {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      color: var(--green);
+      font-weight: 500;
+    }
+    .t-check::before {
+      content: '✔';
+      font-size: 13px;
+    }
+
+    /* ── VISION ── */
+    #vision {
+      padding: 120px 0;
+    }
+
+    .vision-inner {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .vision-quote {
+      font-family: var(--display);
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 48px;
+      letter-spacing: -0.02em;
+    }
+
+    .vision-quote em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .vision-items {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      text-align: left;
+      max-width: 480px;
+      margin: 0 auto 48px;
+    }
+
+    .vision-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 16px;
+      color: var(--muted);
+    }
+
+    .vision-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* ── CTA ── */
+    #cta {
+      padding: 120px 0;
+      background: var(--bg2);
+    }
+
+    .cta-inner {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .cta-inner h2 {
+      margin-bottom: 16px;
+    }
+
+    .cta-inner p {
+      font-size: 17px;
+      color: var(--muted);
+      margin-bottom: 40px;
+    }
+
+    .cta-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 48px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .footer-brand .nav-logo {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .footer-brand p {
+      font-size: 13px;
+      color: var(--muted);
+      max-width: 300px;
+    }
+
+    .footer-contract {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+
+    .footer-contract a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .footer-contract a:hover { text-decoration: underline; }
+
+    .footer-disclaimer {
+      max-width: 380px;
+    }
+
+    .footer-disclaimer h4 {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    .footer-disclaimer ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .footer-disclaimer li {
+      font-size: 12px;
+      color: var(--muted);
+      padding-left: 16px;
+      position: relative;
+    }
+    .footer-disclaimer li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--border);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .container { padding: 0 20px; }
+
+      .problem-grid,
+      .solution-grid,
+      .compliance-grid { grid-template-columns: 1fr; }
+
+      .how-grid { grid-template-columns: 1fr; }
+      .arch-grid { grid-template-columns: repeat(2, 1fr); }
+      .pos-pillars { grid-template-columns: 1fr; }
+
+      .pos-inner { padding: 40px 24px; }
+      .transparency-inner { padding: 32px 24px; }
+
+      .hero-stats { gap: 24px; }
+      .footer-inner { flex-direction: column; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="bg-fixed">
-  <div class="bg-glow"></div>
-  <div class="bg-glow2"></div>
-  <div class="bg-grid"></div>
-</div>
-
-<nav>
-  <img src="logo.png" alt="SilentFlow" class="nav-logo" onerror="this.style.display='none'">
-  <span class="nav-name">SILENTFLOW</span>
-  <div class="nav-spacer"></div>
-  <div class="lang-wrap">
-    <button class="lang-btn active" onclick="setLang('en')">EN</button>
-    <button class="lang-btn" onclick="setLang('pt')">PT</button>
-  </div>
-  <a href="https://silentflow.vercel.app" class="nav-cta" data-en="Launch App" data-pt="Abrir App">Launch App</a>
-</nav>
-
-<main>
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">SILENTFLOW</a>
+    <span class="nav-badge">● LIVE ON BASE</span>
+    <a href="https://silentflow.vercel.app" class="nav-cta">Usar agora →</a>
+  </nav>
 
   <!-- HERO -->
-  <section class="hero">
-    <div class="hero-badge">
-      <span class="badge-dot"></span>
-      <span data-en="Live on Sepolia Testnet · Non-Custodial · No Registration" data-pt="Disponivel na Sepolia Testnet · Nao-Custodial · Sem Cadastro">Live on Sepolia Testnet · Non-Custodial · No Registration</span>
-    </div>
-    <h1 class="hero-title">
-      <span class="white" data-en="Send Crypto." data-pt="Envie Cripto.">Send Crypto.</span><br>
-      <span class="blue" data-en="Leave No Trace." data-pt="Sem Rastros.">Leave No Trace.</span>
-    </h1>
-    <p class="hero-sub" data-en="Share a payment link. Receive funds privately. No one can trace who sent what to whom — not even blockchain analysts." data-pt="Compartilhe um link de pagamento. Receba fundos com privacidade. Ninguem consegue rastrear quem enviou o que para quem.">
-      Share a payment link. Receive funds privately. No one can trace who sent what to whom — not even blockchain analysts.
-    </p>
-    <div class="hero-actions">
-      <a href="https://silentflow.vercel.app" class="btn-primary" data-en="Launch App" data-pt="Abrir App">Launch App</a>
-      <a href="#how" class="btn-ghost" data-en="How it works" data-pt="Como funciona">How it works</a>
-    </div>
-    <div class="hero-stats">
-      <div>
-        <div class="stat-num">9.5/10</div>
-        <div class="stat-label" data-en="Privacy score" data-pt="Nivel de privacidade">Privacy score</div>
-      </div>
-      <div>
-        <div class="stat-num">~10 min</div>
-        <div class="stat-label" data-en="Per transaction" data-pt="Por transacao">Per transaction</div>
-      </div>
-      <div>
-        <div class="stat-num">0.10-0.20%</div>
-        <div class="stat-label" data-en="Tiered fee" data-pt="Taxa por volume">Tiered fee</div>
-      </div>
-      <div>
-        <div class="stat-num" style="font-size:22px;line-height:1.4">Non-Custodial</div>
-        <div class="stat-label" data-en="Always" data-pt="Sempre">Always</div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- AS SIMPLE AS A PIX LINK -->
-  <section class="section" id="how">
-    <p class="section-tag" data-en="Designed for everyone" data-pt="Feito para todos">Designed for everyone</p>
-    <h2 class="section-title reveal" data-en="As Easy as Sharing a Link" data-pt="Simples Como Compartilhar um Link">As Easy as Sharing a Link</h2>
-    <p class="section-sub reveal" data-en="Generate your payment link once. Share it anywhere. The sender pastes it, picks an amount, and confirms. Privacy happens automatically." data-pt="Gere seu link uma vez. Compartilhe em qualquer lugar. O remetente cola, digita o valor, confirma. A privacidade acontece automaticamente.">
-      Generate your payment link once. Share it anywhere. The sender pastes it, picks an amount, and confirms. Privacy happens automatically.
-    </p>
-
-    <div class="pix-demo reveal">
-      <div class="pix-demo-label" data-en="Your payment link" data-pt="Seu link de pagamento">Your payment link</div>
-      <div class="pix-url">silentflow.vercel.app/p/st:02a4f8...c391:03b7d2...e84f</div>
-      <div class="pix-arrow">&#8595;</div>
-      <div class="pix-result">
-        <span class="pix-result-icon">&#10003;</span>
-        <span class="pix-result-text" data-en="Sender opens the link, pastes amount, confirms. Done. Your real address never appears on-chain." data-pt="Remetente abre o link, digita o valor, confirma. Pronto. Seu endereco real nunca aparece on-chain.">Sender opens the link, pastes amount, confirms. Done. Your real address never appears on-chain.</span>
-      </div>
-    </div>
-
-    <!-- STEPS -->
-    <div class="steps reveal">
-      <div class="step">
-        <div class="step-num">01</div>
-        <span class="step-icon">&#128273;</span>
-        <div class="step-title" data-en="Generate your link" data-pt="Gere seu link">Generate your link</div>
-        <div class="step-desc" data-en="One click creates your private payment link. Keys stay only in your browser — encrypted backup available." data-pt="Um clique cria seu link de pagamento privado. Chaves ficam so no seu navegador — backup criptografado disponivel.">One click creates your private payment link. Keys stay only in your browser — encrypted backup available.</div>
-      </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <span class="step-icon">&#128279;</span>
-        <div class="step-title" data-en="Share it" data-pt="Compartilhe">Share it</div>
-        <div class="step-desc" data-en="Send your link via Telegram, email, or anywhere. The sender doesn't need to install anything." data-pt="Envie via Telegram, e-mail ou qualquer lugar. O remetente nao precisa instalar nada.">Send your link via Telegram, email, or anywhere. The sender doesn't need to install anything.</div>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <span class="step-icon">&#9889;</span>
-        <div class="step-title" data-en="Sender confirms" data-pt="Remetente confirma">Sender confirms</div>
-        <div class="step-desc" data-en="They open the link, type the amount, confirm in MetaMask. The privacy pipeline runs automatically in the background." data-pt="Abre o link, digita o valor, confirma na MetaMask. O pipeline de privacidade roda automaticamente em segundo plano.">They open the link, type the amount, confirm in MetaMask. The privacy pipeline runs automatically in the background.</div>
-      </div>
-      <div class="step">
-        <div class="step-num">04</div>
-        <span class="step-icon">&#128176;</span>
-        <div class="step-title" data-en="Withdraw anytime" data-pt="Saque quando quiser">Withdraw anytime</div>
-        <div class="step-desc" data-en="Open the app, scan the blockchain, and withdraw to your wallet. Gasless — no ETH needed on the stealth address." data-pt="Abra o app, escaneie a blockchain e saque para sua carteira. Sem gas — sem necessidade de ETH no endereco stealth.">Open the app, scan the blockchain, and withdraw to your wallet. Gasless — no ETH needed on the stealth address.</div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- PRIVACY PIPELINE -->
-  <section class="section" id="privacy">
-    <p class="section-tag" data-en="Under the hood" data-pt="Por dentro">Under the hood</p>
-    <h2 class="section-title reveal" data-en="Engineered Against Blockchain Analysis" data-pt="Projetado Contra Analise de Blockchain">Engineered Against Blockchain Analysis</h2>
-    <p class="section-sub reveal" data-en="Every transaction runs through a full privacy pipeline — automatically, on every send." data-pt="Toda transacao passa por um pipeline completo de privacidade — automaticamente, em cada envio.">Every transaction runs through a full privacy pipeline — automatically, on every send.</p>
-
-    <div class="flow-visual reveal">
-      <div class="flow-title" data-en="Transaction flow — example 0.15 ETH send (fixed denominations)" data-pt="Fluxo de transacao — exemplo de envio de 0.15 ETH (denominacoes fixas)">Transaction flow — example 0.15 ETH send (fixed denominations)</div>
-      <div class="flow-chain">
-        <div class="flow-node sender">
-          <div class="flow-node-label" data-en="You" data-pt="Voce">You</div>
-          <div class="flow-node-val">0.15 ETH</div>
+  <section id="hero">
+    <div class="hero-glow"></div>
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-tag">Infraestrutura de privacidade · Base Mainnet</div>
+        <h1>Privacidade para seus <em>pagamentos</em> on-chain</h1>
+        <p class="hero-sub">Proteja seus dados financeiros sem abrir mão da simplicidade. SilentFlow é uma infraestrutura não-custodial que reduz a exposição das suas transações na blockchain.</p>
+        <p class="hero-tagline">→ Mais controle. Menos exposição.</p>
+        <div class="hero-actions">
+          <a href="https://silentflow.vercel.app" class="btn-primary">
+            Usar agora
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="https://basescan.org/address/0x99f4a6Deb7643a1DDa10115BFE3c7a4D9C4Ef09B" target="_blank" class="btn-secondary">
+            Ver contrato ↗
+          </a>
         </div>
-        <span class="flow-arrow">&rarr;</span>
-        <div class="flow-node entry">
-          <div class="flow-node-label">Entry</div>
-          <div class="flow-node-val">&#127922; new</div>
-        </div>
-        <span class="flow-arrow">&rarr;</span>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <div style="display:flex;align-items:center;gap:6px">
-            <span style="font-size:9px;color:var(--text3);font-weight:600;width:44px">split 1</span>
-            <div class="flow-node"><div class="flow-node-label">E1a</div><div class="flow-node-val">0.1</div></div>
-            <span class="flow-badge">+92s</span>
-            <div class="flow-node"><div class="flow-node-label">E1b</div><div class="flow-node-val">0.1</div></div>
-            <span class="flow-badge">+145s</span>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-value">9.5/10</span>
+            <span class="stat-label">Privacy score</span>
           </div>
-          <div style="display:flex;align-items:center;gap:6px">
-            <span style="font-size:9px;color:var(--text3);font-weight:600;width:44px">split 2</span>
-            <div class="flow-node"><div class="flow-node-label">E2a</div><div class="flow-node-val">0.05</div></div>
-            <span class="flow-badge">+58s</span>
-            <div class="flow-node"><div class="flow-node-label">E2b</div><div class="flow-node-val">0.05</div></div>
-            <span class="flow-badge">+177s</span>
+          <div class="stat-item">
+            <span class="stat-value">0%</span>
+            <span class="stat-label">Custódia de fundos</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">0.10–0.20%</span>
+            <span class="stat-label">Taxa por volume</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">Non-custodial</span>
+            <span class="stat-label">Você no controle</span>
           </div>
         </div>
-        <span class="flow-arrow">&rarr;</span>
-        <div class="flow-node stealth">
-          <div class="flow-node-label">Stealth</div>
-          <div class="flow-node-val">private</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- FEATURES -->
-    <div class="features reveal">
-      <div class="feat">
-        <span class="feat-icon">&#127922;</span>
-        <div class="feat-title" data-en="Disposable Entry Address" data-pt="Endereco de Entrada Descartavel">Disposable Entry Address</div>
-        <div class="feat-desc" data-en="Every transaction gets a fresh, never-before-seen address as its entry point. No link to SilentFlow visible on-chain." data-pt="Cada transacao recebe um endereco de entrada completamente novo. Sem vinculo visivel com o SilentFlow on-chain.">Every transaction gets a fresh, never-before-seen address as its entry point. No link to SilentFlow visible on-chain.</div>
-      </div>
-      <div class="feat">
-        <span class="feat-icon">&#128178;</span>
-        <div class="feat-title" data-en="Fixed Denominations" data-pt="Denominacoes Fixas">Fixed Denominations <span class="feat-new">V7</span></div>
-        <div class="feat-desc" data-en="Deposits use standard amounts (0.01, 0.05, 0.1, 0.5, 1, 5 ETH). When everyone deposits the same value, no one can tell which withdrawal belongs to which deposit." data-pt="Depositos usam valores padrao (0.01, 0.05, 0.1, 0.5, 1, 5 ETH). Quando todos depositam o mesmo valor, ninguem sabe qual saque pertence a qual deposito.">Deposits use standard amounts (0.01, 0.05, 0.1, 0.5, 1, 5 ETH). When everyone deposits the same value, no one can tell which withdrawal belongs to which deposit.</div>
-      </div>
-      <div class="feat">
-        <span class="feat-icon">&#128274;</span>
-        <div class="feat-title" data-en="Optional Time-Lock" data-pt="Time-Lock Opcional">Optional Time-Lock <span class="feat-new">V7</span></div>
-        <div class="feat-desc" data-en="Lock funds until the next 6-hour withdrawal window. All withdrawals happen together — making temporal correlation impossible. Choose instant or timelocked per transaction." data-pt="Trave fundos ate a proxima janela de saque de 6 horas. Todos os saques acontecem juntos — tornando correlacao temporal impossivel. Escolha instantaneo ou timelocked por transacao.">Lock funds until the next 6-hour withdrawal window. All withdrawals happen together — making temporal correlation impossible. Choose instant or timelocked per transaction.</div>
-      </div>
-      <div class="feat">
-        <span class="feat-icon">&#128065;</span>
-        <div class="feat-title" data-en="Stealth Addresses" data-pt="Stealth Addresses">Stealth Addresses</div>
-        <div class="feat-desc" data-en="Recipients are cryptographically hidden. Only they can discover and claim their funds by scanning the blockchain with their private keys." data-pt="Destinatarios sao ocultados criptograficamente. Somente eles conseguem encontrar e sacar fundos usando suas chaves privadas.">Recipients are cryptographically hidden. Only they can discover and claim their funds by scanning the blockchain with their private keys.</div>
-      </div>
-      <div class="feat">
-        <span class="feat-icon">&#128256;</span>
-        <div class="feat-title" data-en="Intelligent Multi-Hop Routing" data-pt="Roteamento Multi-Hop Inteligente">Intelligent Multi-Hop Routing <span class="feat-new">V7</span></div>
-        <div class="feat-desc" data-en="Each split passes through 2 ephemeral wallets with 5 different delay profiles (20s-200s). Dummy transactions before, during and after hops create constant noise." data-pt="Cada split passa por 2 carteiras efemeras com 5 perfis de delay diferentes (20s-200s). Transacoes dummy antes, durante e depois dos hops criam ruido constante.">Each split passes through 2 ephemeral wallets with 5 different delay profiles (20s-200s). Dummy transactions before, during and after hops create constant noise.</div>
-      </div>
-      <div class="feat">
-        <span class="feat-icon">&#9981;</span>
-        <div class="feat-title" data-en="Gasless Withdrawal" data-pt="Saque Sem Gas">Gasless Withdrawal</div>
-        <div class="feat-desc" data-en="Recipients never need ETH in their stealth address. Your connected wallet pays gas via a signed off-chain message." data-pt="Destinatarios nunca precisam de ETH no endereco stealth. Sua carteira conectada paga o gas via assinatura off-chain.">Recipients never need ETH in their stealth address. Your connected wallet pays gas via a signed off-chain message.</div>
-      </div>
-      <div class="feat">
-        <span class="feat-icon">&#128200;</span>
-        <div class="feat-title" data-en="Tiered Fees" data-pt="Taxas por Volume">Tiered Fees <span class="feat-new">V7</span></div>
-        <div class="feat-desc" data-en="Pay less as you send more. Standard: 0.20% (up to ~$500). Volume: 0.15% ($500-$5K). Premium: 0.10% ($5K+). Fee tier shown in real-time before confirming." data-pt="Pague menos ao enviar mais. Standard: 0.20% (ate ~$500). Volume: 0.15% ($500-$5K). Premium: 0.10% ($5K+). Tier exibido em tempo real antes de confirmar.">Pay less as you send more. Standard: 0.20% (up to ~$500). Volume: 0.15% ($500-$5K). Premium: 0.10% ($5K+). Fee tier shown in real-time before confirming.</div>
-      </div>
-      <div class="feat">
-        <span class="feat-icon">&#128274;</span>
-        <div class="feat-title" data-en="Encrypted Key Backup" data-pt="Backup Criptografado">Encrypted Key Backup</div>
-        <div class="feat-desc" data-en="Export your keys as an AES-256 encrypted file protected by your password. Restore on any device — no cloud, no server." data-pt="Exporte suas chaves como arquivo AES-256 protegido por senha. Restaure em qualquer dispositivo — sem cloud, sem servidor.">Export your keys as an AES-256 encrypted file protected by your password. Restore on any device — no cloud, no server.</div>
-      </div>
-      <div class="feat">
-        <span class="feat-icon">&#128276;</span>
-        <div class="feat-title" data-en="Browser Notifications" data-pt="Notificacoes no Navegador">Browser Notifications <span class="feat-new">V7</span></div>
-        <div class="feat-desc" data-en="Get notified when your private transaction completes — even if you're on another tab. Real-time pipeline timeline shows every step visually." data-pt="Receba notificacao quando sua transacao privada concluir — mesmo em outra aba. Timeline em tempo real mostra cada etapa visualmente.">Get notified when your private transaction completes — even if you're on another tab. Real-time pipeline timeline shows every step visually.</div>
-      </div>
-    </div>
-
-    <!-- COMPARE -->
-    <div class="compare reveal">
-      <div class="compare-head">
-        <span data-en="Feature" data-pt="Recurso">Feature</span>
-        <span class="hl">SilentFlow V7</span>
-        <span data-en="Tornado Cash" data-pt="Tornado Cash">Tornado Cash</span>
-        <span data-en="Regular Transfer" data-pt="Transferencia">Regular Transfer</span>
-      </div>
-      <div class="compare-row">
-        <span class="c-feat" data-en="Stealth addresses" data-pt="Stealth addresses">Stealth addresses</span>
-        <span class="c-cell yes">&#10003;</span><span class="c-cell no">&#10007;</span><span class="c-cell no">&#10007;</span>
-      </div>
-      <div class="compare-row">
-        <span class="c-feat" data-en="Disposable entry" data-pt="Entrada descartavel">Disposable entry</span>
-        <span class="c-cell yes">&#10003;</span><span class="c-cell no">&#10007;</span><span class="c-cell no">&#10007;</span>
-      </div>
-      <div class="compare-row">
-        <span class="c-feat" data-en="Fixed denominations" data-pt="Denominacoes fixas">Fixed denominations</span>
-        <span class="c-cell yes">&#10003;</span><span class="c-cell yes">&#10003;</span><span class="c-cell no">&#10007;</span>
-      </div>
-      <div class="compare-row">
-        <span class="c-feat" data-en="Arbitrary amounts" data-pt="Valores livres">Arbitrary amounts</span>
-        <span class="c-cell yes">&#10003;</span><span class="c-cell no">&#10007;</span><span class="c-cell yes">&#10003;</span>
-      </div>
-      <div class="compare-row">
-        <span class="c-feat" data-en="Time-lock windows" data-pt="Janelas time-lock">Time-lock windows</span>
-        <span class="c-cell yes">&#10003;</span><span class="c-cell no">&#10007;</span><span class="c-cell no">&#10007;</span>
-      </div>
-      <div class="compare-row">
-        <span class="c-feat" data-en="Real on-chain hops" data-pt="Hops reais on-chain">Real on-chain hops</span>
-        <span class="c-cell yes">&#10003;</span><span class="c-cell no">&#10007;</span><span class="c-cell no">&#10007;</span>
-      </div>
-      <div class="compare-row">
-        <span class="c-feat" data-en="Intelligent delays" data-pt="Delays inteligentes">Intelligent delays</span>
-        <span class="c-cell yes">&#10003;</span><span class="c-cell no">&#10007;</span><span class="c-cell no">&#10007;</span>
-      </div>
-      <div class="compare-row">
-        <span class="c-feat" data-en="Gasless withdrawal" data-pt="Saque sem gas">Gasless withdrawal</span>
-        <span class="c-cell yes">&#10003;</span><span class="c-cell no">&#10007;</span><span class="c-cell no">&#10007;</span>
-      </div>
-      <div class="compare-row">
-        <span class="c-feat" data-en="Payment link" data-pt="Link de pagamento">Payment link</span>
-        <span class="c-cell yes">&#10003;</span><span class="c-cell no">&#10007;</span><span class="c-cell no">&#10007;</span>
-      </div>
-      <div class="compare-row">
-        <span class="c-feat" data-en="Tiered fees" data-pt="Taxas por volume">Tiered fees</span>
-        <span class="c-cell yes">&#10003;</span><span class="c-cell no">&#10007;</span><span class="c-cell no">&#10007;</span>
-      </div>
-      <div class="compare-row">
-        <span class="c-feat" data-en="Non-custodial" data-pt="Nao-custodial">Non-custodial</span>
-        <span class="c-cell yes">&#10003;</span><span class="c-cell yes">&#10003;</span><span class="c-cell yes">&#10003;</span>
       </div>
     </div>
   </section>
 
-  <div class="divider"></div>
+  <!-- PROBLEM -->
+  <section id="problem">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">// O problema</p>
+        <h2>Hoje, usar cripto significa<br>abrir mão da privacidade.</h2>
+      </div>
+      <div class="problem-grid reveal">
+        <div class="problem-text">
+          <p>A blockchain é pública por design. Isso é bom para auditabilidade — mas péssimo para a privacidade financeira de quem usa no dia a dia.</p>
+          <ul class="problem-list">
+            <li>Transações são públicas e rastreáveis por qualquer pessoa</li>
+            <li>Carteiras podem ser correlacionadas ao longo do tempo</li>
+            <li>Seu histórico financeiro completo fica exposto permanentemente</li>
+          </ul>
+          <div class="problem-callout">
+            Transparência total virou vigilância permanente.
+          </div>
+        </div>
+        <div class="problem-visual">
+          <div class="chain-row">
+            <span style="color:var(--muted);font-size:11px;">TX</span>
+            <span class="chain-addr">0x3b23c2...4755b</span>
+            <span class="chain-arrow">→</span>
+            <span class="chain-addr">0x9a41f3...8c21a</span>
+            <span class="chain-exposed">EXPOSTO</span>
+          </div>
+          <div class="chain-row">
+            <span style="color:var(--muted);font-size:11px;">TX</span>
+            <span class="chain-addr">0x3b23c2...4755b</span>
+            <span class="chain-arrow">→</span>
+            <span class="chain-addr">0x7f92e1...3b44c</span>
+            <span class="chain-exposed">RASTREÁVEL</span>
+          </div>
+          <div class="chain-row">
+            <span style="color:var(--muted);font-size:11px;">TX</span>
+            <span class="chain-addr">0x3b23c2...4755b</span>
+            <span class="chain-arrow">→</span>
+            <span class="chain-addr">0x2d88a0...1f39e</span>
+            <span class="chain-exposed">PÚBLICO</span>
+          </div>
+          <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--border);font-size:12px;color:var(--muted);">
+            Qualquer pessoa pode ver seu histórico completo em tempo real.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOLUTION -->
+  <section id="solution">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">// A solução</p>
+        <h2>Uma camada de proteção<br>para seus pagamentos.</h2>
+      </div>
+      <div class="solution-grid reveal">
+        <div class="solution-visual">
+          <div class="flow-step">
+            <div class="flow-num">1</div>
+            <div class="flow-text">
+              Você envia para um endereço descartável
+              <span>Criado especificamente para essa transação</span>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">2</div>
+            <div class="flow-text">
+              SilentFlow processa com camadas de proteção
+              <span>Delays, denominações fixas, multi-hop</span>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">3</div>
+            <div class="flow-text">
+              Destinatário recebe em endereço stealth
+              <span>Invisível on-chain para observadores externos</span>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">4</div>
+            <div class="flow-text">
+              Saque gasless para carteira real
+              <span>Sem revelar ETH no endereço stealth</span>
+            </div>
+          </div>
+        </div>
+        <div class="solution-text">
+          <p>SilentFlow adiciona uma camada de proteção aos seus pagamentos. Sem custodiar fundos. Sem intermediários.</p>
+          <p>Você continua no controle — com muito mais privacidade.</p>
+          <div style="display:flex;flex-direction:column;gap:12px;margin-top:16px;">
+            <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--green);">
+              <span style="font-size:16px;">✓</span> 100% non-custodial
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--green);">
+              <span style="font-size:16px;">✓</span> Smart contracts públicos e auditáveis
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--green);">
+              <span style="font-size:16px;">✓</span> ETH, USDC e USDT na Base
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--green);">
+              <span style="font-size:16px;">✓</span> Link de pagamento simples como Pix
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="container">
+      <div class="how-header reveal">
+        <p class="section-label">// Como funciona</p>
+        <h2>Proteção em múltiplas camadas</h2>
+        <p style="color:var(--muted);margin-top:16px;">Sem linguagem técnica. Sem necessidade de entender criptografia.</p>
+      </div>
+      <div class="how-grid reveal">
+        <div class="how-card">
+          <div class="how-icon">🎭</div>
+          <h3>Endereços protegidos</h3>
+          <p>Reduzem a associação direta entre remetente e destinatário. Cada transação usa um endereço novo, nunca visto antes.</p>
+        </div>
+        <div class="how-card">
+          <div class="how-icon">📐</div>
+          <h3>Padronização de valores</h3>
+          <p>Denominações fixas (10, 50, 100, 500, 1000 USDC) diminuem a identificação por padrão de transações — seu valor se mistura com o de outros.</p>
+        </div>
+        <div class="how-card">
+          <div class="how-icon">⏱️</div>
+          <h3>Janelas de processamento</h3>
+          <p>Delays inteligentes com 5 perfis diferentes (20s a 200s) evitam correlação direta por tempo entre depósito e saque.</p>
+        </div>
+        <div class="how-card">
+          <div class="how-icon">🔀</div>
+          <h3>Fluxos indiretos</h3>
+          <p>Múltiplos hops reais entre carteiras efêmeras aumentam a dificuldade de análise externa do grafo de transações.</p>
+        </div>
+        <div class="how-result">
+          <div class="how-result-icon">→</div>
+          <div class="how-result-text">
+            Resultado: menor exposição dos seus dados financeiros
+            <span>Privacidade 9.5/10 sem abrir mão da simplicidade de uso</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POSITIONING -->
+  <section id="positioning">
+    <div class="container">
+      <div class="pos-inner reveal">
+        <blockquote>
+          Privacidade não é crime.<br>É <em>infraestrutura</em>.
+        </blockquote>
+        <div class="pos-pillars">
+          <div class="pos-pillar">
+            <div class="pos-pillar-icon">🔒</div>
+            <h4>Não custodia fundos</h4>
+            <p>Você interage diretamente com o protocolo. Nenhum intermediário toca em seus ativos.</p>
+          </div>
+          <div class="pos-pillar">
+            <div class="pos-pillar-icon">⚖️</div>
+            <h4>Não controla transações</h4>
+            <p>Smart contracts públicos executam automaticamente. Nenhuma parte central pode bloquear ou censurar.</p>
+          </div>
+          <div class="pos-pillar">
+            <div class="pos-pillar-icon">🌐</div>
+            <h4>Não intermedia usuários</h4>
+            <p>SilentFlow melhora a forma como você interage com a blockchain. Apenas isso.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPLIANCE -->
+  <section id="compliance">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">// Compliance friendly</p>
+        <h2>Privacidade com responsabilidade.</h2>
+      </div>
+      <div class="compliance-grid reveal">
+        <div class="compliance-text">
+          <p>SilentFlow foi projetado como uma ferramenta neutra de proteção de dados — não como um mixer para ocultar atividade ilícita.</p>
+          <p>Por isso, oferecemos ferramentas que colocam o controle nas suas mãos.</p>
+          <div class="compliance-features">
+            <div class="compliance-feature">
+              <div class="cf-icon">📋</div>
+              <div class="cf-text">
+                <h4>Exportação de histórico</h4>
+                <p>Você pode exportar e auditar suas próprias transações quando precisar.</p>
+              </div>
+            </div>
+            <div class="compliance-feature">
+              <div class="cf-icon">🔍</div>
+              <div class="cf-text">
+                <h4>Auditoria voluntária</h4>
+                <p>Possibilidade de compartilhar dados seletivamente para fins de compliance.</p>
+              </div>
+            </div>
+            <div class="compliance-feature">
+              <div class="cf-icon">👤</div>
+              <div class="cf-text">
+                <h4>Transparência opcional</h4>
+                <p>Você escolhe quando e com quem compartilhar — não o sistema.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="compliance-callout">
+          <h3>Você no controle</h3>
+          <p>SilentFlow não busca anonimato absoluto. Seu objetivo é reduzir exposição, proteger dados e aumentar o controle do usuário sobre sua privacidade financeira.</p>
+          <p class="highlight">Você escolhe quando compartilhar — não o sistema.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARCHITECTURE -->
+  <section id="architecture">
+    <div class="container">
+      <div class="arch-header reveal">
+        <p class="section-label">// Arquitetura</p>
+        <h2>Construído para durar</h2>
+        <p style="color:var(--muted);margin-top:16px;">Você interage diretamente com o protocolo.</p>
+      </div>
+      <div class="arch-grid reveal">
+        <div class="arch-card">
+          <div class="arch-icon">🔐</div>
+          <h4>100% Non-custodial</h4>
+          <p>Nenhum fundo passa por custódia centralizada em nenhum momento.</p>
+        </div>
+        <div class="arch-card">
+          <div class="arch-icon">📜</div>
+          <h4>Smart contracts públicos</h4>
+          <p>Código aberto, verificável no Basescan. Sem caixas pretas.</p>
+        </div>
+        <div class="arch-card">
+          <div class="arch-icon">🖥️</div>
+          <h4>Interface independente</h4>
+          <p>O protocolo funciona independentemente do frontend. Sempre acessível.</p>
+        </div>
+        <div class="arch-card">
+          <div class="arch-icon">⛓️</div>
+          <h4>Base Mainnet</h4>
+          <p>Gas baixo, alta segurança, ecossistema Coinbase. Feito para uso real.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRANSPARENCY -->
+  <section id="transparency">
+    <div class="container">
+      <div class="transparency-inner reveal">
+        <p class="section-label">// Transparência</p>
+        <h2>O que SilentFlow faz — e o que não faz.</h2>
+        <p>SilentFlow não busca anonimato absoluto. É uma ferramenta de proteção de dados financeiros, não um sistema de evasão.</p>
+        <div class="transparency-checks">
+          <div class="t-check">Reduz exposição</div>
+          <div class="t-check">Protege dados</div>
+          <div class="t-check">Aumenta controle do usuário</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISION -->
+  <section id="vision">
+    <div class="container">
+      <div class="vision-inner reveal">
+        <p class="section-label" style="text-align:center;">// Visão</p>
+        <p class="vision-quote">Seus dados financeiros não deveriam ser um <em>recurso público</em>.</p>
+        <div class="vision-items">
+          <div class="vision-item">
+            <div class="vision-dot"></div>
+            Privacidade financeira como padrão, não exceção
+          </div>
+          <div class="vision-item">
+            <div class="vision-dot"></div>
+            Usuários com controle real sobre seus dados
+          </div>
+          <div class="vision-item">
+            <div class="vision-dot"></div>
+            Transparência opcional, não obrigatória
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- CTA -->
-  <section class="cta">
-    <div class="cta-glow"></div>
-    <h2 class="cta-title reveal" data-en="Your Wallet. Your Privacy." data-pt="Sua Carteira. Sua Privacidade.">Your Wallet. Your Privacy.</h2>
-    <p class="cta-sub reveal" data-en="Generate your payment link in seconds. No sign-up, no KYC, no custodians." data-pt="Gere seu link de pagamento em segundos. Sem cadastro, sem KYC, sem custodians.">Generate your payment link in seconds. No sign-up, no KYC, no custodians.</p>
-    <div class="cta-actions reveal">
-      <a href="https://silentflow.vercel.app" class="btn-primary" data-en="Launch App" data-pt="Abrir App">Launch App</a>
+  <section id="cta">
+    <div class="container">
+      <div class="cta-inner reveal">
+        <p class="section-label">// Comece agora</p>
+        <h2>Comece a usar SilentFlow</h2>
+        <p>Proteja seus pagamentos hoje. Sem cadastro. Sem custódia. Sem complicação.</p>
+        <div class="cta-actions">
+          <a href="https://silentflow.vercel.app" class="btn-primary">
+            Acessar aplicativo →
+          </a>
+          <a href="https://basescan.org/address/0x99f4a6Deb7643a1DDa10115BFE3c7a4D9C4Ef09B" target="_blank" class="btn-secondary">
+            Ver contrato no Basescan ↗
+          </a>
+        </div>
+      </div>
     </div>
   </section>
 
-</main>
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <a href="#" class="nav-logo">SILENTFLOW</a>
+          <p>Infraestrutura de privacidade para pagamentos on-chain. Non-custodial. Open source.</p>
+          <p class="footer-contract">
+            Contrato: <a href="https://basescan.org/address/0x99f4a6Deb7643a1DDa10115BFE3c7a4D9C4Ef09B" target="_blank">0x99f4a6De...Ef09B</a> · Base Mainnet
+          </p>
+        </div>
+        <div class="footer-disclaimer">
+          <h4>Aviso legal</h4>
+          <ul>
+            <li>Este protocolo é uma ferramenta de privacidade de uso geral</li>
+            <li>Usuários são responsáveis por cumprir regulações locais</li>
+            <li>Não oferecemos serviços financeiros ou custódia</li>
+            <li>Uso para atividades ilícitas não é suportado</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
 
-<footer>
-  <img src="logo.png" alt="" class="footer-logo" onerror="this.style.display='none'">
-  <span class="footer-name">SILENTFLOW</span>
-  <div class="footer-right">
-    <a class="footer-link" href="https://silentflow.vercel.app" data-en="App" data-pt="App">App</a>
-    <a class="footer-link" href="https://sepolia.etherscan.io/address/0x9ce1b8a2344BB1891A6Ed9b2aBb782fb1B8C18E9" target="_blank" data-en="Contract" data-pt="Contrato">Contract</a>
-    <span class="footer-copy">v7 · Sepolia Testnet</span>
-  </div>
-</footer>
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
 
-<script>
-var LANG_STORE = 'sf_lang';
-var currentLang = localStorage.getItem(LANG_STORE) || 'en';
-function setLang(l) {
-  currentLang = l;
-  localStorage.setItem(LANG_STORE, l);
-  document.querySelectorAll('[data-en]').forEach(function(el) {
-    el.textContent = l === 'pt' ? el.dataset.pt : el.dataset.en;
-  });
-  document.querySelectorAll('.lang-btn').forEach(function(b) {
-    b.classList.toggle('active', b.textContent.toLowerCase() === l);
-  });
-}
-setLang(currentLang);
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
 
-var observer = new IntersectionObserver(function(entries) {
-  entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
-</script>
 </body>
 </html>

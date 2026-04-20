@@ -982,7 +982,8 @@
   <nav>
     <a href="#" class="nav-logo">SILENTFLOW</a>
     <span class="nav-badge">● LIVE ON BASE</span>
-    <a href="https://silentflow.vercel.app" class="nav-cta">Usar agora →</a>
+    <button onclick="toggleLang()" id="lang-btn" style="background:transparent;border:1px solid rgba(255,255,255,0.1);color:#94a3b8;font-size:12px;padding:6px 12px;border-radius:20px;cursor:pointer;margin-right:8px;transition:all 0.2s;font-family:var(--sans)" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)';this.style.color='#94a3b8'">EN</button>
+    <a href="https://silentflow.vercel.app" class="nav-cta" data-pt="Usar agora →" data-en="Use now →">Usar agora →</a>
   </nav>
 
   <!-- HERO -->
@@ -1362,6 +1363,7 @@
     </div>
   </footer>
 
+
   <script>
     // Scroll reveal
     const observer = new IntersectionObserver((entries) => {
@@ -1371,8 +1373,273 @@
         }
       });
     }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
-
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Language toggle
+    let currentLang = 'pt';
+    const translations = {
+      pt: {
+        'lang-btn': 'EN',
+        'nav-cta': 'Usar agora →',
+        'hero-tag-text': 'Infraestrutura de privacidade · Base Mainnet',
+        'hero-h1': 'Privacidade para seus <em>pagamentos</em> on-chain',
+        'hero-sub': 'Proteja seus dados financeiros sem abrir mão da simplicidade. SilentFlow é uma infraestrutura não-custodial que reduz a exposição das suas transações na blockchain.',
+        'hero-tagline': '→ Mais controle. Menos exposição.',
+        'stat1-label': 'Privacy score',
+        'stat2-label': 'Custódia de fundos',
+        'stat3-label': 'Taxa por volume',
+        'stat4-label': 'Você no controle',
+        'problem-label': '// O problema',
+        'problem-h2': 'Hoje, usar cripto significa abrir mão da privacidade.',
+        'problem-p': 'A blockchain é pública por design. Isso é bom para auditabilidade — mas péssimo para a privacidade financeira de quem usa no dia a dia.',
+        'problem-li1': 'Transações são públicas e rastreáveis por qualquer pessoa',
+        'problem-li2': 'Carteiras podem ser correlacionadas ao longo do tempo',
+        'problem-li3': 'Seu histórico financeiro completo fica exposto permanentemente',
+        'problem-callout': 'Transparência total virou vigilância permanente.',
+        'solution-label': '// A solução',
+        'solution-h2': 'Uma camada de proteção para seus pagamentos.',
+        'sol-step1-title': 'Você envia para um endereço descartável',
+        'sol-step1-desc': 'Criado especificamente para essa transação',
+        'sol-step2-title': 'SilentFlow processa com camadas de proteção',
+        'sol-step2-desc': 'Delays, denominações fixas, multi-hop',
+        'sol-step3-title': 'Destinatário recebe em endereço stealth',
+        'sol-step3-desc': 'Invisível on-chain para observadores externos',
+        'sol-step4-title': 'Saque gasless para carteira real',
+        'sol-step4-desc': 'Sem revelar ETH no endereço stealth',
+        'sol-p1': 'SilentFlow adiciona uma camada de proteção aos seus pagamentos. Sem custodiar fundos. Sem intermediários.',
+        'sol-p2': 'Você continua no controle — com muito mais privacidade.',
+        'sol-feat1': '100% non-custodial',
+        'sol-feat2': 'Smart contracts públicos e auditáveis',
+        'sol-feat3': 'ETH, USDC e USDT na Base',
+        'sol-feat4': 'Link de pagamento simples como Pix',
+        'how-label': '// Como funciona',
+        'how-h2': 'Proteção em múltiplas camadas',
+        'how-sub': 'Sem linguagem técnica. Sem necessidade de entender criptografia.',
+        'how1-title': 'Endereços descartáveis',
+        'how1-desc': 'Um endereço novo é gerado para cada transação. Isso reduz a exposição da sua identidade financeira na blockchain.',
+        'how2-title': 'Valores padronizados',
+        'how2-desc': 'Denominações fixas (10, 50, 100, 500, 1000 USDC) aumentam sua proteção — seu valor é processado junto com outros do mesmo montante.',
+        'how3-title': 'Janelas de processamento',
+        'how3-desc': 'O processamento ocorre em janelas de tempo variáveis, reduzindo a exposição dos seus dados financeiros temporais.',
+        'how4-title': 'Roteamento em múltiplas etapas',
+        'how4-desc': 'Os fundos passam por etapas intermediárias antes de chegar ao destinatário, protegendo sua privacidade financeira.',
+        'how-result': 'Resultado: menor exposição dos seus dados financeiros',
+        'how-result-sub': 'Privacidade 9.5/10 sem abrir mão da simplicidade de uso',
+        'pos-quote': 'Privacidade não é crime.<br>É <em>infraestrutura</em>.',
+        'pos1-title': 'Não custodia fundos',
+        'pos1-desc': 'Você interage diretamente com o protocolo. Nenhum intermediário toca em seus ativos.',
+        'pos2-title': 'Não controla transações',
+        'pos2-desc': 'Smart contracts públicos executam automaticamente. Nenhuma parte central pode bloquear ou censurar.',
+        'pos3-title': 'Não intermedia usuários',
+        'pos3-desc': 'SilentFlow melhora a forma como você interage com a blockchain. Apenas isso.',
+        'compliance-label': '// Compliance friendly',
+        'compliance-h2': 'Privacidade com responsabilidade.',
+        'compliance-p1': 'SilentFlow foi projetado como uma ferramenta neutra de proteção de dados — não como um mixer para ocultar atividade ilícita.',
+        'compliance-p2': 'Por isso, oferecemos ferramentas que colocam o controle nas suas mãos.',
+        'cf1-title': 'Exportação de histórico',
+        'cf1-desc': 'Você pode exportar e auditar suas próprias transações quando precisar.',
+        'cf2-title': 'Auditoria voluntária',
+        'cf2-desc': 'Possibilidade de compartilhar dados seletivamente para fins de compliance.',
+        'cf3-title': 'Transparência opcional',
+        'cf3-desc': 'Você escolhe quando e com quem compartilhar — não o sistema.',
+        'compliance-box-title': 'Você no controle',
+        'compliance-box-p': 'SilentFlow não busca anonimato absoluto. Seu objetivo é reduzir exposição, proteger dados e aumentar o controle do usuário sobre sua privacidade financeira.',
+        'compliance-box-highlight': 'Você escolhe quando compartilhar — não o sistema.',
+        'arch-label': '// Arquitetura',
+        'arch-h2': 'Construído para durar',
+        'arch-sub': 'Você interage diretamente com o protocolo.',
+        'transp-label': '// Transparência',
+        'transp-h2': 'O que SilentFlow faz — e o que não faz.',
+        'transp-p': 'SilentFlow não busca anonimato absoluto. É uma ferramenta de proteção de dados financeiros, não um sistema de evasão.',
+        'transp-c1': 'Reduz exposição',
+        'transp-c2': 'Protege dados',
+        'transp-c3': 'Aumenta controle do usuário',
+        'vision-label': '// Visão',
+        'vision-quote': 'Seus dados financeiros não deveriam ser um <em>recurso público</em>.',
+        'vision-item1': 'Privacidade financeira como padrão, não exceção',
+        'vision-item2': 'Usuários com controle real sobre seus dados',
+        'vision-item3': 'Transparência opcional, não obrigatória',
+        'cta-label': '// Comece agora',
+        'cta-h2': 'Comece a usar SilentFlow',
+        'cta-p': 'Proteja seus pagamentos hoje. Sem cadastro. Sem custódia. Sem complicação.',
+        'cta-btn': 'Enviar com privacidade →',
+        'cta-btn2': 'Ver contrato no Basescan ↗',
+        'footer-desc': 'Infraestrutura de privacidade para pagamentos on-chain. Non-custodial. Open source.',
+        'footer-legal-title': 'Aviso legal',
+        'footer-li1': 'Este protocolo é uma ferramenta de privacidade de uso geral',
+        'footer-li2': 'Usuários são responsáveis por cumprir regulações locais',
+        'footer-li3': 'Não oferecemos serviços financeiros ou custódia',
+        'footer-li4': 'Uso para atividades ilícitas não é suportado',
+      },
+      en: {
+        'lang-btn': 'PT',
+        'nav-cta': 'Use now →',
+        'hero-tag-text': 'Privacy infrastructure · Base Mainnet',
+        'hero-h1': 'Privacy for your <em>on-chain</em> payments',
+        'hero-sub': 'Protect your financial data without sacrificing simplicity. SilentFlow is a non-custodial infrastructure that reduces the exposure of your blockchain transactions.',
+        'hero-tagline': '→ More control. Less exposure.',
+        'stat1-label': 'Privacy score',
+        'stat2-label': 'Fund custody',
+        'stat3-label': 'Fee per volume',
+        'stat4-label': 'You in control',
+        'problem-label': '// The problem',
+        'problem-h2': 'Today, using crypto means giving up privacy.',
+        'problem-p': 'The blockchain is public by design. That is good for auditability — but bad for the financial privacy of everyday users.',
+        'problem-li1': 'Transactions are public and traceable by anyone',
+        'problem-li2': 'Wallets can be correlated over time',
+        'problem-li3': 'Your complete financial history is permanently exposed',
+        'problem-callout': 'Total transparency has become permanent surveillance.',
+        'solution-label': '// The solution',
+        'solution-h2': 'A protection layer for your payments.',
+        'sol-step1-title': 'You send to a disposable address',
+        'sol-step1-desc': 'Created specifically for this transaction',
+        'sol-step2-title': 'SilentFlow processes with protection layers',
+        'sol-step2-desc': 'Delays, fixed denominations, multi-hop',
+        'sol-step3-title': 'Recipient receives at a stealth address',
+        'sol-step3-desc': 'Invisible on-chain to external observers',
+        'sol-step4-title': 'Gasless withdrawal to real wallet',
+        'sol-step4-desc': 'Without revealing ETH in the stealth address',
+        'sol-p1': 'SilentFlow adds a protection layer to your payments. No fund custody. No intermediaries.',
+        'sol-p2': 'You stay in control — with much more privacy.',
+        'sol-feat1': '100% non-custodial',
+        'sol-feat2': 'Public and auditable smart contracts',
+        'sol-feat3': 'ETH, USDC and USDT on Base',
+        'sol-feat4': 'Simple payment link like Venmo',
+        'how-label': '// How it works',
+        'how-h2': 'Protection in multiple layers',
+        'how-sub': 'No technical jargon. No need to understand cryptography.',
+        'how1-title': 'Disposable addresses',
+        'how1-desc': 'A new address is generated for each transaction. This reduces the exposure of your financial identity on the blockchain.',
+        'how2-title': 'Standardized amounts',
+        'how2-desc': 'Fixed denominations (10, 50, 100, 500, 1000 USDC) increase your protection — your value is processed with others of the same amount.',
+        'how3-title': 'Processing windows',
+        'how3-desc': 'Processing occurs in variable time windows, reducing the exposure of your temporal financial data.',
+        'how4-title': 'Multi-step routing',
+        'how4-desc': 'Funds pass through intermediate steps before reaching the recipient, protecting your financial privacy.',
+        'how-result': 'Result: less exposure of your financial data',
+        'how-result-sub': 'Privacy 9.5/10 without sacrificing ease of use',
+        'pos-quote': 'Privacy is not a crime.<br>It is <em>infrastructure</em>.',
+        'pos1-title': 'No fund custody',
+        'pos1-desc': 'You interact directly with the protocol. No intermediary touches your assets.',
+        'pos2-title': 'No transaction control',
+        'pos2-desc': 'Public smart contracts execute automatically. No central party can block or censor.',
+        'pos3-title': 'No user intermediation',
+        'pos3-desc': 'SilentFlow improves the way you interact with the blockchain. That is all.',
+        'compliance-label': '// Compliance friendly',
+        'compliance-h2': 'Privacy with responsibility.',
+        'compliance-p1': 'SilentFlow was designed as a neutral data protection tool — not as a mixer to hide illicit activity.',
+        'compliance-p2': 'That is why we offer tools that put control in your hands.',
+        'cf1-title': 'History export',
+        'cf1-desc': 'You can export and audit your own transactions whenever you need.',
+        'cf2-title': 'Voluntary audit',
+        'cf2-desc': 'Ability to selectively share data for compliance purposes.',
+        'cf3-title': 'Optional transparency',
+        'cf3-desc': 'You choose when and with whom to share — not the system.',
+        'compliance-box-title': 'You in control',
+        'compliance-box-p': 'SilentFlow does not seek absolute anonymity. Its goal is to reduce exposure, protect data and increase user control over their financial privacy.',
+        'compliance-box-highlight': 'You choose when to share — not the system.',
+        'arch-label': '// Architecture',
+        'arch-h2': 'Built to last',
+        'arch-sub': 'You interact directly with the protocol.',
+        'transp-label': '// Transparency',
+        'transp-h2': 'What SilentFlow does — and what it does not.',
+        'transp-p': 'SilentFlow does not seek absolute anonymity. It is a financial data protection tool, not an evasion system.',
+        'transp-c1': 'Reduces exposure',
+        'transp-c2': 'Protects data',
+        'transp-c3': 'Increases user control',
+        'vision-label': '// Vision',
+        'vision-quote': 'Your financial data should not be a <em>public resource</em>.',
+        'vision-item1': 'Financial privacy as the default, not the exception',
+        'vision-item2': 'Users with real control over their data',
+        'vision-item3': 'Transparency optional, not mandatory',
+        'cta-label': '// Start now',
+        'cta-h2': 'Start using SilentFlow',
+        'cta-p': 'Protect your payments today. No sign-up. No custody. No hassle.',
+        'cta-btn': 'Send privately →',
+        'cta-btn2': 'View contract on Basescan ↗',
+        'footer-desc': 'Privacy infrastructure for on-chain payments. Non-custodial. Open source.',
+        'footer-legal-title': 'Legal notice',
+        'footer-li1': 'This protocol is a general-purpose privacy tool',
+        'footer-li2': 'Users are responsible for complying with local regulations',
+        'footer-li3': 'We do not offer financial services or custody',
+        'footer-li4': 'Use for illegal activities is not supported',
+      }
+    };
+
+    function toggleLang() {
+      currentLang = currentLang === 'pt' ? 'en' : 'pt';
+      applyLang(currentLang);
+    }
+
+    function applyLang(lang) {
+      const t = translations[lang];
+      document.getElementById('lang-btn').textContent = t['lang-btn'];
+      document.querySelector('.nav-cta').textContent = t['nav-cta'];
+      document.querySelector('.hero-tag').innerHTML = '<span></span>' + t['hero-tag-text'];
+      document.querySelector('h1').innerHTML = t['hero-h1'];
+      document.querySelector('.hero-sub').textContent = t['hero-sub'];
+      document.querySelector('.hero-tagline').textContent = t['hero-tagline'];
+
+      // Stats
+      const statLabels = document.querySelectorAll('.stat-label');
+      if (statLabels[0]) statLabels[0].textContent = t['stat1-label'];
+      if (statLabels[1]) statLabels[1].textContent = t['stat2-label'];
+      if (statLabels[2]) statLabels[2].textContent = t['stat3-label'];
+      if (statLabels[3]) statLabels[3].textContent = t['stat4-label'];
+
+      // Problem
+      document.querySelector('.section-label').textContent = t['problem-label'];
+      const h2s = document.querySelectorAll('h2');
+      if (h2s[0]) h2s[0].textContent = t['problem-h2'];
+      const problemPs = document.querySelector('#problem .problem-text p');
+      if (problemPs) problemPs.textContent = t['problem-p'];
+      const lis = document.querySelectorAll('.problem-list li');
+      if (lis[0]) lis[0].textContent = t['problem-li1'];
+      if (lis[1]) lis[1].textContent = t['problem-li2'];
+      if (lis[2]) lis[2].textContent = t['problem-li3'];
+      const callout = document.querySelector('.problem-callout');
+      if (callout) callout.textContent = t['problem-callout'];
+
+      // How
+      const howCards = document.querySelectorAll('.how-card');
+      if (howCards[0]) { howCards[0].querySelector('h3').textContent = t['how1-title']; howCards[0].querySelector('p').textContent = t['how1-desc']; }
+      if (howCards[1]) { howCards[1].querySelector('h3').textContent = t['how2-title']; howCards[1].querySelector('p').textContent = t['how2-desc']; }
+      if (howCards[2]) { howCards[2].querySelector('h3').textContent = t['how3-title']; howCards[2].querySelector('p').textContent = t['how3-desc']; }
+      if (howCards[3]) { howCards[3].querySelector('h3').textContent = t['how4-title']; howCards[3].querySelector('p').textContent = t['how4-desc']; }
+      const howResult = document.querySelector('.how-result-text');
+      if (howResult) { howResult.childNodes[0].textContent = t['how-result']; const span = howResult.querySelector('span'); if (span) span.textContent = t['how-result-sub']; }
+
+      // Positioning
+      const posQuote = document.querySelector('blockquote');
+      if (posQuote) posQuote.innerHTML = t['pos-quote'];
+      const posPillars = document.querySelectorAll('.pos-pillar');
+      if (posPillars[0]) { posPillars[0].querySelector('h4').textContent = t['pos1-title']; posPillars[0].querySelector('p').textContent = t['pos1-desc']; }
+      if (posPillars[1]) { posPillars[1].querySelector('h4').textContent = t['pos2-title']; posPillars[1].querySelector('p').textContent = t['pos2-desc']; }
+      if (posPillars[2]) { posPillars[2].querySelector('h4').textContent = t['pos3-title']; posPillars[2].querySelector('p').textContent = t['pos3-desc']; }
+
+      // CTA
+      const ctaBtn = document.querySelector('.cta-actions .btn-primary');
+      if (ctaBtn) ctaBtn.textContent = t['cta-btn'];
+      const ctaBtn2 = document.querySelector('.cta-actions .btn-secondary');
+      if (ctaBtn2) ctaBtn2.textContent = t['cta-btn2'];
+      const ctaH2 = document.querySelector('#cta h2');
+      if (ctaH2) ctaH2.textContent = t['cta-h2'];
+      const ctaP = document.querySelector('#cta p');
+      if (ctaP) ctaP.textContent = t['cta-p'];
+
+      // Footer
+      const footerDesc = document.querySelector('.footer-brand p');
+      if (footerDesc) footerDesc.textContent = t['footer-desc'];
+      const footerTitle = document.querySelector('.footer-disclaimer h4');
+      if (footerTitle) footerTitle.textContent = t['footer-legal-title'];
+      const footerLis = document.querySelectorAll('.footer-disclaimer li');
+      if (footerLis[0]) footerLis[0].textContent = t['footer-li1'];
+      if (footerLis[1]) footerLis[1].textContent = t['footer-li2'];
+      if (footerLis[2]) footerLis[2].textContent = t['footer-li3'];
+      if (footerLis[3]) footerLis[3].textContent = t['footer-li4'];
+
+      document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
+    }
   </script>
 
 </body>

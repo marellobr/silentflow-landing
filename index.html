@@ -41,29 +41,25 @@
       overflow-x: hidden;
     }
 
-    /* ── NOISE OVERLAY ── */
-    body::before {
-      content: '';
+    /* ── ANIMATED ORBS ── */
+    .orb {
       position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      border-radius: 50%;
       pointer-events: none;
       z-index: 0;
-      opacity: 0.4;
+      filter: blur(2px);
     }
+    .orb-1 { top: 5%; left: 3%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(34,211,238,0.14) 0%, rgba(34,211,238,0.03) 50%, transparent 70%); animation: float1 12s ease-in-out infinite; }
+    .orb-2 { top: 15%; right: 2%; width: 420px; height: 420px; background: radial-gradient(circle, rgba(130,71,229,0.12) 0%, rgba(130,71,229,0.03) 50%, transparent 70%); animation: float2 15s ease-in-out infinite; }
+    .orb-3 { bottom: 20%; left: 5%; width: 360px; height: 360px; background: radial-gradient(circle, rgba(240,185,11,0.1) 0%, rgba(240,185,11,0.02) 50%, transparent 70%); animation: float3 18s ease-in-out infinite; }
+    .orb-4 { bottom: 10%; right: 5%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(34,211,238,0.1) 0%, transparent 70%); animation: float4 10s ease-in-out infinite; }
+    .orb-5 { top: 50%; left: 30%; width: 250px; height: 250px; background: radial-gradient(circle, rgba(52,211,153,0.08) 0%, transparent 70%); animation: float5 20s ease-in-out infinite; }
 
-    /* ── GRID BACKGROUND ── */
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(34,211,238,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(34,211,238,0.03) 1px, transparent 1px);
-      background-size: 60px 60px;
-      pointer-events: none;
-      z-index: 0;
-    }
+    @keyframes float1 { 0%,100%{transform:translate(0,0) scale(1)} 25%{transform:translate(30px,-20px) scale(1.05)} 50%{transform:translate(-15px,30px) scale(0.95)} 75%{transform:translate(20px,15px) scale(1.02)} }
+    @keyframes float2 { 0%,100%{transform:translate(0,0) scale(1)} 30%{transform:translate(-25px,20px) scale(1.08)} 60%{transform:translate(15px,-25px) scale(0.93)} 80%{transform:translate(-10px,10px) scale(1.03)} }
+    @keyframes float3 { 0%,100%{transform:translate(0,0) scale(1)} 20%{transform:translate(20px,15px) scale(0.97)} 50%{transform:translate(-20px,-20px) scale(1.06)} 75%{transform:translate(10px,-10px) scale(0.98)} }
+    @keyframes float4 { 0%,100%{transform:translate(0,0)} 35%{transform:translate(-15px,-25px)} 65%{transform:translate(25px,10px)} }
+    @keyframes float5 { 0%,100%{transform:translate(0,0) scale(1)} 40%{transform:translate(15px,-15px) scale(1.1)} 70%{transform:translate(-20px,20px) scale(0.9)} }
 
     /* ── NAV ── */
     nav {
@@ -978,6 +974,13 @@
 </head>
 <body>
 
+  <!-- BACKGROUND ORBS -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
+  <div class="orb orb-5"></div>
+
   <!-- NAV -->
   <nav>
     <a href="#" class="nav-logo">SILENTFLOW</a>
@@ -991,7 +994,7 @@
     <div class="hero-glow"></div>
     <div class="container">
       <div class="hero-inner">
-        <div class="hero-tag">Infraestrutura de privacidade · Base Mainnet</div>
+        <div class="hero-tag">Infraestrutura de privacidade · Base · Polygon · BNB</div>
         <h1>Privacidade para seus <em>pagamentos</em> on-chain</h1>
         <p class="hero-sub">Proteja seus dados financeiros sem abrir mão da simplicidade. SilentFlow é uma infraestrutura não-custodial que reduz a exposição das suas transações na blockchain.</p>
         <p class="hero-tagline">→ Mais controle. Menos exposição.</p>
@@ -1381,7 +1384,7 @@
       pt: {
         'lang-btn': 'EN',
         'nav-cta': 'Usar agora →',
-        'hero-tag-text': 'Infraestrutura de privacidade · Base Mainnet',
+        'hero-tag-text': 'Infraestrutura de privacidade · Base · Polygon · BNB',
         'hero-h1': 'Privacidade para seus <em>pagamentos</em> on-chain',
         'hero-sub': 'Proteja seus dados financeiros sem abrir mão da simplicidade. SilentFlow é uma infraestrutura não-custodial que reduz a exposição das suas transações na blockchain.',
         'hero-tagline': '→ Mais controle. Menos exposição.',

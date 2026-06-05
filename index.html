@@ -8,891 +8,265 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@300;400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
-
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg:        #07080c;
-      --bg2:       #0c0e15;
-      --surface:   #111420;
-      --border:    rgba(255,255,255,0.06);
-      --accent:    #22d3ee;
-      --accent2:   #67e8f9;
-      --accent-dim: rgba(34,211,238,0.12);
-      --green:     #34d399;
-      --amber:     #fbbf24;
-      --red:       #f87171;
-      --text:      #e2e8f0;
-      --muted:     #64748b;
-      --sans:      'DM Sans', sans-serif;
-      --mono:      'DM Mono', monospace;
-      --display:   'Syne', sans-serif;
+      --bg: #07080c; --bg2: #0c0e15; --surface: #111420;
+      --border: rgba(255,255,255,0.06); --border2: rgba(255,255,255,0.1);
+      --accent: #22d3ee; --accent2: #67e8f9; --accent-dim: rgba(34,211,238,0.12);
+      --green: #34d399; --amber: #fbbf24; --red: #f87171;
+      --text: #e2e8f0; --muted: #64748b;
+      --sans: 'DM Sans', sans-serif; --mono: 'DM Mono', monospace; --display: 'Syne', sans-serif;
     }
-
     html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--sans);
-      font-size: 16px;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    /* ── ANIMATED ORBS ── */
-    .orb {
-      position: fixed;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 0;
-      filter: blur(2px);
-    }
+    .orb { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(2px); }
     .orb-1 { top: 5%; left: 3%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(34,211,238,0.14) 0%, rgba(34,211,238,0.03) 50%, transparent 70%); animation: float1 12s ease-in-out infinite; }
     .orb-2 { top: 15%; right: 2%; width: 420px; height: 420px; background: radial-gradient(circle, rgba(130,71,229,0.12) 0%, rgba(130,71,229,0.03) 50%, transparent 70%); animation: float2 15s ease-in-out infinite; }
     .orb-3 { bottom: 20%; left: 5%; width: 360px; height: 360px; background: radial-gradient(circle, rgba(240,185,11,0.1) 0%, rgba(240,185,11,0.02) 50%, transparent 70%); animation: float3 18s ease-in-out infinite; }
     .orb-4 { bottom: 10%; right: 5%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(34,211,238,0.1) 0%, transparent 70%); animation: float4 10s ease-in-out infinite; }
     .orb-5 { top: 50%; left: 30%; width: 250px; height: 250px; background: radial-gradient(circle, rgba(52,211,153,0.08) 0%, transparent 70%); animation: float5 20s ease-in-out infinite; }
-
     @keyframes float1 { 0%,100%{transform:translate(0,0) scale(1)} 25%{transform:translate(30px,-20px) scale(1.05)} 50%{transform:translate(-15px,30px) scale(0.95)} 75%{transform:translate(20px,15px) scale(1.02)} }
-    @keyframes float2 { 0%,100%{transform:translate(0,0) scale(1)} 30%{transform:translate(-25px,20px) scale(1.08)} 60%{transform:translate(15px,-25px) scale(0.93)} 80%{transform:translate(-10px,10px) scale(1.03)} }
-    @keyframes float3 { 0%,100%{transform:translate(0,0) scale(1)} 20%{transform:translate(20px,15px) scale(0.97)} 50%{transform:translate(-20px,-20px) scale(1.06)} 75%{transform:translate(10px,-10px) scale(0.98)} }
+    @keyframes float2 { 0%,100%{transform:translate(0,0) scale(1)} 30%{transform:translate(-25px,20px) scale(1.08)} 60%{transform:translate(15px,-25px) scale(0.93)} }
+    @keyframes float3 { 0%,100%{transform:translate(0,0) scale(1)} 20%{transform:translate(20px,15px) scale(0.97)} 50%{transform:translate(-20px,-20px) scale(1.06)} }
     @keyframes float4 { 0%,100%{transform:translate(0,0)} 35%{transform:translate(-15px,-25px)} 65%{transform:translate(25px,10px)} }
     @keyframes float5 { 0%,100%{transform:translate(0,0) scale(1)} 40%{transform:translate(15px,-15px) scale(1.1)} 70%{transform:translate(-20px,20px) scale(0.9)} }
 
-    /* ── NAV ── */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
       padding: 20px 48px;
-      background: rgba(7,8,12,0.8);
-      backdrop-filter: blur(20px);
+      background: rgba(7,8,12,0.8); backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
     }
-
-    .nav-logo {
-      font-family: var(--display);
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--accent);
-      letter-spacing: 0.08em;
-      text-decoration: none;
-    }
-
-    .nav-badge {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--green);
-      background: rgba(52,211,153,0.1);
-      border: 1px solid rgba(52,211,153,0.25);
-      padding: 4px 10px;
-      border-radius: 20px;
-      letter-spacing: 0.05em;
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .nav-cta {
-      background: var(--accent);
-      color: var(--bg);
-      font-family: var(--sans);
-      font-weight: 600;
-      font-size: 14px;
-      padding: 10px 22px;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: opacity 0.2s, transform 0.2s;
-    }
+    .nav-logo { font-family: var(--display); font-size: 18px; font-weight: 800; color: var(--accent); letter-spacing: 0.08em; text-decoration: none; }
+    .nav-center { display: flex; align-items: center; gap: 8px; }
+    .nav-badge { font-family: var(--mono); font-size: 11px; color: var(--green); background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.25); padding: 4px 10px; border-radius: 20px; }
+    .nav-beta { font-family: var(--mono); font-size: 10px; color: var(--amber); background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.2); padding: 3px 8px; border-radius: 20px; }
+    .nav-right { display: flex; align-items: center; gap: 8px; }
+    .nav-cta { background: var(--accent); color: var(--bg); font-weight: 600; font-size: 14px; padding: 10px 22px; border-radius: 8px; text-decoration: none; transition: all 0.2s; }
     .nav-cta:hover { opacity: 0.85; transform: translateY(-1px); }
 
-    /* ── SECTIONS ── */
     section { position: relative; z-index: 1; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
 
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 32px;
-    }
-
-    /* ── HERO ── */
-    #hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding-top: 100px;
-      overflow: hidden;
-    }
-
-    .hero-glow {
-      position: absolute;
-      width: 700px; height: 700px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(34,211,238,0.08) 0%, transparent 70%);
-      top: 50%; left: 50%;
-      transform: translate(-50%, -55%);
-      pointer-events: none;
-    }
-
+    /* HERO */
+    #hero { min-height: 100vh; display: flex; align-items: center; padding-top: 100px; overflow: hidden; }
+    .hero-glow { position: absolute; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(34,211,238,0.08) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -55%); pointer-events: none; }
     .hero-inner { max-width: 760px; }
-
-    .hero-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--accent);
-      background: var(--accent-dim);
-      border: 1px solid rgba(34,211,238,0.2);
-      padding: 6px 14px;
-      border-radius: 20px;
-      margin-bottom: 32px;
-      letter-spacing: 0.04em;
-      animation: fadeUp 0.6s ease both;
-    }
-
-    .hero-tag::before {
-      content: '';
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-
-    h1 {
-      font-family: var(--display);
-      font-size: clamp(42px, 6vw, 76px);
-      font-weight: 800;
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-      color: #fff;
-      margin-bottom: 24px;
-      animation: fadeUp 0.6s 0.1s ease both;
-    }
-
+    .hero-tag { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 12px; color: var(--accent); background: var(--accent-dim); border: 1px solid rgba(34,211,238,0.2); padding: 6px 14px; border-radius: 20px; margin-bottom: 32px; animation: fadeUp 0.6s ease both; }
+    .hero-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    h1 { font-family: var(--display); font-size: clamp(42px, 6vw, 76px); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; color: #fff; margin-bottom: 24px; animation: fadeUp 0.6s 0.1s ease both; }
     h1 em { font-style: normal; color: var(--accent); }
-
-    .hero-sub {
-      font-size: 20px;
-      color: var(--muted);
-      font-weight: 400;
-      max-width: 560px;
-      margin-bottom: 16px;
-      animation: fadeUp 0.6s 0.2s ease both;
-    }
-
-    .hero-tagline {
-      font-size: 15px;
-      color: var(--accent2);
-      font-weight: 500;
-      margin-bottom: 40px;
-      animation: fadeUp 0.6s 0.25s ease both;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-      animation: fadeUp 0.6s 0.3s ease both;
-      flex-wrap: wrap;
-    }
-
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--accent);
-      color: var(--bg);
-      font-weight: 600;
-      font-size: 15px;
-      padding: 14px 28px;
-      border-radius: 10px;
-      text-decoration: none;
-      transition: all 0.2s;
-      box-shadow: 0 0 30px rgba(34,211,238,0.25);
-    }
+    .hero-sub { font-size: 20px; color: var(--muted); font-weight: 400; max-width: 560px; margin-bottom: 16px; animation: fadeUp 0.6s 0.2s ease both; }
+    .hero-tagline { font-size: 15px; color: var(--accent2); font-weight: 500; margin-bottom: 40px; animation: fadeUp 0.6s 0.25s ease both; }
+    .hero-actions { display: flex; gap: 16px; align-items: center; animation: fadeUp 0.6s 0.3s ease both; flex-wrap: wrap; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: var(--bg); font-weight: 600; font-size: 15px; padding: 14px 28px; border-radius: 10px; text-decoration: none; transition: all 0.2s; box-shadow: 0 0 30px rgba(34,211,238,0.25); }
     .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(34,211,238,0.4); }
-
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--muted);
-      font-size: 14px;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
+    .btn-secondary { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-size: 14px; text-decoration: none; transition: color 0.2s; }
     .btn-secondary:hover { color: var(--text); }
-
-    .hero-stats {
-      display: flex;
-      gap: 48px;
-      margin-top: 64px;
-      padding-top: 48px;
-      border-top: 1px solid var(--border);
-      animation: fadeUp 0.6s 0.4s ease both;
-      flex-wrap: wrap;
-    }
-
-    .stat-value {
-      font-family: var(--mono);
-      font-size: 28px;
-      font-weight: 500;
-      color: var(--accent);
-      display: block;
-    }
+    .hero-stats { display: flex; gap: 48px; margin-top: 64px; padding-top: 48px; border-top: 1px solid var(--border); animation: fadeUp 0.6s 0.4s ease both; flex-wrap: wrap; }
+    .stat-value { font-family: var(--mono); font-size: 28px; font-weight: 500; color: var(--accent); display: block; }
     .stat-label { font-size: 13px; color: var(--muted); margin-top: 2px; }
 
-    /* ── NETWORKS ── */
-    #networks {
-      padding: 80px 0;
-      background: linear-gradient(180deg, transparent, var(--bg2) 30%, var(--bg2) 70%, transparent);
-    }
-
+    /* NETWORKS */
+    #networks { padding: 80px 0; background: linear-gradient(180deg, transparent, var(--bg2) 30%, var(--bg2) 70%, transparent); }
     .networks-header { text-align: center; margin-bottom: 48px; }
-
-    .networks-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    .network-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 28px 24px;
-      text-align: center;
-      transition: border-color 0.3s, transform 0.3s;
-    }
+    .networks-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .network-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 28px 24px; text-align: center; transition: border-color 0.3s, transform 0.3s; }
     .network-card:hover { transform: translateY(-3px); }
     .network-card.base { border-color: rgba(34,211,238,0.2); }
     .network-card.polygon { border-color: rgba(130,71,229,0.2); }
     .network-card.bnb { border-color: rgba(240,185,11,0.2); }
-
-    .network-icon { font-size: 36px; margin-bottom: 12px; }
-    .network-name {
-      font-family: var(--display);
-      font-size: 18px;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 8px;
-    }
-    .network-tokens {
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 12px;
-    }
-    .network-badge {
-      display: inline-block;
-      font-size: 10px;
-      padding: 3px 10px;
-      border-radius: 20px;
-      font-family: var(--mono);
-      font-weight: 500;
-    }
+    .network-name { font-family: var(--display); font-size: 18px; font-weight: 700; color: #fff; margin: 12px 0 8px; }
+    .network-tokens { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+    .network-badge { display: inline-block; font-size: 10px; padding: 3px 10px; border-radius: 20px; font-family: var(--mono); }
     .network-badge.live { background: rgba(52,211,153,0.1); color: var(--green); border: 1px solid rgba(52,211,153,0.25); }
 
-    /* ── PROBLEM ── */
+    /* SECTION COMMON */
+    .section-label { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px; }
+    h2 { font-family: var(--display); font-size: clamp(32px, 4vw, 52px); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; color: #fff; margin-bottom: 20px; }
+
+    /* PROBLEM */
     #problem { padding: 120px 0; }
-
-    .section-label {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--accent);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-bottom: 16px;
-    }
-
-    h2 {
-      font-family: var(--display);
-      font-size: clamp(32px, 4vw, 52px);
-      font-weight: 800;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      color: #fff;
-      margin-bottom: 20px;
-    }
-
-    .problem-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: center;
-      margin-top: 64px;
-    }
-
+    .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-top: 64px; }
     .problem-text p { font-size: 17px; color: var(--muted); margin-bottom: 32px; font-weight: 300; }
-
     .problem-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
-
-    .problem-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      font-size: 15px;
-      color: var(--text);
-    }
-
-    .problem-list li::before {
-      content: '';
-      width: 18px; height: 18px;
-      border-radius: 4px;
-      background: rgba(248,113,113,0.15);
-      border: 1px solid rgba(248,113,113,0.3);
-      flex-shrink: 0;
-      margin-top: 2px;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23f87171'%3E%3Cpath d='M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm7.25-3.25a.75.75 0 011.5 0v3.5a.75.75 0 01-1.5 0v-3.5zm.75 6a.75.75 0 110-1.5.75.75 0 010 1.5z'/%3E%3C/svg%3E");
-      background-size: 10px;
-      background-repeat: no-repeat;
-      background-position: center;
-    }
-
-    .problem-visual {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 32px;
-      font-family: var(--mono);
-      font-size: 13px;
-    }
-
-    .chain-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border);
-      color: var(--muted);
-    }
+    .problem-list li { display: flex; align-items: flex-start; gap: 14px; font-size: 15px; color: var(--text); }
+    .problem-list li::before { content: ''; width: 18px; height: 18px; border-radius: 4px; background: rgba(248,113,113,0.15); border: 1px solid rgba(248,113,113,0.3); flex-shrink: 0; margin-top: 2px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23f87171'%3E%3Cpath d='M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm7.25-3.25a.75.75 0 011.5 0v3.5a.75.75 0 01-1.5 0v-3.5zm.75 6a.75.75 0 110-1.5.75.75 0 010 1.5z'/%3E%3C/svg%3E"); background-size: 10px; background-repeat: no-repeat; background-position: center; }
+    .problem-visual { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; font-family: var(--mono); font-size: 13px; }
+    .chain-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); color: var(--muted); }
     .chain-row:last-child { border-bottom: none; }
     .chain-addr { color: var(--red); font-size: 12px; }
     .chain-arrow { color: var(--muted); font-size: 18px; }
-    .chain-exposed {
-      margin-left: auto;
-      color: var(--red);
-      font-size: 11px;
-      background: rgba(248,113,113,0.1);
-      padding: 2px 8px;
-      border-radius: 4px;
-    }
+    .chain-exposed { margin-left: auto; color: var(--red); font-size: 11px; background: rgba(248,113,113,0.1); padding: 2px 8px; border-radius: 4px; }
+    .problem-callout { margin-top: 32px; padding: 20px 24px; background: rgba(251,191,36,0.06); border: 1px solid rgba(251,191,36,0.2); border-radius: 10px; font-size: 15px; color: var(--amber); font-weight: 500; }
 
-    .problem-callout {
-      margin-top: 32px;
-      padding: 20px 24px;
-      background: rgba(251,191,36,0.06);
-      border: 1px solid rgba(251,191,36,0.2);
-      border-radius: 10px;
-      font-size: 15px;
-      color: var(--amber);
-      font-weight: 500;
-    }
-
-    /* ── SOLUTION ── */
+    /* SOLUTION */
     #solution { padding: 120px 0; background: linear-gradient(180deg, transparent, var(--bg2) 30%, var(--bg2) 70%, transparent); }
-
-    .solution-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: center;
-      margin-top: 64px;
-    }
-
-    .solution-visual {
-      background: var(--surface);
-      border: 1px solid rgba(34,211,238,0.15);
-      border-radius: 16px;
-      padding: 32px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .solution-visual::before {
-      content: '';
-      position: absolute;
-      top: -40px; right: -40px;
-      width: 200px; height: 200px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(34,211,238,0.08), transparent 70%);
-    }
-
-    .flow-step {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 14px 0;
-      border-bottom: 1px solid var(--border);
-      position: relative;
-      z-index: 1;
-    }
+    .solution-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-top: 64px; }
+    .solution-visual { background: var(--surface); border: 1px solid rgba(34,211,238,0.15); border-radius: 16px; padding: 32px; position: relative; overflow: hidden; }
+    .solution-visual::before { content: ''; position: absolute; top: -40px; right: -40px; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(34,211,238,0.08), transparent 70%); }
+    .flow-step { display: flex; align-items: center; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--border); position: relative; z-index: 1; }
     .flow-step:last-child { border-bottom: none; }
-
-    .flow-num {
-      width: 28px; height: 28px;
-      border-radius: 50%;
-      background: var(--accent-dim);
-      border: 1px solid rgba(34,211,238,0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--accent);
-      flex-shrink: 0;
-    }
-
+    .flow-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-dim); border: 1px solid rgba(34,211,238,0.3); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; color: var(--accent); flex-shrink: 0; }
     .flow-text { font-size: 14px; color: var(--text); }
-    .flow-text span {
-      display: block;
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 2px;
-      font-family: var(--mono);
-    }
-
+    .flow-text span { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; font-family: var(--mono); }
     .solution-text p { font-size: 17px; color: var(--muted); font-weight: 300; margin-bottom: 24px; }
 
-    /* ── FLOW DETAIL ── */
-    #flow { padding: 120px 0; }
+    /* PRIVACY LEVELS */
+    #privacy { padding: 120px 0; }
+    .privacy-header { text-align: center; max-width: 620px; margin: 0 auto 72px; }
+    .privacy-levels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .privacy-level { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; transition: all 0.3s; position: relative; overflow: hidden; }
+    .privacy-level.highlight { border-color: rgba(34,211,238,0.3); background: linear-gradient(135deg, rgba(34,211,238,0.06), rgba(34,211,238,0.02)); }
+    .privacy-level.highlight::before { content: 'RECOMENDADO'; position: absolute; top: 16px; right: 16px; font-family: var(--mono); font-size: 9px; color: var(--accent); background: var(--accent-dim); border: 1px solid rgba(34,211,238,0.2); padding: 2px 8px; border-radius: 20px; }
+    .privacy-level-icon { font-size: 32px; margin-bottom: 16px; }
+    .privacy-level h3 { font-family: var(--display); font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .privacy-level p { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 16px; }
+    .privacy-meter { display: flex; gap: 4px; margin-top: 8px; }
+    .privacy-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border2); }
+    .privacy-dot.on { background: var(--accent); }
+    .privacy-dot.on.green { background: var(--green); }
 
+    /* WITHDRAW FEATURE */
+    #withdraw-feature { padding: 120px 0; background: linear-gradient(180deg, transparent, var(--bg2) 30%, var(--bg2) 70%, transparent); }
+    .withdraw-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+    .withdraw-text h2 { margin-bottom: 20px; }
+    .withdraw-text p { font-size: 17px; color: var(--muted); font-weight: 300; margin-bottom: 24px; line-height: 1.8; }
+    .withdraw-steps { display: flex; flex-direction: column; gap: 16px; }
+    .withdraw-step { display: flex; align-items: flex-start; gap: 16px; padding: 16px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; transition: border-color 0.3s; }
+    .withdraw-step:hover { border-color: rgba(34,211,238,0.2); }
+    .withdraw-step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-dim); border: 1px solid rgba(34,211,238,0.3); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; color: var(--accent); flex-shrink: 0; }
+    .withdraw-step-text h4 { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+    .withdraw-step-text p { font-size: 13px; color: var(--muted); margin: 0; }
+    .withdraw-visual { background: var(--surface); border: 1px solid rgba(34,211,238,0.15); border-radius: 20px; padding: 32px; }
+    .withdraw-card { background: rgba(34,211,238,0.04); border: 1px solid rgba(34,211,238,0.15); border-radius: 14px; padding: 24px; margin-bottom: 16px; }
+    .withdraw-amount { font-family: var(--mono); font-size: 28px; font-weight: 500; color: var(--green); margin-bottom: 4px; }
+    .withdraw-token { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+    .withdraw-addr-input { background: var(--bg2); border: 1px solid var(--border2); border-radius: 8px; padding: 10px 14px; font-family: var(--mono); font-size: 11px; color: var(--accent2); width: 100%; margin-bottom: 8px; }
+    .withdraw-privacy-badge { font-family: var(--mono); font-size: 10px; color: var(--green); margin-bottom: 16px; display: block; }
+    .withdraw-btn { background: var(--accent); color: var(--bg); font-size: 13px; font-weight: 700; padding: 12px; border-radius: 8px; width: 100%; text-align: center; display: block; }
+    .withdraw-tip { font-size: 11px; color: var(--muted); text-align: center; line-height: 1.5; margin-top: 12px; }
+
+    /* FLOW */
+    #flow { padding: 120px 0; }
     .flow-header { text-align: center; max-width: 620px; margin: 0 auto 72px; }
     .flow-header p { color: var(--muted); margin-top: 16px; font-size: 17px; }
-
-    .flow-timeline {
-      position: relative;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .flow-timeline::before {
-      content: '';
-      position: absolute;
-      left: 32px;
-      top: 0; bottom: 0;
-      width: 1px;
-      background: linear-gradient(180deg, var(--accent), rgba(34,211,238,0.1));
-    }
-
-    .timeline-item {
-      display: flex;
-      gap: 32px;
-      margin-bottom: 40px;
-      position: relative;
-    }
-
-    .timeline-dot {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      background: var(--surface);
-      border: 2px solid rgba(34,211,238,0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      flex-shrink: 0;
-      position: relative;
-      z-index: 1;
-    }
-
-    .timeline-content {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 24px 28px;
-      flex: 1;
-      transition: border-color 0.3s;
-    }
+    .flow-timeline { position: relative; max-width: 800px; margin: 0 auto; }
+    .flow-timeline::before { content: ''; position: absolute; left: 32px; top: 0; bottom: 0; width: 1px; background: linear-gradient(180deg, var(--accent), rgba(34,211,238,0.1)); }
+    .timeline-item { display: flex; gap: 32px; margin-bottom: 40px; position: relative; }
+    .timeline-dot { width: 64px; height: 64px; border-radius: 50%; background: var(--surface); border: 2px solid rgba(34,211,238,0.3); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; position: relative; z-index: 1; }
+    .timeline-content { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px 28px; flex: 1; transition: border-color 0.3s; }
     .timeline-content:hover { border-color: rgba(34,211,238,0.2); }
-
-    .timeline-content h3 {
-      font-family: var(--display);
-      font-size: 17px;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 8px;
-    }
-
+    .timeline-content h3 { font-family: var(--display); font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 8px; }
     .timeline-content p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+    .timeline-tag { display: inline-block; font-family: var(--mono); font-size: 10px; padding: 2px 8px; border-radius: 4px; background: var(--accent-dim); color: var(--accent); margin-top: 10px; }
 
-    .timeline-tag {
-      display: inline-block;
-      font-family: var(--mono);
-      font-size: 10px;
-      padding: 2px 8px;
-      border-radius: 4px;
-      background: var(--accent-dim);
-      color: var(--accent);
-      margin-top: 10px;
-    }
-
-    /* ── HOW IT WORKS ── */
-    #how {
-      padding: 120px 0;
-      background: linear-gradient(180deg, transparent, var(--bg2) 30%, var(--bg2) 70%, transparent);
-    }
-
-    .how-header { text-align: center; max-width: 600px; margin: 0 auto 72px; }
-
-    .how-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
-
-    .how-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 32px;
-      transition: border-color 0.3s, transform 0.3s;
-    }
-    .how-card:hover { border-color: rgba(34,211,238,0.2); transform: translateY(-3px); }
-
-    .how-icon {
-      width: 44px; height: 44px;
-      background: var(--accent-dim);
-      border: 1px solid rgba(34,211,238,0.2);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      margin-bottom: 20px;
-    }
-
-    .how-card h3 { font-family: var(--display); font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 10px; }
-    .how-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
-
-    .how-result {
-      grid-column: 1 / -1;
-      background: linear-gradient(135deg, rgba(34,211,238,0.06), rgba(34,211,238,0.02));
-      border: 1px solid rgba(34,211,238,0.2);
-      border-radius: 14px;
-      padding: 28px 32px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .how-result-icon { font-size: 28px; }
-    .how-result-text { font-size: 16px; color: var(--accent2); font-weight: 500; }
-    .how-result-text span { display: block; font-size: 13px; color: var(--muted); font-weight: 400; margin-top: 4px; }
-
-    /* ── POSITIONING ── */
-    #positioning { padding: 120px 0; }
-
-    .pos-inner {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 64px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .pos-inner::before {
-      content: '';
-      position: absolute;
-      bottom: -80px; right: -80px;
-      width: 300px; height: 300px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(34,211,238,0.05), transparent 70%);
-    }
-
-    .pos-inner blockquote {
-      font-family: var(--display);
-      font-size: clamp(24px, 3vw, 38px);
-      font-weight: 800;
-      color: #fff;
-      line-height: 1.2;
-      margin-bottom: 48px;
-      position: relative;
-      z-index: 1;
-    }
-
+    /* POSITIONING */
+    #positioning { padding: 120px 0; background: linear-gradient(180deg, transparent, var(--bg2) 30%, var(--bg2) 70%, transparent); }
+    .pos-inner { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 64px; text-align: center; position: relative; overflow: hidden; }
+    .pos-inner::before { content: ''; position: absolute; bottom: -80px; right: -80px; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, rgba(34,211,238,0.05), transparent 70%); }
+    .pos-inner blockquote { font-family: var(--display); font-size: clamp(24px, 3vw, 38px); font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 48px; position: relative; z-index: 1; }
     .pos-inner blockquote em { font-style: normal; color: var(--accent); }
-
-    .pos-pillars {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 32px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .pos-pillar {
-      padding: 24px;
-      background: rgba(255,255,255,0.02);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-    }
-
+    .pos-pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; position: relative; z-index: 1; }
+    .pos-pillar { padding: 24px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; }
     .pos-pillar-icon { font-size: 24px; margin-bottom: 12px; }
     .pos-pillar h4 { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 8px; }
     .pos-pillar p { font-size: 13px; color: var(--muted); }
 
-    /* ── COMPLIANCE ── */
-    #compliance {
-      padding: 120px 0;
-      background: linear-gradient(180deg, transparent, var(--bg2) 30%, var(--bg2) 70%, transparent);
-    }
-
-    .compliance-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: center;
-      margin-top: 64px;
-    }
-
+    /* COMPLIANCE */
+    #compliance { padding: 120px 0; }
+    .compliance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-top: 64px; }
     .compliance-text p { font-size: 17px; color: var(--muted); font-weight: 300; margin-bottom: 32px; }
-
     .compliance-features { display: flex; flex-direction: column; gap: 16px; }
-
-    .compliance-feature {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      padding: 18px 20px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      transition: border-color 0.3s;
-    }
+    .compliance-feature { display: flex; align-items: flex-start; gap: 14px; padding: 18px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; transition: border-color 0.3s; }
     .compliance-feature:hover { border-color: rgba(52,211,153,0.3); }
-
-    .cf-icon {
-      width: 36px; height: 36px;
-      border-radius: 8px;
-      background: rgba(52,211,153,0.1);
-      border: 1px solid rgba(52,211,153,0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      flex-shrink: 0;
-    }
-
+    .cf-icon { width: 36px; height: 36px; border-radius: 8px; background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.2); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
     .cf-text h4 { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 4px; }
     .cf-text p { font-size: 13px; color: var(--muted); margin: 0; }
-
-    .compliance-callout {
-      background: linear-gradient(135deg, rgba(52,211,153,0.08), rgba(34,211,238,0.04));
-      border: 1px solid rgba(52,211,153,0.2);
-      border-radius: 16px;
-      padding: 40px;
-    }
-
+    .compliance-callout { background: linear-gradient(135deg, rgba(52,211,153,0.08), rgba(34,211,238,0.04)); border: 1px solid rgba(52,211,153,0.2); border-radius: 16px; padding: 40px; }
     .compliance-callout h3 { font-family: var(--display); font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 16px; }
     .compliance-callout p { font-size: 15px; color: var(--muted); margin-bottom: 24px; }
     .compliance-callout .highlight { font-size: 16px; color: var(--green); font-weight: 500; }
 
-    /* ── ARCHITECTURE ── */
-    #architecture { padding: 120px 0; }
-
+    /* ARCHITECTURE */
+    #architecture { padding: 120px 0; background: linear-gradient(180deg, transparent, var(--bg2) 30%, var(--bg2) 70%, transparent); }
     .arch-header { text-align: center; max-width: 600px; margin: 0 auto 72px; }
-
     .arch-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-
-    .arch-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 28px 24px;
-      text-align: center;
-      transition: border-color 0.3s, transform 0.3s;
-    }
+    .arch-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 28px 24px; text-align: center; transition: border-color 0.3s, transform 0.3s; }
     .arch-card:hover { border-color: rgba(34,211,238,0.2); transform: translateY(-4px); }
-
     .arch-icon { font-size: 32px; margin-bottom: 16px; }
     .arch-card h4 { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 8px; }
     .arch-card p { font-size: 12px; color: var(--muted); }
 
-    /* ── SDK ── */
-    #sdk { padding: 120px 0; background: linear-gradient(180deg, transparent, var(--bg2) 30%, var(--bg2) 70%, transparent); }
-
-    .sdk-inner {
-      background: linear-gradient(135deg, rgba(130,71,229,0.08), rgba(34,211,238,0.04));
-      border: 1px solid rgba(130,71,229,0.2);
-      border-radius: 20px;
-      padding: 64px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 64px;
-      align-items: center;
-    }
-
+    /* SDK */
+    #sdk { padding: 120px 0; }
+    .sdk-inner { background: linear-gradient(135deg, rgba(130,71,229,0.08), rgba(34,211,238,0.04)); border: 1px solid rgba(130,71,229,0.2); border-radius: 20px; padding: 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
     .sdk-text h2 { margin-bottom: 20px; }
     .sdk-text p { font-size: 17px; color: var(--muted); margin-bottom: 24px; font-weight: 300; }
-
-    .sdk-features { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
-    .sdk-feature {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 14px;
-      color: var(--text);
-    }
+    .sdk-features { display: flex; flex-direction: column; gap: 12px; }
+    .sdk-feature { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text); }
     .sdk-feature::before { content: '→'; color: var(--accent); font-family: var(--mono); }
-
-    .sdk-code {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 28px;
-      font-family: var(--mono);
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.8;
-    }
-
+    .sdk-code { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 28px; font-family: var(--mono); font-size: 13px; color: var(--muted); line-height: 1.8; }
     .sdk-code .keyword { color: var(--accent); }
     .sdk-code .string { color: var(--green); }
     .sdk-code .comment { color: #374151; }
 
-    /* ── TRANSPARENCY ── */
-    #transparency { padding: 80px 0; }
-
-    .transparency-inner {
-      background: rgba(251,191,36,0.04);
-      border: 1px solid rgba(251,191,36,0.15);
-      border-radius: 16px;
-      padding: 48px;
-    }
-
-    .transparency-inner h2 { font-size: 28px; margin-bottom: 16px; }
-    .transparency-inner p { font-size: 16px; color: var(--muted); margin-bottom: 32px; max-width: 600px; }
-
-    .transparency-checks { display: flex; gap: 24px; flex-wrap: wrap; }
-
-    .t-check { display: flex; align-items: center; gap: 10px; font-size: 15px; color: var(--green); font-weight: 500; }
-    .t-check::before { content: '✔'; font-size: 13px; }
-
-    /* ── VISION ── */
-    #vision { padding: 120px 0; }
-
+    /* VISION */
+    #vision { padding: 120px 0; background: linear-gradient(180deg, transparent, var(--bg2) 30%, var(--bg2) 70%, transparent); }
     .vision-inner { text-align: center; max-width: 700px; margin: 0 auto; }
-
-    .vision-quote {
-      font-family: var(--display);
-      font-size: clamp(28px, 4vw, 48px);
-      font-weight: 800;
-      color: #fff;
-      line-height: 1.15;
-      margin-bottom: 48px;
-      letter-spacing: -0.02em;
-    }
-
-    .vision-quote em {
-      font-style: normal;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
+    .vision-quote { font-family: var(--display); font-size: clamp(28px, 4vw, 48px); font-weight: 800; color: #fff; line-height: 1.15; margin-bottom: 48px; letter-spacing: -0.02em; }
+    .vision-quote em { font-style: normal; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .vision-items { display: flex; flex-direction: column; gap: 16px; text-align: left; max-width: 480px; margin: 0 auto 48px; }
-
     .vision-item { display: flex; align-items: center; gap: 14px; font-size: 16px; color: var(--muted); }
-
     .vision-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
 
-    /* ── CTA ── */
+    /* CTA */
     #cta { padding: 120px 0; background: var(--bg2); }
-
     .cta-inner { text-align: center; max-width: 600px; margin: 0 auto; }
     .cta-inner h2 { margin-bottom: 16px; }
     .cta-inner p { font-size: 17px; color: var(--muted); margin-bottom: 40px; }
-
     .cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 
-    /* ── FOOTER ── */
+    /* FOOTER */
     footer { padding: 48px 0; border-top: 1px solid var(--border); }
-
-    .footer-inner {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 32px;
-      flex-wrap: wrap;
-    }
-
+    .footer-inner { display: flex; align-items: flex-start; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
     .footer-brand .nav-logo { display: block; margin-bottom: 8px; }
     .footer-brand p { font-size: 13px; color: var(--muted); max-width: 300px; }
-
     .footer-contracts { margin-top: 14px; display: flex; flex-direction: column; gap: 4px; }
-    .footer-contract {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--muted);
-    }
+    .footer-contract { font-family: var(--mono); font-size: 11px; color: var(--muted); }
     .footer-contract a { color: var(--accent); text-decoration: none; }
     .footer-contract a:hover { text-decoration: underline; }
-
     .footer-disclaimer { max-width: 380px; }
     .footer-disclaimer h4 { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
     .footer-disclaimer ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
     .footer-disclaimer li { font-size: 12px; color: var(--muted); padding-left: 16px; position: relative; }
     .footer-disclaimer li::before { content: '—'; position: absolute; left: 0; color: var(--border); }
 
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(32px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+    .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       nav { padding: 12px 16px; flex-wrap: wrap; gap: 8px; }
       .nav-badge { display: none; }
-      .nav-right { gap: 6px; }
-      .nav-cta { font-size: 12px; padding: 8px 14px; }
       .container { padding: 0 16px; }
-      .problem-grid, .solution-grid, .compliance-grid, .sdk-inner { grid-template-columns: 1fr; }
-      .how-grid, .networks-grid { grid-template-columns: 1fr; }
+      .problem-grid, .solution-grid, .compliance-grid, .withdraw-inner, .sdk-inner { grid-template-columns: 1fr; }
+      .networks-grid, .privacy-levels { grid-template-columns: 1fr; gap: 12px; }
       .arch-grid { grid-template-columns: repeat(2, 1fr); }
       .pos-pillars { grid-template-columns: 1fr; }
-      .pos-inner, .transparency-inner, .sdk-inner { padding: 32px 24px; }
-      .hero-stats { gap: 16px; flex-wrap: wrap; }
-      .hero-stats .stat-item { width: calc(50% - 8px); }
-      .footer-inner { flex-direction: column; }
+      .pos-inner, .sdk-inner { padding: 32px 24px; }
+      .hero-stats { gap: 16px; }
       .flow-timeline::before { left: 28px; }
       .timeline-dot { width: 48px; height: 48px; font-size: 18px; }
       .timeline-item { gap: 16px; }
       h1 { font-size: 36px; }
       .hero-sub { font-size: 16px; }
       .cta-actions { flex-direction: column; align-items: center; }
-      .networks-grid { grid-template-columns: 1fr; gap: 12px; }
-      .problem-visual { overflow-x: auto; font-size: 11px; }
-      .sdk-code { font-size: 11px; overflow-x: auto; word-break: break-all; }
-      .chain-row { flex-wrap: wrap; gap: 6px; font-size: 11px; }
-      .chain-addr { font-size: 10px; word-break: break-all; }
-      .chain-exposed { margin-left: 0; }
-      .compliance-grid { grid-template-columns: 1fr; }
-      .sdk-inner { padding: 24px 16px; }
-      .sdk-text h2 { font-size: 24px; }
-      .sdk-text p { font-size: 14px; }
       .compliance-callout { padding: 24px 16px; }
-      .compliance-callout h3 { font-size: 18px; }
     }
   </style>
 </head>
@@ -907,7 +281,10 @@
   <!-- NAV -->
   <nav>
     <a href="#" class="nav-logo">SILENTFLOW</a>
-    <span class="nav-badge">● BASE · POLYGON · BNB</span>
+    <div class="nav-center">
+      <span class="nav-badge">● BASE · POLYGON · BNB</span>
+      <span class="nav-beta">BETA</span>
+    </div>
     <div class="nav-right">
       <button onclick="toggleLang()" id="lang-btn" style="background:transparent;border:1px solid rgba(255,255,255,0.1);color:#94a3b8;font-size:12px;padding:6px 12px;border-radius:20px;cursor:pointer;transition:all 0.2s;font-family:var(--sans)" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)';this.style.color='#94a3b8'">EN</button>
       <a href="https://silentflow.vercel.app" class="nav-cta">Usar agora →</a>
@@ -944,7 +321,7 @@
             <span class="stat-label">Taxa flat por transação</span>
           </div>
           <div class="stat-item">
-            <span class="stat-value">~10 min</span>
+            <span class="stat-value">~20 min</span>
             <span class="stat-label">Tempo de processamento</span>
           </div>
         </div>
@@ -961,19 +338,19 @@
       </div>
       <div class="networks-grid reveal">
         <div class="network-card base">
-          <div class="network-icon"><img src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/base/info/logo.png" width="48" height="48" style="border-radius:50%" alt="Base"/></div>
+          <img src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/base/info/logo.png" width="48" height="48" style="border-radius:50%" alt="Base"/>
           <div class="network-name">Base</div>
           <div class="network-tokens">ETH · USDC · USDT</div>
           <span class="network-badge live">● LIVE</span>
         </div>
         <div class="network-card polygon">
-          <div class="network-icon"><img src="https://assets.coingecko.com/coins/images/4713/small/polygon.png" width="48" height="48" style="border-radius:50%" alt="Polygon"/></div>
+          <img src="https://assets.coingecko.com/coins/images/4713/small/polygon.png" width="48" height="48" style="border-radius:50%" alt="Polygon"/>
           <div class="network-name">Polygon</div>
           <div class="network-tokens">USDC · USDT</div>
           <span class="network-badge live">● LIVE</span>
         </div>
         <div class="network-card bnb">
-          <div class="network-icon"><img src="https://assets.coingecko.com/coins/images/825/small/bnb-icon2_2x.png" width="48" height="48" style="border-radius:50%" alt="BNB"/></div>
+          <img src="https://assets.coingecko.com/coins/images/825/small/bnb-icon2_2x.png" width="48" height="48" style="border-radius:50%" alt="BNB"/>
           <div class="network-name">BNB Chain</div>
           <div class="network-tokens">USDC · USDT</div>
           <span class="network-badge live">● LIVE</span>
@@ -997,9 +374,7 @@
             <li>Carteiras podem ser correlacionadas ao longo do tempo</li>
             <li>Seu histórico financeiro completo fica exposto permanentemente</li>
           </ul>
-          <div class="problem-callout">
-            Transparência total virou vigilância permanente.
-          </div>
+          <div class="problem-callout">Transparência total virou vigilância permanente.</div>
         </div>
         <div class="problem-visual">
           <div class="chain-row">
@@ -1023,9 +398,7 @@
             <span class="chain-addr">0x2d88a0...1f39e</span>
             <span class="chain-exposed">PÚBLICO</span>
           </div>
-          <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--border);font-size:12px;color:var(--muted);">
-            Qualquer pessoa pode ver seu histórico completo em tempo real.
-          </div>
+          <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--border);font-size:12px;color:var(--muted);">Qualquer pessoa pode ver seu histórico completo em tempo real.</div>
         </div>
       </div>
     </div>
@@ -1042,31 +415,19 @@
         <div class="solution-visual">
           <div class="flow-step">
             <div class="flow-num">1</div>
-            <div class="flow-text">
-              Você envia para um endereço descartável
-              <span>Criado especificamente para essa transação</span>
-            </div>
+            <div class="flow-text">Você envia para um endereço descartável<span>Criado especificamente para essa transação</span></div>
           </div>
           <div class="flow-step">
             <div class="flow-num">2</div>
-            <div class="flow-text">
-              SilentFlow processa com camadas de proteção
-              <span>Delays, denominações fixas, multi-hop</span>
-            </div>
+            <div class="flow-text">SilentFlow processa com camadas de proteção<span>Delays, denominações fixas, multi-hop</span></div>
           </div>
           <div class="flow-step">
             <div class="flow-num">3</div>
-            <div class="flow-text">
-              Destinatário recebe em endereço stealth
-              <span>Invisível on-chain para observadores externos</span>
-            </div>
+            <div class="flow-text">Destinatário recebe em endereço stealth<span>Invisível on-chain para observadores externos</span></div>
           </div>
           <div class="flow-step">
             <div class="flow-num">4</div>
-            <div class="flow-text">
-              Saque gasless para carteira real
-              <span>Sem revelar ETH no endereço stealth</span>
-            </div>
+            <div class="flow-text">Saque gasless para qualquer carteira<span>Sem expor sua identidade on-chain</span></div>
           </div>
         </div>
         <div class="solution-text">
@@ -1077,8 +438,106 @@
             <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--green);">✓ Smart contracts públicos e auditáveis</div>
             <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--green);">✓ ETH, USDC e USDT — 3 redes</div>
             <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--green);">✓ Link de pagamento simples como Pix</div>
-            <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--green);">✓ Saque gasless — sem expor sua carteira</div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--green);">✓ Saque gasless — para qualquer carteira</div>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRIVACY LEVELS -->
+  <section id="privacy">
+    <div class="container">
+      <div class="privacy-header reveal">
+        <p class="section-label">// Níveis de privacidade</p>
+        <h2>Você controla o nível de proteção</h2>
+        <p style="color:var(--muted);margin-top:16px;">O SilentFlow já garante privacidade no envio. Para privacidade máxima, saque para uma carteira diferente da conectada.</p>
+      </div>
+      <div class="privacy-levels reveal">
+        <div class="privacy-level">
+          <div class="privacy-level-icon">🔒</div>
+          <h3>Envio protegido</h3>
+          <p>Sua carteira não aparece ligada ao destinatário. O roteamento multi-hop com delays variáveis dificulta o rastreamento on-chain.</p>
+          <div class="privacy-meter">
+            <div class="privacy-dot on"></div>
+            <div class="privacy-dot on"></div>
+            <div class="privacy-dot"></div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:8px;font-family:var(--mono);">Proteção padrão</div>
+        </div>
+        <div class="privacy-level highlight">
+          <div class="privacy-level-icon">🔒🔒</div>
+          <h3>Saque para outra carteira</h3>
+          <p>Ao sacar para uma carteira diferente da conectada, a ligação entre quem recebeu e sua identidade é completamente desvinculada.</p>
+          <div class="privacy-meter">
+            <div class="privacy-dot on green"></div>
+            <div class="privacy-dot on green"></div>
+            <div class="privacy-dot on green"></div>
+          </div>
+          <div style="font-size:11px;color:var(--green);margin-top:8px;font-family:var(--mono);">Privacidade máxima</div>
+        </div>
+        <div class="privacy-level">
+          <div class="privacy-level-icon">🏦</div>
+          <h3>Saque para exchange</h3>
+          <p>Saque direto para o endereço de depósito de uma exchange. Os fundos chegam sem ligação direta com sua carteira principal.</p>
+          <div class="privacy-meter">
+            <div class="privacy-dot on green"></div>
+            <div class="privacy-dot on green"></div>
+            <div class="privacy-dot on green"></div>
+          </div>
+          <div style="font-size:11px;color:var(--green);margin-top:8px;font-family:var(--mono);">Privacidade máxima</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WITHDRAW FEATURE -->
+  <section id="withdraw-feature">
+    <div class="container">
+      <div class="withdraw-inner reveal">
+        <div class="withdraw-text">
+          <p class="section-label">// Saque para carteira alternativa</p>
+          <h2>A camada extra de privacidade que faltava.</h2>
+          <p>Transações normais criam uma ligação permanente entre quem recebe e sua carteira. Com o SilentFlow, você quebra essa ligação — sacando para qualquer endereço que quiser.</p>
+          <p>Sua carteira principal nunca aparece on-chain como destino dos fundos.</p>
+          <div class="withdraw-steps">
+            <div class="withdraw-step">
+              <div class="withdraw-step-num">1</div>
+              <div class="withdraw-step-text">
+                <h4>Verifique seus recebimentos</h4>
+                <p>Clique em "Recebidos" e escaneie para ver os pagamentos disponíveis.</p>
+              </div>
+            </div>
+            <div class="withdraw-step">
+              <div class="withdraw-step-num">2</div>
+              <div class="withdraw-step-text">
+                <h4>Informe o endereço de destino</h4>
+                <p>Digite qualquer endereço — carteira fria, exchange, ou deixe vazio para usar a carteira conectada.</p>
+              </div>
+            </div>
+            <div class="withdraw-step">
+              <div class="withdraw-step-num">3</div>
+              <div class="withdraw-step-text">
+                <h4>Saque sem gas</h4>
+                <p>O protocolo cobre o custo. Seus fundos chegam sem revelar sua identidade.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="withdraw-visual">
+          <div style="font-size:12px;color:var(--muted);font-family:var(--mono);margin-bottom:16px;">// Verificar recebimentos</div>
+          <div class="withdraw-card">
+            <div class="withdraw-amount">0.99 USDC</div>
+            <div class="withdraw-token">✓ Disponível para saque · Base</div>
+            <div style="font-size:11px;color:var(--text);background:rgba(34,211,238,0.05);border:1px solid rgba(34,211,238,0.1);padding:10px 12px;border-radius:8px;margin-bottom:12px;line-height:1.6;">
+              ✨ Já garantimos privacidade no envio. Sacar para outra carteira adiciona uma camada extra.
+            </div>
+            <div style="font-size:11px;color:var(--muted);margin-bottom:6px;">Endereço alternativo para privacidade extra (opcional)</div>
+            <div class="withdraw-addr-input">0x4D7E...9304</div>
+            <span class="withdraw-privacy-badge">🔒🔒 Privacidade máxima</span>
+            <div class="withdraw-btn">→ Sacar agora</div>
+          </div>
+          <div class="withdraw-tip">💡 Deixe vazio para sacar para sua carteira conectada — ou informe qualquer endereço de destino.</div>
         </div>
       </div>
     </div>
@@ -1096,81 +555,41 @@
         <div class="timeline-item">
           <div class="timeline-dot">📤</div>
           <div class="timeline-content">
-            <h3>Você inicia o envio</h3>
-            <p>Você informa o valor e o endereço de recebimento (ou link de pagamento). O protocolo gera um endereço de entrada temporário — criado exclusivamente para essa transação.</p>
-            <span class="timeline-tag">Endereço gerado on-demand</span>
+            <h3>Endereço temporário gerado</h3>
+            <p>Um endereço descartável é criado exclusivamente para essa transação. Você envia os fundos para ele — nunca direto para o destinatário.</p>
+            <span class="timeline-tag">Criado on-demand · expira em 60 min</span>
           </div>
         </div>
         <div class="timeline-item">
           <div class="timeline-dot">✂️</div>
           <div class="timeline-content">
             <h3>Divisão em partes</h3>
-            <p>O valor é dividido em múltiplas partes com denominações padronizadas (10, 50, 100, 500 ou 1000 USDC). Isso elimina a possibilidade de correlacionar o valor de entrada com o de saída.</p>
-            <span class="timeline-tag">Split em denominações fixas</span>
+            <p>O valor é dividido em múltiplas partes com denominações padronizadas. Isso elimina a correlação direta entre o valor de entrada e saída.</p>
+            <span class="timeline-tag">Split com denominações fixas</span>
           </div>
         </div>
         <div class="timeline-item">
           <div class="timeline-dot">🔀</div>
           <div class="timeline-content">
-            <h3>Roteamento com delays</h3>
-            <p>Cada parte percorre uma cadeia de endereços intermediários com delays variáveis entre etapas. Isso impede a análise temporal e dificulta o rastreamento on-chain.</p>
-            <span class="timeline-tag">Multi-hop com janelas de tempo aleatórias</span>
+            <h3>Roteamento com delays variáveis</h3>
+            <p>Cada parte percorre múltiplos endereços intermediários com delays aleatórios entre etapas. Análise temporal e rastreamento on-chain ficam extremamente difíceis.</p>
+            <span class="timeline-tag">3 hops por split · delays 60–360s</span>
           </div>
         </div>
         <div class="timeline-item">
           <div class="timeline-dot">🎯</div>
           <div class="timeline-content">
-            <h3>Depósito no endereço stealth</h3>
-            <p>Os fundos são depositados em um endereço stealth vinculado às chaves do destinatário — mas invisível para qualquer observador externo que não possua as chaves corretas.</p>
-            <span class="timeline-tag">Stealth address — invisível on-chain</span>
+            <h3>Depósito em stealth address</h3>
+            <p>Os fundos são depositados em um endereço stealth — invisível para observadores externos. Só quem tem as chaves corretas consegue encontrá-lo.</p>
+            <span class="timeline-tag">Stealth address · invisível on-chain</span>
           </div>
         </div>
         <div class="timeline-item">
           <div class="timeline-dot">💸</div>
           <div class="timeline-content">
-            <h3>Saque gasless</h3>
-            <p>O destinatário escaneia seus recebimentos e saca para sua carteira real. O protocolo cobre o custo de gas — sem necessidade de ter ETH no endereço stealth, sem expor sua identidade.</p>
-            <span class="timeline-tag">Gas pago pelo protocolo · ~10 minutos no total</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- HOW IT WORKS -->
-  <section id="how">
-    <div class="container">
-      <div class="how-header reveal">
-        <p class="section-label">// Como funciona</p>
-        <h2>Proteção em múltiplas camadas</h2>
-        <p style="color:var(--muted);margin-top:16px;">Sem linguagem técnica. Sem necessidade de entender criptografia.</p>
-      </div>
-      <div class="how-grid reveal">
-        <div class="how-card">
-          <div class="how-icon">🎭</div>
-          <h3>Endereços descartáveis</h3>
-          <p>Um endereço novo é gerado para cada transação. Isso reduz a exposição da sua identidade financeira na blockchain.</p>
-        </div>
-        <div class="how-card">
-          <div class="how-icon">📐</div>
-          <h3>Valores padronizados</h3>
-          <p>Denominações fixas (10, 50, 100, 500, 1000 USDC) aumentam sua proteção — seu valor é processado junto com outros do mesmo montante.</p>
-        </div>
-        <div class="how-card">
-          <div class="how-icon">⏱️</div>
-          <h3>Janelas de processamento</h3>
-          <p>O processamento ocorre em janelas de tempo variáveis, reduzindo a exposição dos seus dados financeiros temporais.</p>
-        </div>
-        <div class="how-card">
-          <div class="how-icon">🔀</div>
-          <h3>Roteamento em múltiplas etapas</h3>
-          <p>Os fundos passam por etapas intermediárias antes de chegar ao destinatário, protegendo sua privacidade financeira.</p>
-        </div>
-        <div class="how-result">
-          <div class="how-result-icon">→</div>
-          <div class="how-result-text">
-            Resultado: menor exposição dos seus dados financeiros
-            <span>Privacidade sem abrir mão da simplicidade de uso</span>
+            <h3>Saque gasless para qualquer carteira</h3>
+            <p>O protocolo cobre o gas do saque. Você pode sacar para sua carteira principal, para uma carteira fria, ou para o endereço de depósito de uma exchange — sem revelar sua identidade.</p>
+            <span class="timeline-tag">Gas pago pelo protocolo · ~20 minutos no total</span>
           </div>
         </div>
       </div>
@@ -1181,9 +600,7 @@
   <section id="positioning">
     <div class="container">
       <div class="pos-inner reveal">
-        <blockquote>
-          Privacidade não é crime.<br>É <em>infraestrutura</em>.
-        </blockquote>
+        <blockquote>Privacidade não é crime.<br>É <em>infraestrutura</em>.</blockquote>
         <div class="pos-pillars">
           <div class="pos-pillar">
             <div class="pos-pillar-icon">🔒</div>
@@ -1268,8 +685,8 @@
         </div>
         <div class="arch-card">
           <div class="arch-icon">⛓️</div>
-          <h4>3 redes · Gas baixo</h4>
-          <p>Base, Polygon e BNB Chain. Gas otimizado e saque coberto pelo protocolo.</p>
+          <h4>3 redes · Gas coberto</h4>
+          <p>Base, Polygon e BNB Chain. Saque sem gas para o destinatário.</p>
         </div>
       </div>
     </div>
@@ -1282,7 +699,7 @@
         <div class="sdk-text">
           <p class="section-label">// Em breve</p>
           <h2>SDK para desenvolvedores</h2>
-          <p>Integre privacidade de pagamentos diretamente no seu app, exchange ou protocolo DeFi. O SilentFlow SDK permite que qualquer aplicação ofereça transações protegidas aos seus usuários.</p>
+          <p>Integre privacidade de pagamentos diretamente no seu app, exchange ou protocolo DeFi.</p>
           <div class="sdk-features">
             <div class="sdk-feature">Integração com poucas linhas de código</div>
             <div class="sdk-feature">Taxa reduzida para parceiros do SDK</div>
@@ -1303,22 +720,6 @@
           &nbsp;&nbsp;token: <span class="string">'USDC'</span><br>
           })<br><br>
           <span class="comment">// Privacidade para seus usuários.</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TRANSPARENCY -->
-  <section id="transparency">
-    <div class="container">
-      <div class="transparency-inner reveal">
-        <p class="section-label">// Transparência</p>
-        <h2>O que SilentFlow faz — e o que não faz.</h2>
-        <p>SilentFlow não busca anonimato absoluto. É uma ferramenta de proteção de dados financeiros, não um sistema de evasão.</p>
-        <div class="transparency-checks">
-          <div class="t-check">Reduz exposição</div>
-          <div class="t-check">Protege dados</div>
-          <div class="t-check">Aumenta controle do usuário</div>
         </div>
       </div>
     </div>
@@ -1345,10 +746,11 @@
     <div class="container">
       <div class="cta-inner reveal">
         <p class="section-label">// Comece agora</p>
-        <h2>Comece a usar SilentFlow</h2>
-        <p>Proteja seus pagamentos hoje. Sem cadastro. Sem custódia. Sem complicação.</p>
+        <h2>Seus pagamentos merecem privacidade.</h2>
+        <p>Sem cadastro. Sem custódia. Sem complicação. Conecte sua carteira e comece agora.</p>
         <div class="cta-actions">
           <a href="https://silentflow.vercel.app" class="btn-primary">Enviar com privacidade →</a>
+          <a href="https://basescan.org/address/0x99f4a6Deb7643a1DDa10115BFE3c7a4D9C4Ef09B" target="_blank" class="btn-secondary">Ver contrato ↗</a>
         </div>
       </div>
     </div>
@@ -1360,7 +762,7 @@
       <div class="footer-inner">
         <div class="footer-brand">
           <a href="#" class="nav-logo">SILENTFLOW</a>
-          <p>Infraestrutura de privacidade para pagamentos on-chain. Non-custodial. Open source.</p>
+          <p>Infraestrutura de privacidade para pagamentos on-chain. Non-custodial. Open source. Em beta.</p>
           <div class="footer-contracts">
             <p class="footer-contract">Base: <a href="https://basescan.org/address/0x99f4a6Deb7643a1DDa10115BFE3c7a4D9C4Ef09B" target="_blank">0x99f4a6De...Ef09B</a></p>
             <p class="footer-contract">Polygon: <a href="https://polygonscan.com/address/0x074c000416A4725EDA5F53EE7b690f82f250847B" target="_blank">0x074c0004...50847B</a></p>
@@ -1381,82 +783,17 @@
   </footer>
 
   <script>
-    // Scroll reveal
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
     }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // Language toggle
     let currentLang = 'pt';
-
-    const translations = {
-      pt: {
-        'lang-btn': 'EN',
-        'nav-cta': 'Usar agora →',
-        'nav-badge': '● BASE · POLYGON · BNB',
-        'hero-tag': 'Infraestrutura de privacidade · Base · Polygon · BNB',
-        'hero-h1': 'Privacidade para seus <em>pagamentos</em> on-chain',
-        'hero-sub': 'Proteja seus dados financeiros sem abrir mão da simplicidade. SilentFlow é uma infraestrutura não-custodial que reduz a exposição das suas transações na blockchain.',
-        'hero-tagline': '→ Mais controle. Menos exposição.',
-        'stat1-label': 'Redes suportadas',
-        'stat2-label': 'Custódia de fundos',
-        'stat3-label': 'Taxa flat por transação',
-        'stat4-label': 'Tempo de processamento',
-        'cta-btn': 'Enviar com privacidade →',
-        'cta-h2': 'Comece a usar SilentFlow',
-        'cta-p': 'Proteja seus pagamentos hoje. Sem cadastro. Sem custódia. Sem complicação.',
-        'footer-desc': 'Infraestrutura de privacidade para pagamentos on-chain. Non-custodial. Open source.',
-        'footer-legal': 'Aviso legal',
-      },
-      en: {
-        'lang-btn': 'PT',
-        'nav-cta': 'Use now →',
-        'nav-badge': '● BASE · POLYGON · BNB',
-        'hero-tag': 'Privacy infrastructure · Base · Polygon · BNB',
-        'hero-h1': 'Privacy for your <em>on-chain</em> payments',
-        'hero-sub': 'Protect your financial data without sacrificing simplicity. SilentFlow is a non-custodial infrastructure that reduces the exposure of your blockchain transactions.',
-        'hero-tagline': '→ More control. Less exposure.',
-        'stat1-label': 'Supported networks',
-        'stat2-label': 'Fund custody',
-        'stat3-label': 'Flat fee per transaction',
-        'stat4-label': 'Processing time',
-        'cta-btn': 'Send privately →',
-        'cta-h2': 'Start using SilentFlow',
-        'cta-p': 'Protect your payments today. No sign-up. No custody. No hassle.',
-        'footer-desc': 'Privacy infrastructure for on-chain payments. Non-custodial. Open source.',
-        'footer-legal': 'Legal notice',
-      }
-    };
-
     function toggleLang() {
       currentLang = currentLang === 'pt' ? 'en' : 'pt';
-      const t = translations[currentLang];
-      document.getElementById('lang-btn').textContent = t['lang-btn'];
-      document.querySelector('.nav-cta').textContent = t['nav-cta'];
-      document.querySelector('.nav-badge').textContent = t['nav-badge'];
-      document.querySelector('.hero-tag').innerHTML = '<span></span>' + t['hero-tag'];
-      document.querySelector('h1').innerHTML = t['hero-h1'];
-      document.querySelector('.hero-sub').textContent = t['hero-sub'];
-      document.querySelector('.hero-tagline').textContent = t['hero-tagline'];
-      const statLabels = document.querySelectorAll('.stat-label');
-      if (statLabels[0]) statLabels[0].textContent = t['stat1-label'];
-      if (statLabels[1]) statLabels[1].textContent = t['stat2-label'];
-      if (statLabels[2]) statLabels[2].textContent = t['stat3-label'];
-      if (statLabels[3]) statLabels[3].textContent = t['stat4-label'];
-      const ctaBtn = document.querySelector('.cta-actions .btn-primary');
-      if (ctaBtn) ctaBtn.textContent = t['cta-btn'];
-      const ctaH2 = document.querySelector('#cta h2');
-      if (ctaH2) ctaH2.textContent = t['cta-h2'];
-      const ctaP = document.querySelector('#cta p');
-      if (ctaP) ctaP.textContent = t['cta-p'];
-      const footerDesc = document.querySelector('.footer-brand p');
-      if (footerDesc) footerDesc.textContent = t['footer-desc'];
+      document.getElementById('lang-btn').textContent = currentLang === 'pt' ? 'EN' : 'PT';
       document.documentElement.lang = currentLang === 'pt' ? 'pt-BR' : 'en';
     }
   </script>
-
 </body>
 </html>

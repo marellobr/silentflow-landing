@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SilentFlow — Privacidade para seus pagamentos on-chain</title>
-  <meta name="description" content="SilentFlow é uma infraestrutura não-custodial que reduz a exposição das suas transações na blockchain. Base, Polygon e BNB." />
+  <meta name="description" content="Envie cripto para outra pessoa ou mova seu próprio saldo sem deixar rastro. SilentFlow protege suas transações on-chain. Base, Polygon e BNB." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@300;400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
@@ -33,13 +33,7 @@
     @keyframes float4 { 0%,100%{transform:translate(0,0)} 35%{transform:translate(-15px,-25px)} 65%{transform:translate(25px,10px)} }
     @keyframes float5 { 0%,100%{transform:translate(0,0) scale(1)} 40%{transform:translate(15px,-15px) scale(1.1)} 70%{transform:translate(-20px,20px) scale(0.9)} }
 
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 20px 48px;
-      background: rgba(7,8,12,0.8); backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-    }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 20px 48px; background: rgba(7,8,12,0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
     .nav-logo { font-family: var(--display); font-size: 18px; font-weight: 800; color: var(--accent); letter-spacing: 0.08em; text-decoration: none; }
     .nav-center { display: flex; align-items: center; gap: 8px; }
     .nav-badge { font-family: var(--mono); font-size: 11px; color: var(--green); background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.25); padding: 4px 10px; border-radius: 20px; }
@@ -50,17 +44,19 @@
 
     section { position: relative; z-index: 1; }
     .container { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+    .section-label { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px; }
+    h2 { font-family: var(--display); font-size: clamp(32px, 4vw, 52px); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; color: #fff; margin-bottom: 20px; }
 
     /* HERO */
     #hero { min-height: 100vh; display: flex; align-items: center; padding-top: 100px; overflow: hidden; }
     .hero-glow { position: absolute; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(34,211,238,0.08) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -55%); pointer-events: none; }
-    .hero-inner { max-width: 760px; }
+    .hero-inner { max-width: 780px; }
     .hero-tag { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 12px; color: var(--accent); background: var(--accent-dim); border: 1px solid rgba(34,211,238,0.2); padding: 6px 14px; border-radius: 20px; margin-bottom: 32px; animation: fadeUp 0.6s ease both; }
     .hero-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
     h1 { font-family: var(--display); font-size: clamp(42px, 6vw, 76px); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; color: #fff; margin-bottom: 24px; animation: fadeUp 0.6s 0.1s ease both; }
     h1 em { font-style: normal; color: var(--accent); }
-    .hero-sub { font-size: 20px; color: var(--muted); font-weight: 400; max-width: 560px; margin-bottom: 16px; animation: fadeUp 0.6s 0.2s ease both; }
+    .hero-sub { font-size: 20px; color: var(--muted); font-weight: 400; max-width: 600px; margin-bottom: 16px; animation: fadeUp 0.6s 0.2s ease both; }
     .hero-tagline { font-size: 15px; color: var(--accent2); font-weight: 500; margin-bottom: 40px; animation: fadeUp 0.6s 0.25s ease both; }
     .hero-actions { display: flex; gap: 16px; align-items: center; animation: fadeUp 0.6s 0.3s ease both; flex-wrap: wrap; }
     .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: var(--bg); font-weight: 600; font-size: 15px; padding: 14px 28px; border-radius: 10px; text-decoration: none; transition: all 0.2s; box-shadow: 0 0 30px rgba(34,211,238,0.25); }
@@ -71,8 +67,30 @@
     .stat-value { font-family: var(--mono); font-size: 28px; font-weight: 500; color: var(--accent); display: block; }
     .stat-label { font-size: 13px; color: var(--muted); margin-top: 2px; }
 
+    /* USE CASES */
+    #usecases { padding: 120px 0; background: linear-gradient(180deg, transparent, var(--bg2) 30%, var(--bg2) 70%, transparent); }
+    .usecases-header { text-align: center; max-width: 660px; margin: 0 auto 72px; }
+    .usecases-header p { color: var(--muted); margin-top: 16px; font-size: 17px; }
+    .usecases-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    .usecase-card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 40px; transition: all 0.3s; position: relative; overflow: hidden; }
+    .usecase-card:hover { transform: translateY(-4px); }
+    .usecase-card.p2p { border-color: rgba(34,211,238,0.2); }
+    .usecase-card.p2p::before { content: ''; position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(34,211,238,0.06), transparent 70%); }
+    .usecase-card.move { border-color: rgba(52,211,153,0.2); }
+    .usecase-card.move::before { content: ''; position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(52,211,153,0.06), transparent 70%); }
+    .usecase-icon { font-size: 48px; margin-bottom: 20px; display: block; }
+    .usecase-card h3 { font-family: var(--display); font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 12px; }
+    .usecase-card p { font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 24px; }
+    .usecase-steps { display: flex; flex-direction: column; gap: 10px; }
+    .usecase-step { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text); }
+    .usecase-step-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+    .usecase-card.move .usecase-step-dot { background: var(--green); }
+    .usecase-badge { display: inline-block; font-family: var(--mono); font-size: 10px; padding: 4px 12px; border-radius: 20px; margin-top: 20px; }
+    .usecase-card.p2p .usecase-badge { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(34,211,238,0.2); }
+    .usecase-card.move .usecase-badge { background: rgba(52,211,153,0.1); color: var(--green); border: 1px solid rgba(52,211,153,0.2); }
+
     /* NETWORKS */
-    #networks { padding: 80px 0; background: linear-gradient(180deg, transparent, var(--bg2) 30%, var(--bg2) 70%, transparent); }
+    #networks { padding: 80px 0; }
     .networks-header { text-align: center; margin-bottom: 48px; }
     .networks-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
     .network-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 28px 24px; text-align: center; transition: border-color 0.3s, transform 0.3s; }
@@ -85,12 +103,8 @@
     .network-badge { display: inline-block; font-size: 10px; padding: 3px 10px; border-radius: 20px; font-family: var(--mono); }
     .network-badge.live { background: rgba(52,211,153,0.1); color: var(--green); border: 1px solid rgba(52,211,153,0.25); }
 
-    /* SECTION COMMON */
-    .section-label { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px; }
-    h2 { font-family: var(--display); font-size: clamp(32px, 4vw, 52px); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; color: #fff; margin-bottom: 20px; }
-
     /* PROBLEM */
-    #problem { padding: 120px 0; }
+    #problem { padding: 120px 0; background: linear-gradient(180deg, transparent, var(--bg2) 30%, var(--bg2) 70%, transparent); }
     .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-top: 64px; }
     .problem-text p { font-size: 17px; color: var(--muted); margin-bottom: 32px; font-weight: 300; }
     .problem-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
@@ -105,7 +119,7 @@
     .problem-callout { margin-top: 32px; padding: 20px 24px; background: rgba(251,191,36,0.06); border: 1px solid rgba(251,191,36,0.2); border-radius: 10px; font-size: 15px; color: var(--amber); font-weight: 500; }
 
     /* SOLUTION */
-    #solution { padding: 120px 0; background: linear-gradient(180deg, transparent, var(--bg2) 30%, var(--bg2) 70%, transparent); }
+    #solution { padding: 120px 0; }
     .solution-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-top: 64px; }
     .solution-visual { background: var(--surface); border: 1px solid rgba(34,211,238,0.15); border-radius: 16px; padding: 32px; position: relative; overflow: hidden; }
     .solution-visual::before { content: ''; position: absolute; top: -40px; right: -40px; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(34,211,238,0.08), transparent 70%); }
@@ -117,7 +131,7 @@
     .solution-text p { font-size: 17px; color: var(--muted); font-weight: 300; margin-bottom: 24px; }
 
     /* PRIVACY LEVELS */
-    #privacy { padding: 120px 0; }
+    #privacy { padding: 120px 0; background: linear-gradient(180deg, transparent, var(--bg2) 30%, var(--bg2) 70%, transparent); }
     .privacy-header { text-align: center; max-width: 620px; margin: 0 auto 72px; }
     .privacy-levels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
     .privacy-level { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; transition: all 0.3s; position: relative; overflow: hidden; }
@@ -132,7 +146,7 @@
     .privacy-dot.on.green { background: var(--green); }
 
     /* WITHDRAW FEATURE */
-    #withdraw-feature { padding: 120px 0; background: linear-gradient(180deg, transparent, var(--bg2) 30%, var(--bg2) 70%, transparent); }
+    #withdraw-feature { padding: 120px 0; }
     .withdraw-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
     .withdraw-text h2 { margin-bottom: 20px; }
     .withdraw-text p { font-size: 17px; color: var(--muted); font-weight: 300; margin-bottom: 24px; line-height: 1.8; }
@@ -152,7 +166,7 @@
     .withdraw-tip { font-size: 11px; color: var(--muted); text-align: center; line-height: 1.5; margin-top: 12px; }
 
     /* FLOW */
-    #flow { padding: 120px 0; }
+    #flow { padding: 120px 0; background: linear-gradient(180deg, transparent, var(--bg2) 30%, var(--bg2) 70%, transparent); }
     .flow-header { text-align: center; max-width: 620px; margin: 0 auto 72px; }
     .flow-header p { color: var(--muted); margin-top: 16px; font-size: 17px; }
     .flow-timeline { position: relative; max-width: 800px; margin: 0 auto; }
@@ -166,7 +180,7 @@
     .timeline-tag { display: inline-block; font-family: var(--mono); font-size: 10px; padding: 2px 8px; border-radius: 4px; background: var(--accent-dim); color: var(--accent); margin-top: 10px; }
 
     /* POSITIONING */
-    #positioning { padding: 120px 0; background: linear-gradient(180deg, transparent, var(--bg2) 30%, var(--bg2) 70%, transparent); }
+    #positioning { padding: 120px 0; }
     .pos-inner { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 64px; text-align: center; position: relative; overflow: hidden; }
     .pos-inner::before { content: ''; position: absolute; bottom: -80px; right: -80px; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, rgba(34,211,238,0.05), transparent 70%); }
     .pos-inner blockquote { font-family: var(--display); font-size: clamp(24px, 3vw, 38px); font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 48px; position: relative; z-index: 1; }
@@ -178,7 +192,7 @@
     .pos-pillar p { font-size: 13px; color: var(--muted); }
 
     /* COMPLIANCE */
-    #compliance { padding: 120px 0; }
+    #compliance { padding: 120px 0; background: linear-gradient(180deg, transparent, var(--bg2) 30%, var(--bg2) 70%, transparent); }
     .compliance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-top: 64px; }
     .compliance-text p { font-size: 17px; color: var(--muted); font-weight: 300; margin-bottom: 32px; }
     .compliance-features { display: flex; flex-direction: column; gap: 16px; }
@@ -193,7 +207,7 @@
     .compliance-callout .highlight { font-size: 16px; color: var(--green); font-weight: 500; }
 
     /* ARCHITECTURE */
-    #architecture { padding: 120px 0; background: linear-gradient(180deg, transparent, var(--bg2) 30%, var(--bg2) 70%, transparent); }
+    #architecture { padding: 120px 0; }
     .arch-header { text-align: center; max-width: 600px; margin: 0 auto 72px; }
     .arch-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
     .arch-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 28px 24px; text-align: center; transition: border-color 0.3s, transform 0.3s; }
@@ -203,7 +217,7 @@
     .arch-card p { font-size: 12px; color: var(--muted); }
 
     /* SDK */
-    #sdk { padding: 120px 0; }
+    #sdk { padding: 120px 0; background: linear-gradient(180deg, transparent, var(--bg2) 30%, var(--bg2) 70%, transparent); }
     .sdk-inner { background: linear-gradient(135deg, rgba(130,71,229,0.08), rgba(34,211,238,0.04)); border: 1px solid rgba(130,71,229,0.2); border-radius: 20px; padding: 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
     .sdk-text h2 { margin-bottom: 20px; }
     .sdk-text p { font-size: 17px; color: var(--muted); margin-bottom: 24px; font-weight: 300; }
@@ -216,7 +230,7 @@
     .sdk-code .comment { color: #374151; }
 
     /* VISION */
-    #vision { padding: 120px 0; background: linear-gradient(180deg, transparent, var(--bg2) 30%, var(--bg2) 70%, transparent); }
+    #vision { padding: 120px 0; }
     .vision-inner { text-align: center; max-width: 700px; margin: 0 auto; }
     .vision-quote { font-family: var(--display); font-size: clamp(28px, 4vw, 48px); font-weight: 800; color: #fff; line-height: 1.15; margin-bottom: 48px; letter-spacing: -0.02em; }
     .vision-quote em { font-style: normal; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
@@ -254,7 +268,7 @@
       nav { padding: 12px 16px; flex-wrap: wrap; gap: 8px; }
       .nav-badge { display: none; }
       .container { padding: 0 16px; }
-      .problem-grid, .solution-grid, .compliance-grid, .withdraw-inner, .sdk-inner { grid-template-columns: 1fr; }
+      .usecases-grid, .problem-grid, .solution-grid, .compliance-grid, .withdraw-inner, .sdk-inner { grid-template-columns: 1fr; }
       .networks-grid, .privacy-levels { grid-template-columns: 1fr; gap: 12px; }
       .arch-grid { grid-template-columns: repeat(2, 1fr); }
       .pos-pillars { grid-template-columns: 1fr; }
@@ -297,8 +311,8 @@
     <div class="container">
       <div class="hero-inner">
         <div class="hero-tag">Infraestrutura de privacidade · Base · Polygon · BNB</div>
-        <h1>Privacidade para seus <em>pagamentos</em> on-chain</h1>
-        <p class="hero-sub">Proteja seus dados financeiros sem abrir mão da simplicidade. SilentFlow é uma infraestrutura não-custodial que reduz a exposição das suas transações na blockchain.</p>
+        <h1>Suas transações cripto, <em>sem rastro</em></h1>
+        <p class="hero-sub">Pague alguém ou mova seu próprio saldo — sem expor sua carteira, sem deixar ligação on-chain, sem complicação.</p>
         <p class="hero-tagline">→ Mais controle. Menos exposição.</p>
         <div class="hero-actions">
           <a href="https://silentflow.vercel.app" class="btn-primary">
@@ -317,13 +331,50 @@
             <span class="stat-label">Custódia de fundos</span>
           </div>
           <div class="stat-item">
-            <span class="stat-value">0.5%</span>
-            <span class="stat-label">Taxa flat por transação</span>
+            <span class="stat-value">1%</span>
+            <span class="stat-label">Taxa por transação</span>
           </div>
           <div class="stat-item">
             <span class="stat-value">~20 min</span>
             <span class="stat-label">Tempo de processamento</span>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- USE CASES -->
+  <section id="usecases">
+    <div class="container">
+      <div class="usecases-header reveal">
+        <p class="section-label">// Para quem é o SilentFlow</p>
+        <h2>Dois casos de uso. Uma solução.</h2>
+        <p>Seja para pagar alguém ou mover seu próprio saldo, o SilentFlow remove o rastro on-chain das suas transações.</p>
+      </div>
+      <div class="usecases-grid reveal">
+        <div class="usecase-card p2p">
+          <span class="usecase-icon">💸</span>
+          <h3>Pagar alguém com privacidade</h3>
+          <p>Envie cripto para outra pessoa sem que ninguém saiba que você fez o pagamento. Sua carteira não aparece ligada ao destinatário — em nenhum momento.</p>
+          <div class="usecase-steps">
+            <div class="usecase-step"><div class="usecase-step-dot"></div>Destinatário gera um link de recebimento</div>
+            <div class="usecase-step"><div class="usecase-step-dot"></div>Você cola o link e envia o valor</div>
+            <div class="usecase-step"><div class="usecase-step-dot"></div>Protocolo processa com proteção total</div>
+            <div class="usecase-step"><div class="usecase-step-dot"></div>Destinatário saca sem custo de gas</div>
+          </div>
+          <span class="usecase-badge">P2P · Freelancers · Pagamentos privados</span>
+        </div>
+        <div class="usecase-card move">
+          <span class="usecase-icon">🔄</span>
+          <h3>Mover saldo sem deixar rastro</h3>
+          <p>Transfira cripto entre suas próprias carteiras sem criar uma ligação on-chain entre elas. Ideal para quem quer separar portfólios, mover para cold wallet ou simplesmente remover o histórico.</p>
+          <div class="usecase-steps">
+            <div class="usecase-step"><div class="usecase-step-dot"></div>Você envia da Carteira A via SilentFlow</div>
+            <div class="usecase-step"><div class="usecase-step-dot"></div>Protocolo processa com múltiplos hops</div>
+            <div class="usecase-step"><div class="usecase-step-dot"></div>Saque para a Carteira B — sem ligação on-chain</div>
+            <div class="usecase-step"><div class="usecase-step-dot"></div>A e B sem nenhuma conexão rastreável</div>
+          </div>
+          <span class="usecase-badge">Cold wallet · Separar portfólios · Remover rastro</span>
         </div>
       </div>
     </div>
@@ -409,7 +460,7 @@
     <div class="container">
       <div class="reveal">
         <p class="section-label">// A solução</p>
-        <h2>Uma camada de proteção<br>para seus pagamentos.</h2>
+        <h2>Uma camada de proteção<br>para suas transações.</h2>
       </div>
       <div class="solution-grid reveal">
         <div class="solution-visual">
@@ -423,7 +474,7 @@
           </div>
           <div class="flow-step">
             <div class="flow-num">3</div>
-            <div class="flow-text">Destinatário recebe em endereço stealth<span>Invisível on-chain para observadores externos</span></div>
+            <div class="flow-text">Fundos chegam em endereço stealth<span>Invisível on-chain para observadores externos</span></div>
           </div>
           <div class="flow-step">
             <div class="flow-num">4</div>
@@ -431,7 +482,7 @@
           </div>
         </div>
         <div class="solution-text">
-          <p>SilentFlow adiciona uma camada de proteção aos seus pagamentos. Sem custodiar fundos. Sem intermediários.</p>
+          <p>SilentFlow adiciona uma camada de proteção às suas transações. Sem custodiar fundos. Sem intermediários.</p>
           <p>Você continua no controle — com muito mais privacidade.</p>
           <div style="display:flex;flex-direction:column;gap:12px;margin-top:16px;">
             <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--green);">✓ 100% non-custodial</div>
@@ -549,14 +600,14 @@
       <div class="flow-header reveal">
         <p class="section-label">// O fluxo em detalhe</p>
         <h2>Do envio ao recebimento</h2>
-        <p>Veja como seu pagamento percorre o protocolo antes de chegar ao destinatário — com privacidade em cada etapa.</p>
+        <p>Veja como sua transação percorre o protocolo — com privacidade em cada etapa.</p>
       </div>
       <div class="flow-timeline reveal">
         <div class="timeline-item">
           <div class="timeline-dot">📤</div>
           <div class="timeline-content">
             <h3>Endereço temporário gerado</h3>
-            <p>Um endereço descartável é criado exclusivamente para essa transação. Você envia os fundos para ele — nunca direto para o destinatário.</p>
+            <p>Um endereço descartável é criado exclusivamente para essa transação. Você envia os fundos para ele — nunca direto para o destino final.</p>
             <span class="timeline-tag">Criado on-demand · expira em 60 min</span>
           </div>
         </div>
@@ -588,7 +639,7 @@
           <div class="timeline-dot">💸</div>
           <div class="timeline-content">
             <h3>Saque gasless para qualquer carteira</h3>
-            <p>O protocolo cobre o gas do saque. Você pode sacar para sua carteira principal, para uma carteira fria, ou para o endereço de depósito de uma exchange — sem revelar sua identidade.</p>
+            <p>O protocolo cobre o gas do saque. Você pode sacar para sua carteira principal, para uma carteira fria, para o endereço de depósito de uma exchange — ou para qualquer outro endereço.</p>
             <span class="timeline-tag">Gas pago pelo protocolo · ~20 minutos no total</span>
           </div>
         </div>
@@ -699,7 +750,7 @@
         <div class="sdk-text">
           <p class="section-label">// Em breve</p>
           <h2>SDK para desenvolvedores</h2>
-          <p>Integre privacidade de pagamentos diretamente no seu app, exchange ou protocolo DeFi.</p>
+          <p>Integre privacidade de transações diretamente no seu app, exchange ou protocolo DeFi.</p>
           <div class="sdk-features">
             <div class="sdk-feature">Integração com poucas linhas de código</div>
             <div class="sdk-feature">Taxa reduzida para parceiros do SDK</div>
@@ -746,10 +797,10 @@
     <div class="container">
       <div class="cta-inner reveal">
         <p class="section-label">// Comece agora</p>
-        <h2>Seus pagamentos merecem privacidade.</h2>
+        <h2>Suas transações merecem privacidade.</h2>
         <p>Sem cadastro. Sem custódia. Sem complicação. Conecte sua carteira e comece agora.</p>
         <div class="cta-actions">
-          <a href="https://silentflow.vercel.app" class="btn-primary">Enviar com privacidade →</a>
+          <a href="https://silentflow.vercel.app" class="btn-primary">Usar agora →</a>
           <a href="https://basescan.org/address/0x99f4a6Deb7643a1DDa10115BFE3c7a4D9C4Ef09B" target="_blank" class="btn-secondary">Ver contrato ↗</a>
         </div>
       </div>
@@ -762,7 +813,7 @@
       <div class="footer-inner">
         <div class="footer-brand">
           <a href="#" class="nav-logo">SILENTFLOW</a>
-          <p>Infraestrutura de privacidade para pagamentos on-chain. Non-custodial. Open source. Em beta.</p>
+          <p>Infraestrutura de privacidade para transações on-chain. Non-custodial. Open source. Em beta.</p>
           <div class="footer-contracts">
             <p class="footer-contract">Base: <a href="https://basescan.org/address/0x99f4a6Deb7643a1DDa10115BFE3c7a4D9C4Ef09B" target="_blank">0x99f4a6De...Ef09B</a></p>
             <p class="footer-contract">Polygon: <a href="https://polygonscan.com/address/0x074c000416A4725EDA5F53EE7b690f82f250847B" target="_blank">0x074c0004...50847B</a></p>

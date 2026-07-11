@@ -357,10 +357,10 @@
           <h3>Pagar alguém com privacidade</h3>
           <p>Envie cripto para outra pessoa sem que ninguém saiba que você fez o pagamento. Sua carteira não aparece ligada ao destinatário — em nenhum momento.</p>
           <div class="usecase-steps">
-            <div class="usecase-step"><div class="usecase-step-dot"></div>Destinatário gera um link de recebimento</div>
-            <div class="usecase-step"><div class="usecase-step-dot"></div>Você cola o link e envia o valor</div>
+            <div class="usecase-step"><div class="usecase-step-dot"></div>Você informa o endereço de destino</div>
             <div class="usecase-step"><div class="usecase-step-dot"></div>Protocolo processa com proteção total</div>
-            <div class="usecase-step"><div class="usecase-step-dot"></div>Destinatário saca sem custo de gas</div>
+            <div class="usecase-step"><div class="usecase-step-dot"></div>Entrega automática — sem ação do destinatário</div>
+            <div class="usecase-step"><div class="usecase-step-dot"></div>O destinatário não precisa usar o SilentFlow</div>
           </div>
           <span class="usecase-badge">P2P · Freelancers · Pagamentos privados</span>
         </div>
@@ -369,9 +369,9 @@
           <h3>Mover saldo sem deixar rastro</h3>
           <p>Transfira cripto entre suas próprias carteiras sem criar uma ligação on-chain entre elas. Ideal para quem quer separar portfólios, mover para cold wallet ou simplesmente remover o histórico.</p>
           <div class="usecase-steps">
-            <div class="usecase-step"><div class="usecase-step-dot"></div>Você envia da Carteira A via SilentFlow</div>
+            <div class="usecase-step"><div class="usecase-step-dot"></div>Você informa a Carteira B como destino</div>
             <div class="usecase-step"><div class="usecase-step-dot"></div>Protocolo processa com múltiplos hops</div>
-            <div class="usecase-step"><div class="usecase-step-dot"></div>Saque para a Carteira B — sem ligação on-chain</div>
+            <div class="usecase-step"><div class="usecase-step-dot"></div>Entrega automática na Carteira B</div>
             <div class="usecase-step"><div class="usecase-step-dot"></div>A e B sem nenhuma conexão rastreável</div>
           </div>
           <span class="usecase-badge">Cold wallet · Separar portfólios · Remover rastro</span>
@@ -391,7 +391,7 @@
         <div class="network-card base">
           <img src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/base/info/logo.png" width="48" height="48" style="border-radius:50%" alt="Base"/>
           <div class="network-name">Base</div>
-          <div class="network-tokens">ETH · USDC · USDT</div>
+          <div class="network-tokens">USDC · USDT</div>
           <span class="network-badge live">● LIVE</span>
         </div>
         <div class="network-card polygon">
@@ -478,7 +478,7 @@
           </div>
           <div class="flow-step">
             <div class="flow-num">4</div>
-            <div class="flow-text">Saque gasless para qualquer carteira<span>Sem expor sua identidade on-chain</span></div>
+            <div class="flow-text">Entrega automática no endereço informado<span>Sem expor sua identidade on-chain</span></div>
           </div>
         </div>
         <div class="solution-text">
@@ -487,9 +487,9 @@
           <div style="display:flex;flex-direction:column;gap:12px;margin-top:16px;">
             <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--green);">✓ 100% non-custodial</div>
             <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--green);">✓ Smart contracts públicos e auditáveis</div>
-            <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--green);">✓ ETH, USDC e USDT — 3 redes</div>
-            <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--green);">✓ Link de pagamento simples como Pix</div>
-            <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--green);">✓ Saque gasless — para qualquer carteira</div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--green);">✓ USDC e USDT — 3 redes</div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--green);">✓ Endereço de destino direto — sem link</div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--green);">✓ Entrega automática — gasless para o destinatário</div>
           </div>
         </div>
       </div>
@@ -502,7 +502,7 @@
       <div class="privacy-header reveal">
         <p class="section-label">// Níveis de privacidade</p>
         <h2>Você controla o nível de proteção</h2>
-        <p style="color:var(--muted);margin-top:16px;">O SilentFlow já garante privacidade no envio. Para privacidade máxima, saque para uma carteira diferente da conectada.</p>
+        <p style="color:var(--muted);margin-top:16px;">O SilentFlow já garante privacidade no envio. Para privacidade máxima, informe uma carteira diferente da conectada como destino.</p>
       </div>
       <div class="privacy-levels reveal">
         <div class="privacy-level">
@@ -518,8 +518,8 @@
         </div>
         <div class="privacy-level highlight">
           <div class="privacy-level-icon">🔒🔒</div>
-          <h3>Saque para outra carteira</h3>
-          <p>Ao sacar para uma carteira diferente da conectada, a ligação entre quem recebeu e sua identidade é completamente desvinculada.</p>
+          <h3>Enviar para outra carteira</h3>
+          <p>Ao informar uma carteira diferente da conectada como destino, a ligação entre quem recebeu e sua identidade é completamente desvinculada.</p>
           <div class="privacy-meter">
             <div class="privacy-dot on green"></div>
             <div class="privacy-dot on green"></div>
@@ -529,8 +529,8 @@
         </div>
         <div class="privacy-level">
           <div class="privacy-level-icon">🏦</div>
-          <h3>Saque para exchange</h3>
-          <p>Saque direto para o endereço de depósito de uma exchange. Os fundos chegam sem ligação direta com sua carteira principal.</p>
+          <h3>Enviar para exchange</h3>
+          <p>Informe direto o endereço de depósito de uma exchange como destino. Os fundos chegam sem ligação direta com sua carteira principal.</p>
           <div class="privacy-meter">
             <div class="privacy-dot on green"></div>
             <div class="privacy-dot on green"></div>
@@ -547,48 +547,48 @@
     <div class="container">
       <div class="withdraw-inner reveal">
         <div class="withdraw-text">
-          <p class="section-label">// Saque para carteira alternativa</p>
-          <h2>A camada extra de privacidade que faltava.</h2>
-          <p>Transações normais criam uma ligação permanente entre quem recebe e sua carteira. Com o SilentFlow, você quebra essa ligação — sacando para qualquer endereço que quiser.</p>
-          <p>Sua carteira principal nunca aparece on-chain como destino dos fundos.</p>
+          <p class="section-label">// Endereço de destino direto</p>
+          <h2>Você escolhe para onde vai — antes de enviar.</h2>
+          <p>Transações normais criam uma ligação permanente entre quem recebe e sua carteira. Com o SilentFlow, você quebra essa ligação — informando qualquer endereço de destino que quiser.</p>
+          <p>Sua carteira principal nunca aparece on-chain como destino dos fundos, e o destinatário não precisa usar o SilentFlow.</p>
           <div class="withdraw-steps">
             <div class="withdraw-step">
               <div class="withdraw-step-num">1</div>
               <div class="withdraw-step-text">
-                <h4>Verifique seus recebimentos</h4>
-                <p>Clique em "Recebidos" e escaneie para ver os pagamentos disponíveis.</p>
+                <h4>Informe o endereço de destino</h4>
+                <p>Digite qualquer endereço — carteira fria, exchange, ou sua própria carteira conectada.</p>
               </div>
             </div>
             <div class="withdraw-step">
               <div class="withdraw-step-num">2</div>
               <div class="withdraw-step-text">
-                <h4>Informe o endereço de destino</h4>
-                <p>Digite qualquer endereço — carteira fria, exchange, ou deixe vazio para usar a carteira conectada.</p>
+                <h4>Envie normalmente</h4>
+                <p>Confirme na sua carteira, como qualquer transação. O SilentFlow cuida do resto.</p>
               </div>
             </div>
             <div class="withdraw-step">
               <div class="withdraw-step-num">3</div>
               <div class="withdraw-step-text">
-                <h4>Saque sem gas</h4>
-                <p>O protocolo cobre o custo. Seus fundos chegam sem revelar sua identidade.</p>
+                <h4>Entrega automática, sem gas</h4>
+                <p>O protocolo cobre o custo. Os fundos chegam sem revelar sua identidade — sem nenhuma ação do destinatário.</p>
               </div>
             </div>
           </div>
         </div>
         <div class="withdraw-visual">
-          <div style="font-size:12px;color:var(--muted);font-family:var(--mono);margin-bottom:16px;">// Verificar recebimentos</div>
+          <div style="font-size:12px;color:var(--muted);font-family:var(--mono);margin-bottom:16px;">// Endereço de destino</div>
           <div class="withdraw-card">
             <div class="withdraw-amount">0.99 USDC</div>
-            <div class="withdraw-token">✓ Disponível para saque · Base</div>
+            <div class="withdraw-token">✓ Envio protegido · Base</div>
             <div style="font-size:11px;color:var(--text);background:rgba(34,211,238,0.05);border:1px solid rgba(34,211,238,0.1);padding:10px 12px;border-radius:8px;margin-bottom:12px;line-height:1.6;">
-              ✨ Já garantimos privacidade no envio. Sacar para outra carteira adiciona uma camada extra.
+              ✨ Já garantimos privacidade no envio. Informar outra carteira como destino adiciona uma camada extra.
             </div>
-            <div style="font-size:11px;color:var(--muted);margin-bottom:6px;">Endereço alternativo para privacidade extra (opcional)</div>
+            <div style="font-size:11px;color:var(--muted);margin-bottom:6px;">Endereço de destino</div>
             <div class="withdraw-addr-input">0x4D7E...9304</div>
             <span class="withdraw-privacy-badge">🔒🔒 Privacidade máxima</span>
-            <div class="withdraw-btn">→ Sacar agora</div>
+            <div class="withdraw-btn">→ Enviar sem expor sua carteira</div>
           </div>
-          <div class="withdraw-tip">💡 Deixe vazio para sacar para sua carteira conectada — ou informe qualquer endereço de destino.</div>
+          <div class="withdraw-tip">💡 Use sua carteira conectada para mover saldo sem rastro — ou informe qualquer outro endereço de destino.</div>
         </div>
       </div>
     </div>
@@ -599,7 +599,7 @@
     <div class="container">
       <div class="flow-header reveal">
         <p class="section-label">// O fluxo em detalhe</p>
-        <h2>Do envio ao recebimento</h2>
+        <h2>Do envio à entrega</h2>
         <p>Veja como sua transação percorre o protocolo — com privacidade em cada etapa.</p>
       </div>
       <div class="flow-timeline reveal">
@@ -638,8 +638,8 @@
         <div class="timeline-item">
           <div class="timeline-dot">💸</div>
           <div class="timeline-content">
-            <h3>Saque gasless para qualquer carteira</h3>
-            <p>O protocolo cobre o gas do saque. Você pode sacar para sua carteira principal, para uma carteira fria, para o endereço de depósito de uma exchange — ou para qualquer outro endereço.</p>
+            <h3>Entrega automática para qualquer carteira</h3>
+            <p>O protocolo cobre o gas da entrega. Você pode informar sua carteira principal, uma carteira fria, o endereço de depósito de uma exchange — ou qualquer outro endereço, direto no envio.</p>
             <span class="timeline-tag">Gas pago pelo protocolo · ~20 minutos no total</span>
           </div>
         </div>
@@ -737,7 +737,7 @@
         <div class="arch-card">
           <div class="arch-icon">⛓️</div>
           <h4>3 redes · Gas coberto</h4>
-          <p>Base, Polygon e BNB Chain. Saque sem gas para o destinatário.</p>
+          <p>Base, Polygon e BNB Chain. Entrega sem gas para o destinatário.</p>
         </div>
       </div>
     </div>
@@ -766,7 +766,7 @@
           &nbsp;&nbsp;apiKey: <span class="string">'sua-chave'</span><br>
           })<br><br>
           <span class="keyword">await</span> sf.send({<br>
-          &nbsp;&nbsp;to: recipientPayLink,<br>
+          &nbsp;&nbsp;to: <span class="string">'0xEnderecoDeDestino...'</span>,<br>
           &nbsp;&nbsp;amount: <span class="string">'100'</span>,<br>
           &nbsp;&nbsp;token: <span class="string">'USDC'</span><br>
           })<br><br>
